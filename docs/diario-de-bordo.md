@@ -60,6 +60,18 @@ Para reprocessamento e reindexacao, foi introduzido o conceito de `ingestion_gen
 
 O portao tambem registrou que REST interno continua suficiente no MVP. Uma fila so entra quando houver concorrencia, durabilidade, backpressure, cancelamento ativo ou escalonamento horizontal que justifiquem a complexidade. A proxima branch passa a ser `docs/seguranca-permissoes-mvp`, responsavel por fechar sessao/token, matriz de permissoes, workspace scope e guardrails.
 
+## 2026-06-24 - Seguranca e permissoes do MVP
+
+Depois do merge do PR #3 em `develop`, foi aberta a branch `docs/seguranca-permissoes-mvp`. O trigger agentico encontrou uma divergencia esperada entre o bordo e o Git: o registro ainda dizia que `docs/arquitetura-ingestao-rag` estava em fechamento, mas a remota ja tinha `develop` no merge do PR #3 e a branch local atual era `docs/seguranca-permissoes-mvp`. A reconciliacao foi documental.
+
+O portao de seguranca fechou a decisao de autenticar a UI por sessao server-side opaca em cookie `HttpOnly`, com segredo aleatorio e hash persistido no backend. Como a UI usa cookie, mutacoes passam a exigir CSRF no padrao de SPA, com header `X-XSRF-TOKEN`. CORS fica same-origin por padrao, liberando apenas origens locais explicitamente no perfil de desenvolvimento.
+
+Tambem foram fechados o bootstrap unico do primeiro usuario/workspace, o uso de `Argon2id` como algoritmo alvo para senha local, a expiracao idle/absoluta de sessao, a politica de reset local fora de endpoint publico, a matriz role x acao do MVP, o workspace scope por recurso e a lista endpoint x permissao. A autorizacao passa a ser descrita como RBAC por workspace combinado com atributos de recurso, deny-by-default e validacao a cada request.
+
+Para agentes e API futura, ficou decidido que API keys e MCP nao fazem token passthrough de usuario humano. Eles usam identidade propria `agent`, capabilities explicitas, limites, correlation id e auditoria. As tools MCP seguem como adaptador fino sobre o backend, sem acesso direto a Postgres, Qdrant, storage ou filesystem livre. A decisao duradoura foi registrada na ADR-024.
+
+Foram adicionadas fixtures pequenas de contrato para bootstrap, login, `me`, matriz de permissoes e contexto de tool MCP. A implementacao concreta de Spring Security, migrations, UI e testes fica para `feat/auth-bootstrap-workspaces`; API keys reais ficam para `feat/api-rag-publica`; tool schemas completos ficam para `feat/mcp-tools-base`; budgets numericos e taxonomia final de eventos seguem para seus portoes donos.
+
 ## Modelo de entrada futura
 
 ```text

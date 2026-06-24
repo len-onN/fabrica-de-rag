@@ -45,7 +45,7 @@ DOC, RUNTIME, DATA, CONTRACT, OBS, PERF, TEST
 
 - Nada bloqueante para este portao.
 - Thresholds finos de OCR, chunking, contexto e budgets ficam em `docs/algoritmos-rag-mvp`.
-- Permissoes para iniciar, cancelar, retry e reindexar ficam em `docs/seguranca-permissoes-mvp`.
+- Permissoes para iniciar, cancelar, retry e reindexar foram definidas em `docs/seguranca-permissoes-mvp`.
 - Taxonomia final de eventos e retencao ficam em `docs/analytics-observabilidade-mvp`.
 - Privacidade/budget do provider visual fica em `docs/interpretacao-imagens-tabelas-pdf`.
 

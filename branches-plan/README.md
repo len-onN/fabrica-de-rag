@@ -78,6 +78,7 @@ AGENT      MCP, tools, skills, guardrails
 - Cobertura do MVP revisada em `docs/cobertura-mvp-branches.md`.
 - Decisoes estruturais complexas devem ter branch `docs/*` antes da implementacao.
 - Gate SOLID/OCP-LSP-IoC: branches devem expandir comportamento por contratos, ports, adapters, policies, strategies ou schemas, garantir substituibilidade das implementacoes e ligar concretos por injecao/composicao, evitando mudanca lateral em fluxos ja estabilizados.
+- Seguranca do MVP definida em `docs/seguranca-permissoes-mvp.md`: sessao opaca, CSRF, CORS, Argon2id, matriz de permissoes, workspace scope, API keys futuras e guardrails MCP/API.
 
 ## O que falta definir
 
@@ -85,7 +86,6 @@ Estas decisoes continuam abertas, mas agora tem branch dona:
 
 - modelo relacional, IDs e OpenAPI: `docs/modelo-dados-contratos-mvp`;
 - orquestracao de ingestao, retry/cancel e fila futura: `docs/arquitetura-ingestao-rag`;
-- granularidade de permissoes, sessao/token e guardrails MCP: `docs/seguranca-permissoes-mvp`;
 - provider/modelo de embeddings, LLM real vs adapter mockado e budgets: `docs/algoritmos-rag-mvp`;
 - taxonomia de analytics, retencao, export/delete e logs: `docs/analytics-observabilidade-mvp`;
 - interpretacao de imagens/tabelas em PDFs, assets, elementos visuais e vision interpreter: `docs/interpretacao-imagens-tabelas-pdf`;

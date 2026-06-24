@@ -535,7 +535,7 @@ Fixtures iniciais:
 ## Pendencias encaminhadas
 
 - thresholds de OCR, chunking, contexto e budgets numericos: `docs/algoritmos-rag-mvp`;
-- matriz de permissoes para iniciar, cancelar, retry e reindexar runs: `docs/seguranca-permissoes-mvp`;
+- matriz de permissoes para iniciar, cancelar, retry e reindexar runs: definida em `docs/seguranca-permissoes-mvp`;
 - taxonomia final de eventos e retencao: `docs/analytics-observabilidade-mvp`;
 - provider visual, privacidade e budgets de LLM/VLM: `docs/interpretacao-imagens-tabelas-pdf`;
 - implementacao real de background jobs no Spring: branches de codigo da fundacao/backend/ingestao.

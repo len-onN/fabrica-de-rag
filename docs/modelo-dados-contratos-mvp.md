@@ -109,6 +109,21 @@ JSONB pode carregar metadados extensivos, mas nao deve esconder contrato essenci
 - `password_hash`
 - `created_at`, `updated_at`
 
+`auth_sessions`
+
+- `id`, `public_id`
+- `user_id`
+- `session_hash`
+- `csrf_token_hash`
+- `created_at`
+- `last_seen_at`
+- `expires_at`
+- `absolute_expires_at`
+- `revoked_at null`
+- `revoked_reason null`
+- `user_agent_hash null`
+- `ip_hash null`
+
 `workspaces`
 
 - `id`, `public_id`
@@ -128,12 +143,30 @@ JSONB pode carregar metadados extensivos, mas nao deve esconder contrato essenci
 - `status`: `active`, `invited`, `disabled`
 - `created_at`, `updated_at`, `deleted_at`
 
+`api_keys`
+
+- `id`, `public_id`
+- `workspace_id`
+- `created_by_user_id`
+- `name`
+- `key_prefix`
+- `key_hash`
+- `role`: `agent`
+- `capabilities jsonb`
+- `expires_at null`
+- `revoked_at null`
+- `last_used_at null`
+- `created_at`, `updated_at`, `deleted_at`
+
 Indices minimos:
 
 - `uk_users_email`;
+- `idx_auth_sessions_user_active`;
+- `idx_auth_sessions_expires_at`;
 - `uk_workspaces_slug`;
 - `uk_workspace_memberships_workspace_user`;
 - `idx_workspace_memberships_user_status`;
+- `idx_api_keys_workspace_active`;
 
 ### Colecoes e configuracoes
 
@@ -747,7 +780,7 @@ IoC/DI:
 
 | Fluxo | Cobertura neste contrato |
 | --- | --- |
-| Bootstrap e login | `users`, `auth_identities`, `workspaces`, `workspace_memberships`. |
+| Bootstrap e login | `users`, `auth_identities`, `auth_sessions`, `workspaces`, `workspace_memberships`. |
 | Criar colecao | `knowledge_collections`, settings e roles. |
 | Upload PDF | `documents`, `assets`, `ingest_runs`. |
 | Revisar paginas | `document_pages`, `page_numbering_anchors`. |
@@ -764,7 +797,7 @@ IoC/DI:
 Estas decisoes ficam fora deste portao e tem branch dona:
 
 - transicoes completas da state machine, retry/cancel, idempotencia e storage layout: `docs/arquitetura-ingestao-rag`;
-- matriz role x acao, sessao/token, API keys e service accounts: `docs/seguranca-permissoes-mvp`;
+- service accounts completas e convites multiusuario: fora do MVP inicial; API keys reais entram em `feat/api-rag-publica` seguindo `docs/seguranca-permissoes-mvp`;
 - algoritmos de numeracao, chunking, contexto, ranking e budgets numericos: `docs/algoritmos-rag-mvp`;
 - taxonomia final de eventos, retencao e dashboards: `docs/analytics-observabilidade-mvp`;
 - detalhes finais de provider visual, privacy budget e fixtures visuais: `docs/interpretacao-imagens-tabelas-pdf`;

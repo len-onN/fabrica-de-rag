@@ -105,7 +105,6 @@ O repositorio ainda esta em fase documental. Como ainda nao ha codigo, algumas d
 
 - IDs, entidades e OpenAPI;
 - state machine de ingestao;
-- auth/sessao/token;
 - algoritmos e budgets;
 - taxonomia final de eventos;
 - contrato do vision interpreter, provider visual e politicas de privacidade/budget;

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "mcp.tool_call_context.v1",
+  "toolName": "search_chunks",
+  "correlationId": "req_fixture_001",
+  "identity": {
+    "actorType": "agent",
+    "actorId": "svc_fixture_agent",
+    "workspaceId": "wsp_fixture_alpha",
+    "role": "agent",
+    "capabilities": [
+      "mcp.use",
+      "rag.search"
+    ]
+  },
+  "limits": {
+    "maxResults": 8,
+    "maxContextItems": 20,
+    "timeoutMs": 5000
+  }
+}
