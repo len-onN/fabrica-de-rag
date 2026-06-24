@@ -26,12 +26,12 @@ Atualizar:
 | Campo | Valor |
 | --- | --- |
 | Data do registro | 2026-06-24 |
-| Fase | Concepcao em transicao para planejamento tecnico do MVP |
-| Branch atual | `planejamento/documentacao` |
+| Fase | Portoes de planejamento do MVP |
+| Branch atual | `docs/modelo-dados-contratos-mvp` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Consolidar documentacao inicial, formalizar camada operacional e fechar plano tecnico do MVP |
-| Status | Camada operacional registrada, plano tecnico incorporado, cobertura do MVP revisada, gate SOLID/OCP-LSP-IoC explicitado, trigger agentico criado e coesao documental revisada |
-| Proximo marco | Fechar portoes de planejamento ate `docs/interpretacao-imagens-tabelas-pdf` antes de `chore/workspace-fundacao` |
+| Objetivo atual | Fechar modelo relacional, IDs, REST, Pydantic, Qdrant, eventos e OpenAPI |
+| Status | PR de planejamento/documentacao mesclado; modelo de dados e contratos do MVP especificados; exemplos JSON iniciais adicionados em `tests/contracts` |
+| Proximo marco | Abrir PR de `docs/modelo-dados-contratos-mvp` para `develop` e seguir para `docs/arquitetura-ingestao-rag` |
 
 ## Sessao viva
 
@@ -49,20 +49,23 @@ Foi feita uma revisao de coesao documental em `docs/revisao-coesao-documental.md
 
 Em seguida, a camada de interpretacao de imagens e tabelas em PDFs foi elevada a parte fundamental do MVP. Foram adicionadas as branches `docs/interpretacao-imagens-tabelas-pdf` e `feat/worker-pdf-visual-tables-base`, com vision interpreter por adapter LLM/VLM, modo mockado em testes, provider remoto configuravel, privacidade, budget, source locator, assets, elementos e interpretacoes textuais derivadas.
 
+A branch `planejamento/documentacao` foi commitada, publicada, aberta como PR #1 para `develop` e mesclada. A aprovacao formal via GitHub nao foi possivel pela propria regra da plataforma, pois a conta autenticada era autora do PR.
+
+Na branch `docs/modelo-dados-contratos-mvp`, o primeiro portao de planejamento foi fechado em nivel contratual: IDs internos/publicos, modelo relacional conceitual, soft delete, workspace scope, REST, worker/Pydantic, Qdrant, eventos locais, compatibilidade entre schemas e exemplos JSON iniciais em `tests/contracts`.
+
 Proximo passo concreto:
 
-- revisar consistencia dos documentos vivos;
-- abrir PR da branch `planejamento/documentacao` para `develop`;
-- iniciar `docs/modelo-dados-contratos-mvp` como primeiro portao de planejamento;
+- abrir PR da branch `docs/modelo-dados-contratos-mvp` para `develop`;
+- iniciar `docs/arquitetura-ingestao-rag`;
 - seguir com os demais portoes, incluindo `docs/interpretacao-imagens-tabelas-pdf`, antes de `chore/workspace-fundacao`.
 
 ## Quadro de branches
 
 | Branch | Status | Objetivo | PR | Observacoes |
 | --- | --- | --- | --- | --- |
-| `planejamento/documentacao` | Em andamento | Registrar proposta, MVP, ADRs, padroes iniciais e camada operacional | Pendente | Branch atual de planejamento. |
+| `planejamento/documentacao` | Mesclada | Registrar proposta, MVP, ADRs, padroes iniciais e camada operacional | #1 | Mesclada em `develop`. |
 | `docs/plano-tecnico-mvp` | Incorporada na branch atual | Fechar decisoes tecnicas minimas antes da primeira branch de codigo | Nao aplicavel | Escopo executado dentro de `planejamento/documentacao`. |
-| `docs/modelo-dados-contratos-mvp` | Candidata | Fechar modelo relacional, IDs, REST, Pydantic, Qdrant, eventos e OpenAPI | Pendente | Primeiro portao de planejamento. |
+| `docs/modelo-dados-contratos-mvp` | Em fechamento | Fechar modelo relacional, IDs, REST, Pydantic, Qdrant, eventos e OpenAPI | Pendente | Primeiro portao de planejamento. |
 | `docs/arquitetura-ingestao-rag` | Candidata | Fechar state machine, pipeline, retry/cancel, idempotencia, storage e reindexacao | Pendente | Evita improviso no fluxo de ingestao. |
 | `docs/seguranca-permissoes-mvp` | Candidata | Fechar auth local, roles, workspace scope, API/MCP e guardrails | Pendente | Deve anteceder `feat/auth-bootstrap-workspaces`. |
 | `docs/algoritmos-rag-mvp` | Candidata | Especificar numeracao, chunking, busca, contexto, citacoes e budgets | Pendente | Deve anteceder branches de algoritmo. |
@@ -108,9 +111,9 @@ Proximo passo concreto:
 | --- | --- | --- |
 | Estrutura de repositorio/pacotes | Definida inicialmente | Criar `apps/api`, `apps/web`, `apps/worker`, `apps/mcp`, `infra/compose`, `tests`, `scripts` em `chore/workspace-fundacao`. |
 | Migracoes de banco | Definida inicialmente | Usar Flyway e aplicar convencoes na primeira branch backend. |
-| Modelo documental inicial | Com branch dona | Resolver em `docs/modelo-dados-contratos-mvp`. |
-| Contrato Spring -> Python worker | Com branch dona | Resolver em `docs/modelo-dados-contratos-mvp` e detalhar pipeline em `docs/arquitetura-ingestao-rag`. |
-| Contrato Qdrant | Com branch dona | Resolver payload/filtros em `docs/modelo-dados-contratos-mvp` e reindexacao em `docs/arquitetura-ingestao-rag`. Imagem inicial: `qdrant/qdrant:v1.18.2`. |
+| Modelo documental inicial | Especificado | Implementar em migrations nas branches de backend/documentos. |
+| Contrato Spring -> Python worker | Especificado | Detalhar pipeline, etapas e retry em `docs/arquitetura-ingestao-rag`. |
+| Contrato Qdrant | Payload minimo especificado | Detalhar reindexacao e idempotencia em `docs/arquitetura-ingestao-rag`. Imagem inicial: `qdrant/qdrant:v1.18.2`. |
 | Estrategia de testes | Registrada inicialmente | Implementar base em `chore/workspace-fundacao`, Compose em `build/dev-runtime-compose` e smoke em `test/smoke-stack-local`. |
 | Algoritmos iniciais | Com branch dona | Especificar em `docs/algoritmos-rag-mvp` antes das branches de algoritmo. |
 | Interpretacao visual/tabelas em PDF | Com branch dona | Especificar em `docs/interpretacao-imagens-tabelas-pdf` antes de `feat/worker-pdf-visual-tables-base`. |

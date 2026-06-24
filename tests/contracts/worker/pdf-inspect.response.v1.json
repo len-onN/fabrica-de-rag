@@ -1,0 +1,11 @@
+{
+  "contractVersion": "worker.pdf.inspect.response.v1",
+  "requestId": "req_fixture_001",
+  "documentId": "doc_fixture_pdf",
+  "pageCount": 3,
+  "encrypted": false,
+  "metadata": {
+    "title": "Documento fixture",
+    "author": null
+  }
+}

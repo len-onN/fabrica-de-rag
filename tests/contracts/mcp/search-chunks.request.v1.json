@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "mcp.search_chunks.request.v1",
+  "workspaceId": "wsp_fixture_alpha",
+  "collectionId": "col_fixture_rag",
+  "query": "Como o documento define pagina impressa?",
+  "topK": 8,
+  "filters": {
+    "documentId": "doc_fixture_pdf",
+    "contentKind": "text"
+  }
+}
