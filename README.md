@@ -8,7 +8,24 @@ https://github.com/len-onN/fabrica-de-rag
 
 ## Estado atual
 
-Este repositorio esta na fase de concepcao e planejamento tecnico do MVP. A camada operacional, o plano de branches, a estrategia de testes, o baseline tecnico inicial e a cobertura do MVP ja estao registrados; o proximo marco e fechar os portoes de planejamento antes de iniciar `chore/workspace-fundacao`.
+Este repositorio esta na fase de concepcao e planejamento tecnico do MVP. A camada operacional, o plano de branches, a estrategia de testes, o baseline tecnico inicial e a cobertura do MVP ja estao registrados; o proximo marco e fechar os portoes de planejamento, incluindo interpretacao de imagens/tabelas em PDFs, antes de iniciar `chore/workspace-fundacao`.
+
+## Trigger de implementacao agentica
+
+Antes de qualquer agente ou sessao iniciar implementacao, seguir o [Trigger de implementacao agentica](docs/trigger-implementacao-agentica.md).
+
+Esse trigger estabelece o rito de retomada:
+
+1. ler documentacao viva: README, registro de bordo, diario, estrategia operacional, plano de branches, `branches-plan`, plano tecnico, padroes, testes, skills e ADRs;
+2. checar estado Git: branch atual, mudancas locais, remoto, upstream e sincronizacao;
+3. sincronizar com a remota quando for seguro, usando `git fetch --prune` e `git pull --ff-only`;
+4. continuar a branch ativa ou criar a proxima branch planejada a partir de `develop`;
+5. abrir o plano especifico da branch em `branches-plan`;
+6. ativar contexto e skills relevantes;
+7. aplicar o gate SOLID/OCP-LSP-IoC antes de editar codigo;
+8. atualizar registro de bordo, implementar em passos pequenos, testar e registrar resultados.
+
+Se o Git bloquear a checagem por `dubious ownership`, o agente nao deve contornar silenciosamente. Deve pedir autorizacao para configurar `safe.directory` ou orientar execucao manual pelo usuario.
 
 ## Documentacao
 
@@ -20,9 +37,11 @@ Este repositorio esta na fase de concepcao e planejamento tecnico do MVP. A cama
 - [Estrategia de base de conhecimento](docs/base-de-conhecimento.md)
 - [Padroes de projeto e desenvolvimento](docs/padroes-de-projeto.md)
 - [Git e commits](docs/git-e-commits.md)
+- [Trigger de implementacao agentica](docs/trigger-implementacao-agentica.md)
 - [Estrategia operacional de desenvolvimento](docs/estrategia-operacional.md)
 - [Plano de branches e escopos](docs/plano-de-branches.md)
 - [Cobertura do MVP pelo plano de branches](docs/cobertura-mvp-branches.md)
+- [Revisao de coesao documental](docs/revisao-coesao-documental.md)
 - [Branches plan](branches-plan/README.md)
 - [Escopos detalhados das branches](docs/escopos-detalhados-branches.md)
 - [Plano tecnico do MVP](docs/plano-tecnico-mvp.md)
@@ -46,9 +65,10 @@ Este repositorio esta na fase de concepcao e planejamento tecnico do MVP. A cama
 - Banco relacional: PostgreSQL 18.x.
 - Banco vetorial inicial: Qdrant 1.18.x interno via Docker Compose.
 - Fonte documental inicial: PDF.
+- Interpretacao de imagens/tabelas em PDFs: extracao de assets/elementos e descricao textual por adapter visual/LLM quando habilitado.
 - Conectores vetoriais futuros: Qdrant externo, Pinecone, Weaviate, Milvus e pgvector.
 - Armazenamento de arquivos: filesystem local no desenvolvimento; MinIO/S3 como caminho natural para ambientes maiores.
-- Integracao com agentes: API HTTP e MCP.
+- Integracao com agentes: API HTTP no MVP funcional e MCP basico como trilho nao bloqueante.
 - Testabilidade: unitarios, contratos, integracao, smoke local, Compose e2e e Playwright para fluxos criticos.
 - Analytics local: eventos e auditoria para o usuario avaliar e melhorar seus proprios RAGs.
 - Base de conhecimento do desenvolvimento: colecoes ativaveis por stack, fonte oficial/primaria e decisoes versionadas em ADRs.
@@ -60,7 +80,8 @@ Este repositorio esta na fase de concepcao e planejamento tecnico do MVP. A cama
 - O usuario nao deve precisar editar vetores diretamente.
 - A engenharia de conhecimento deve acontecer por ingestao, curadoria, relacoes, politicas de contexto e avaliacao.
 - O sistema deve preservar proveniencia: documento, pagina fisica, pagina impressa, bbox, elemento, chunk e evidencia visual.
-- PDF e imagem devem ser tratados como fontes estruturaveis, nao apenas como texto plano.
+- PDFs, incluindo texto e imagens internas, devem ser tratados como fontes estruturaveis, nao apenas como texto plano.
+- Imagens, diagramas e tabelas em PDFs devem virar elementos interpretaveis, com source locator, texto derivado e possibilidade de citacao.
 - A recuperacao vetorial deve encontrar ancoras; a montagem final do contexto deve ser controlada por politicas previsiveis.
 - A geracao com LLM deve ampliar pesquisa, estudo e desenvolvimento sem romper o vinculo com fontes reais.
 - O analytics local deve ajudar o usuario a entender qualidade, falhas, uso de contexto e comportamento de agentes sem enviar dados externos por padrao.

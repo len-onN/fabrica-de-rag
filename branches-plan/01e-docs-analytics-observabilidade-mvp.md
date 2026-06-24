@@ -40,6 +40,22 @@ DOC, OBS, DATA, CONTRACT, SEC, TEST
 - Campos permitidos/proibidos.
 - Formato de export JSON/CSV.
 - Relacao entre logs de job e eventos de analytics.
+- Envelope versionado de evento, origem, correlation id e identidade.
+- Politica de agregacao do dashboard minimo.
+- Estrategia de delete/export por workspace sem misturar auditoria operacional obrigatoria.
+- Limites de cardinalidade e payload para eventos de UI/API/worker/MCP.
+
+## Detalhes que devem ficar explicitos
+
+- Event envelope: `event_type`, `schema_version`, `occurred_at`, `workspace_id`, origem, ator, correlation id, recurso e payload.
+- Lista de eventos do MVP por fluxo: bootstrap, workspace, colecao, ingestao, pagina, visual/tables, chunk, busca, contexto, resposta, feedback e API; MCP deve ter schema preparado, mas so emitira eventos quando `feat/mcp-tools-base` entrar.
+- Campos proibidos: conteudo integral de documento, embedding, prompt completo, resposta completa quando historico estiver desligado, segredo, chave, token e credencial.
+- Retencao: padrao local, configuracao por workspace, limpeza por periodo e comportamento em export/delete.
+- Export: formato JSON/CSV, escopo por workspace, filtros e mascaramento de campos sensiveis.
+- Logs de job vs eventos: logs diagnosticam run/step; eventos alimentam analytics/agregacao; auditoria registra acoes sensiveis.
+- Dashboard minimo: runs, falhas por etapa, latencia, consultas, chunks recuperados, feedback e limites MCP.
+- Observabilidade tecnica: correlation id entre UI/API/worker/MCP, erro seguro para usuario e detalhe tecnico em log controlado.
+- Pontos OCP/LSP/IoC: novo evento por schema versionado, novo agregador, novo painel, nova origem e futura telemetria remota opt-in sem alterar evento local base; sinks/agregadores devem ser substituiveis sem vazar campos proibidos ou misturar workspaces.
 
 ## Estrategia
 

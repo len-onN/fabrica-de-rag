@@ -15,7 +15,7 @@ Decisao:
 
 Motivo:
 
-O backend Java deve cuidar de API, autorizacao, orquestracao, estado transacional, jobs e publicacao. O Python deve concentrar OCR, parsing avancado, embeddings, captions e modelos locais. Essa separacao reduz acoplamento, facilita evolucao de dependencias ML e deixa claro onde cada responsabilidade vive.
+O backend Java deve cuidar de API, autorizacao, orquestracao, estado transacional, jobs e publicacao. O Python deve concentrar OCR, parsing avancado, interpretacao visual/tabelas, embeddings e, quando entrarem em fases futuras, modelos multimodais locais. Essa separacao reduz acoplamento, facilita evolucao de dependencias ML e deixa claro onde cada responsabilidade vive.
 
 ## ADR-002: SQL como fonte da verdade documental
 
@@ -388,3 +388,26 @@ Criar um runtime proprio para ferramentas MCP em `apps/mcp`, usando TypeScript s
 Motivo:
 
 O SDK TypeScript do MCP esta em Tier 1 e Node 24 ja e uma dependencia do projeto por causa do Angular. Separar `apps/mcp` mantem a superficie de agentes isolada, facilita testes de schemas e reduz o risco de tools contornarem os controles centrais do backend.
+
+## ADR-021: Camada de interpretacao de imagens e tabelas em PDFs
+
+Status: aceito.
+
+Decisao:
+
+O MVP deve incluir uma camada explicita para interpretar imagens, diagramas e tabelas dentro de PDFs. Essa camada deve extrair assets/regioes/tabelas, preservar pagina, bbox, ordem de leitura e source locator, e gerar uma representacao textual estruturada quando possivel.
+
+Para imagens, diagramas e tabelas que exigirem compreensao visual, o sistema deve usar um `vision interpreter` por adapter. Esse adapter pode chamar uma LLM/VLM quando habilitado, mas deve ter implementacao mockada/deterministica para testes e deve registrar provider, modelo, prompt version, input hash, confidence, erros e budget.
+
+Interpretacoes visuais sao dados derivados, nao fonte canonica. A fonte canonica continua sendo o PDF original, seus assets, elementos, paginas e metadados no SQL/storage.
+
+Fora do MVP:
+
+- embeddings visuais;
+- busca multimodal por imagem;
+- curadoria manual profunda de crops/regioes;
+- dependencia obrigatoria de provider remoto.
+
+Motivo:
+
+PDFs reais frequentemente comunicam informacao essencial por tabelas, imagens, diagramas, fluxos e capturas. Tratar o PDF apenas como texto/OCR perderia conhecimento importante e enfraqueceria citacoes. Ao mesmo tempo, chamar uma LLM de visao diretamente dentro do fluxo sem contratos criaria risco de custo, privacidade, falta de reproducibilidade e baixa testabilidade. Separar extracao estrutural de interpretacao visual por adapter preserva proveniencia, permite fallback local/mockado, controla budgets e mantem o pipeline aberto para providers melhores sem reescrever o core.

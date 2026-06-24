@@ -63,6 +63,7 @@ Regras:
 | Backend Spring | Spring Boot, Spring Framework, Spring Data, Spring Security |
 | IA/RAG em Java | Spring AI, RAG engineering, vector-store |
 | Worker Python | Python docs, FastAPI, Pydantic, PyMuPDF, Unstructured |
+| Interpretacao visual em PDFs | Docs do provider LLM/VLM escolhido, bibliotecas PDF/tabela, politicas de privacidade e contratos locais |
 | Banco relacional | PostgreSQL, Flyway, docs internas de schema |
 | Vector DB | Qdrant, pgvector, Pinecone, Weaviate, Milvus conforme fase |
 | Agentes e MCP | Model Context Protocol, MCP SDKs, MCP security, Spring AI MCP, Angular CLI MCP |

@@ -51,6 +51,7 @@ DOC, CODE, RUNTIME, CONTRACT, TEST, SEC, PERF
 - Auth, roles, workspace scope e guardrails MCP/API: `docs/seguranca-permissoes-mvp`.
 - Embeddings, LLM/mock, budgets e algoritmos: `docs/algoritmos-rag-mvp`.
 - Analytics, retencao, export/delete e logs: `docs/analytics-observabilidade-mvp`.
+- Interpretacao de imagens/tabelas em PDFs, assets, elementos, vision interpreter, privacidade e budgets: `docs/interpretacao-imagens-tabelas-pdf`.
 - Ferramenta de lock do worker Python: `chore/worker-python-base`.
 - Implementacao real de `scripts/check.ps1`: `chore/workspace-fundacao`.
 
@@ -61,7 +62,7 @@ DOC, CODE, RUNTIME, CONTRACT, TEST, SEC, PERF
 3. Atualizar ADRs quando decisoes ficarem aceitas.
 4. Atualizar este arquivo com decisoes resolvidas.
 5. Avancar para `docs/modelo-dados-contratos-mvp`.
-6. Antes do codigo de produto, fechar os demais portoes `docs/*` de planejamento do MVP.
+6. Antes do codigo de produto, fechar os demais portoes `docs/*` de planejamento do MVP, incluindo `docs/interpretacao-imagens-tabelas-pdf`.
 
 ## Testabilidade
 
@@ -72,4 +73,4 @@ DOC, CODE, RUNTIME, CONTRACT, TEST, SEC, PERF
 
 - Plano tecnico incorporado na branch atual.
 - Registro de bordo atualizado.
-- Proximo passo operacional: `docs/modelo-dados-contratos-mvp`.
+- Proximo passo operacional: iniciar por `docs/modelo-dados-contratos-mvp` e concluir os portoes ate `docs/interpretacao-imagens-tabelas-pdf` antes da primeira branch de codigo.

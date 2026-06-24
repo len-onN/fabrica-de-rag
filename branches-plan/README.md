@@ -26,7 +26,10 @@ Usaremos estes nomes para identificar elementos de codigo e runtime.
 | Module | CODE | Agrupamento interno por dominio ou responsabilidade. |
 | Boundary | CODE | Fronteira entre dominios, stacks ou sistemas externos. |
 | Use case | CODE | Caso de uso de aplicacao, normalmente transacional no backend. |
+| Port | CODE | Contrato interno consumido por application/domain para depender de abstracao, nao de adapter concreto. |
 | Adapter | CODE | Implementacao concreta para banco, worker, Qdrant, LLM, storage ou API externa. |
+| Policy/Strategy | CODE | Regra substituivel para algoritmo, contexto, chunking, permissao, budget ou retencao. |
+| Extension point | CODE | Lugar explicito onde uma nova capacidade entra sem alterar fluxo central estavel. |
 | Contract | CONTRACT | DTO, schema, evento, tool schema ou request/response versionado. |
 | Migration | DATA | Mudanca versionada de schema relacional. |
 | Fixture | TEST | Dado pequeno e deterministico para testes. |
@@ -74,6 +77,7 @@ AGENT      MCP, tools, skills, guardrails
 - `docs/plano-tecnico-mvp` incorporada em `planejamento/documentacao`.
 - Cobertura do MVP revisada em `docs/cobertura-mvp-branches.md`.
 - Decisoes estruturais complexas devem ter branch `docs/*` antes da implementacao.
+- Gate SOLID/OCP-LSP-IoC: branches devem expandir comportamento por contratos, ports, adapters, policies, strategies ou schemas, garantir substituibilidade das implementacoes e ligar concretos por injecao/composicao, evitando mudanca lateral em fluxos ja estabilizados.
 
 ## O que falta definir
 
@@ -84,6 +88,7 @@ Estas decisoes continuam abertas, mas agora tem branch dona:
 - granularidade de permissoes, sessao/token e guardrails MCP: `docs/seguranca-permissoes-mvp`;
 - provider/modelo de embeddings, LLM real vs adapter mockado e budgets: `docs/algoritmos-rag-mvp`;
 - taxonomia de analytics, retencao, export/delete e logs: `docs/analytics-observabilidade-mvp`;
+- interpretacao de imagens/tabelas em PDFs, assets, elementos visuais e vision interpreter: `docs/interpretacao-imagens-tabelas-pdf`;
 - comando unico de verificacao local: `chore/workspace-fundacao` e branches base de cada stack.
 
 ## Sequencia de branches
@@ -97,6 +102,7 @@ Estas decisoes continuam abertas, mas agora tem branch dona:
 | 1.3 | `docs/seguranca-permissoes-mvp` | [01c-docs-seguranca-permissoes-mvp.md](01c-docs-seguranca-permissoes-mvp.md) |
 | 1.4 | `docs/algoritmos-rag-mvp` | [01d-docs-algoritmos-rag-mvp.md](01d-docs-algoritmos-rag-mvp.md) |
 | 1.5 | `docs/analytics-observabilidade-mvp` | [01e-docs-analytics-observabilidade-mvp.md](01e-docs-analytics-observabilidade-mvp.md) |
+| 1.6 | `docs/interpretacao-imagens-tabelas-pdf` | [01f-docs-interpretacao-imagens-tabelas-pdf.md](01f-docs-interpretacao-imagens-tabelas-pdf.md) |
 | 2 | `chore/workspace-fundacao` | [02-chore-workspace-fundacao.md](02-chore-workspace-fundacao.md) |
 | 3 | `build/dev-runtime-compose` | [03-build-dev-runtime-compose.md](03-build-dev-runtime-compose.md) |
 | 4 | `chore/backend-spring-base` | [04-chore-backend-spring-base.md](04-chore-backend-spring-base.md) |
@@ -111,6 +117,7 @@ Estas decisoes continuam abertas, mas agora tem branch dona:
 | 11.1 | `feat/ingestao-runs-operacao` | [11a-feat-ingestao-runs-operacao.md](11a-feat-ingestao-runs-operacao.md) |
 | 12 | `feat/worker-pdf-inspect` | [12-feat-worker-pdf-inspect.md](12-feat-worker-pdf-inspect.md) |
 | 12.1 | `feat/worker-pdf-render-ocr-base` | [12a-feat-worker-pdf-render-ocr-base.md](12a-feat-worker-pdf-render-ocr-base.md) |
+| 12.2 | `feat/worker-pdf-visual-tables-base` | [12b-feat-worker-pdf-visual-tables-base.md](12b-feat-worker-pdf-visual-tables-base.md) |
 | 13 | `feat/paginas-numeracao` | [13-feat-paginas-numeracao.md](13-feat-paginas-numeracao.md) |
 | 14 | `feat/chunking-semantico` | [14-feat-chunking-semantico.md](14-feat-chunking-semantico.md) |
 | 15 | `feat/embeddings-base` | [15-feat-embeddings-base.md](15-feat-embeddings-base.md) |
@@ -136,6 +143,8 @@ Antes de abrir uma branch:
 
 - atualizar o arquivo da branch;
 - mover decisoes de "falta definir" para "definido" quando resolvidas;
+- explicitar pontos de extensao, invariantes preservadas e contratos que nao podem quebrar;
+- explicitar substituibilidade esperada para adapters/providers/policies e onde ocorre IoC/DI;
 - registrar skills/fontes ativadas;
 - atualizar registro de bordo.
 
@@ -143,5 +152,6 @@ Ao fechar a branch:
 
 - registrar testes executados;
 - registrar riscos remanescentes;
+- registrar mudancas laterais inevitaveis e testes de regressao correspondentes;
 - atualizar diario de bordo;
 - abrir PR para `develop`.

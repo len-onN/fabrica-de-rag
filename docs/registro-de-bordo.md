@@ -30,8 +30,8 @@ Atualizar:
 | Branch atual | `planejamento/documentacao` |
 | Linha de integracao | `develop` |
 | Objetivo atual | Consolidar documentacao inicial, formalizar camada operacional e fechar plano tecnico do MVP |
-| Status | Camada operacional registrada, plano tecnico incorporado e cobertura do MVP revisada |
-| Proximo marco | Fechar portoes de planejamento antes de `chore/workspace-fundacao` |
+| Status | Camada operacional registrada, plano tecnico incorporado, cobertura do MVP revisada, gate SOLID/OCP-LSP-IoC explicitado, trigger agentico criado e coesao documental revisada |
+| Proximo marco | Fechar portoes de planejamento ate `docs/interpretacao-imagens-tabelas-pdf` antes de `chore/workspace-fundacao` |
 
 ## Sessao viva
 
@@ -39,14 +39,22 @@ Estamos consolidando a documentacao do MVP e a camada operacional que guiara a i
 
 O escopo `docs/plano-tecnico-mvp`, antes planejado como proxima branch, foi absorvido nesta branch por decisao operacional. Com isso, a branch atual tambem fecha a stack baseline: Angular 22/Node 24, Spring Boot 4.1/Java 21, Python 3.13, PostgreSQL 18, Qdrant 1.18, Flyway, Compose em camadas e runtime MCP TypeScript/Node 24 em `apps/mcp`.
 
-A revisao de cobertura do MVP mostrou que o plano precisava explicitar alguns escopos: settings do workspace, status operacional de runs, render/OCR basico, pipeline completo de ingestao/indexacao, navegador de chunks e preview de fonte a partir de citacao. Tambem foram criados portoes de planejamento para que modelo de dados, contratos, seguranca, algoritmos e analytics nao sejam decididos durante a implementacao.
+A revisao de cobertura do MVP mostrou que o plano precisava explicitar alguns escopos: settings do workspace, status operacional de runs, render/OCR basico, pipeline completo de ingestao/indexacao, navegador de chunks e preview de fonte a partir de citacao. Tambem foram criados portoes de planejamento para que modelo de dados, contratos, seguranca, algoritmos, analytics e, depois da revisao visual/tabular, interpretacao de imagens/tabelas em PDFs nao sejam decididos durante a implementacao.
+
+Uma varredura fina posterior sobre os grupos 0 e 1 explicitou o gate SOLID/OCP-LSP-IoC como mecanismo contra regressao lateral. A partir daqui, cada branch deve declarar pontos de extensao, invariantes preservadas, contratos sensiveis, substituibilidade de implementacoes, ligacao de concretos por IoC/DI, mudancas laterais inevitaveis e testes de compatibilidade. Os portoes `docs/modelo-dados-contratos-mvp`, `docs/arquitetura-ingestao-rag`, `docs/seguranca-permissoes-mvp`, `docs/algoritmos-rag-mvp`, `docs/analytics-observabilidade-mvp` e `docs/interpretacao-imagens-tabelas-pdf` receberam detalhes adicionais para tirar decisoes tecnicas do campo implicito.
+
+Foi criado o trigger de implementacao agentica em `docs/trigger-implementacao-agentica.md`. Ele passa a ser o ponto de partida para qualquer retomada de desenvolvimento: ler documentacao viva, checar Git/branch/remota, tratar `safe.directory` quando necessario, sincronizar com seguranca, continuar ou criar branch planejada, abrir o plano especifico da branch, ativar skills/fontes e aplicar gates antes de implementar.
+
+Foi feita uma revisao de coesao documental em `docs/revisao-coesao-documental.md`. A revisao confirmou a coesao da ideia central e corrigiu desalinhamentos textuais em documentos antigos: `planejamento.md` deixou de tratar decisoes vigentes como discussoes abertas, `features.md` passou a distinguir MVP funcional de MVP nao bloqueante, MCP basico ficou classificado como trilho nao bloqueante e perfis do MVP voltaram a `rapido`/`balanceado`.
+
+Em seguida, a camada de interpretacao de imagens e tabelas em PDFs foi elevada a parte fundamental do MVP. Foram adicionadas as branches `docs/interpretacao-imagens-tabelas-pdf` e `feat/worker-pdf-visual-tables-base`, com vision interpreter por adapter LLM/VLM, modo mockado em testes, provider remoto configuravel, privacidade, budget, source locator, assets, elementos e interpretacoes textuais derivadas.
 
 Proximo passo concreto:
 
 - revisar consistencia dos documentos vivos;
 - abrir PR da branch `planejamento/documentacao` para `develop`;
 - iniciar `docs/modelo-dados-contratos-mvp` como primeiro portao de planejamento;
-- seguir com os demais portoes antes de `chore/workspace-fundacao`.
+- seguir com os demais portoes, incluindo `docs/interpretacao-imagens-tabelas-pdf`, antes de `chore/workspace-fundacao`.
 
 ## Quadro de branches
 
@@ -59,6 +67,7 @@ Proximo passo concreto:
 | `docs/seguranca-permissoes-mvp` | Candidata | Fechar auth local, roles, workspace scope, API/MCP e guardrails | Pendente | Deve anteceder `feat/auth-bootstrap-workspaces`. |
 | `docs/algoritmos-rag-mvp` | Candidata | Especificar numeracao, chunking, busca, contexto, citacoes e budgets | Pendente | Deve anteceder branches de algoritmo. |
 | `docs/analytics-observabilidade-mvp` | Candidata | Fechar eventos, retencao, export/delete, logs, metricas e privacidade | Pendente | Deve anteceder branches de analytics. |
+| `docs/interpretacao-imagens-tabelas-pdf` | Candidata | Fechar camada de imagens/tabelas em PDFs, assets, elementos e vision interpreter | Pendente | Deve anteceder worker visual/tabelas, chunking e citacoes. |
 | `chore/workspace-fundacao` | Candidata | Criar estrutura raiz, diretorios e convencoes do repositorio | Pendente | Depende do plano tecnico MVP. |
 | `build/dev-runtime-compose` | Candidata | Criar compose local com Postgres, Qdrant e servicos preparados | Pendente | Depende da estrutura inicial. |
 | `chore/backend-spring-base` | Candidata | Criar base Spring Boot testavel | Pendente | Health, profiles, testes, Postgres e baseline de migrations. |
@@ -73,6 +82,7 @@ Proximo passo concreto:
 | `feat/ingestao-runs-operacao` | Candidata | Criar status, etapas, cancelamento, retry e logs de runs | Pendente | Fecha operacao visivel de ingestao. |
 | `feat/worker-pdf-inspect` | Candidata | Integrar worker Python para inspecao/extracao inicial de PDF | Pendente | Exige contrato interno Spring -> worker. |
 | `feat/worker-pdf-render-ocr-base` | Candidata | Adicionar render de paginas e OCR opcional basico | Pendente | Necessario para preview, mapa de paginas e PDFs sem texto nativo. |
+| `feat/worker-pdf-visual-tables-base` | Candidata | Interpretar imagens/tabelas em PDFs com assets, elementos e adapter visual | Pendente | Necessario para preservar conhecimento visual/tabular. |
 | `feat/paginas-numeracao` | Candidata | Implementar mapa de paginas e numeracao impressa por ancoras | Pendente | Exige especificacao do algoritmo. |
 | `feat/chunking-semantico` | Candidata | Implementar chunking, heading path e overlap | Pendente | Exige especificacao do algoritmo e testes. |
 | `feat/embeddings-base` | Candidata | Definir contrato inicial de embeddings | Pendente | Exige modelo/provider ou adapter mockado. |
@@ -103,7 +113,10 @@ Proximo passo concreto:
 | Contrato Qdrant | Com branch dona | Resolver payload/filtros em `docs/modelo-dados-contratos-mvp` e reindexacao em `docs/arquitetura-ingestao-rag`. Imagem inicial: `qdrant/qdrant:v1.18.2`. |
 | Estrategia de testes | Registrada inicialmente | Implementar base em `chore/workspace-fundacao`, Compose em `build/dev-runtime-compose` e smoke em `test/smoke-stack-local`. |
 | Algoritmos iniciais | Com branch dona | Especificar em `docs/algoritmos-rag-mvp` antes das branches de algoritmo. |
-| Colateralidades por branch | Pendente | Aplicar checklist operacional antes de cada branch. |
+| Interpretacao visual/tabelas em PDF | Com branch dona | Especificar em `docs/interpretacao-imagens-tabelas-pdf` antes de `feat/worker-pdf-visual-tables-base`. |
+| Colateralidades por branch | Explicitado | Aplicar checklist operacional e gate SOLID/OCP-LSP-IoC antes de cada branch. |
+| Trigger de implementacao agentica | Registrado | Usar `docs/trigger-implementacao-agentica.md` antes de qualquer retomada ou nova implementacao. |
+| Coesao documental | Revisada | Usar `docs/revisao-coesao-documental.md` como fotografia das decisoes vigentes antes dos proximos portoes. |
 | Skills e fontes oficiais | Registrado inicialmente | Aplicar politica na proxima branch tecnica e registrar fontes ativadas. |
 | Plano de branches | Registrado inicialmente | Validar sequencia, ajustar granularidade e usar como base do proximo PR. |
 | Branches plan | Registrado inicialmente | Usar `branches-plan` como fonte operacional por branch antes de iniciar implementacao. |

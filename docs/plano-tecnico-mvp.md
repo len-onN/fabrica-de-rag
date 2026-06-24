@@ -27,6 +27,7 @@ Ele nao substitui os ADRs. Ele organiza a execucao inicial para que backend, fro
 | Testes e2e | Docker Compose dedicado + Playwright | Ambiente reprodutivel e proximo do uso real. |
 | UI | Componentes proprios + Angular CDK | Preserva identidade visual, acessibilidade e densidade sem travar o design em um kit pesado cedo demais. |
 | Embeddings/LLM | Adaptadores mockados por padrao ate branch dedicada | Mantem testes deterministicos e evita dependencia de rede/custos antes do contrato estar maduro. |
+| Interpretacao visual | Vision interpreter por adapter, mockado por padrao em testes | Permite interpretar imagens/tabelas de PDFs sem acoplar o core a um provider remoto ou instavel. |
 
 ## Versoes iniciais e ferramentas
 
@@ -213,6 +214,7 @@ apps/worker/
 |   +-- contracts
 |   +-- pdf
 |   +-- ocr
+|   +-- vision
 |   +-- chunking
 |   +-- embeddings
 |   +-- observability
@@ -232,7 +234,7 @@ Performance:
 
 - Processar PDFs por pagina ou lote pequeno.
 - Evitar carregar o documento inteiro em memoria quando nao for necessario.
-- Registrar duracao por etapa: inspect, extract, OCR, chunking, embeddings.
+- Registrar duracao por etapa: inspect, extract, OCR, visual/tables, chunking, embeddings.
 - Adiar fila ate haver necessidade real, mas manter contrato de job preparado.
 
 ## Padroes de banco
@@ -333,6 +335,9 @@ Cada PR para `develop` deve explicitar:
 - escopo da branch e arquivo correspondente em `branches-plan`;
 - fontes oficiais/skills usadas quando houver decisao tecnica sensivel;
 - colateralidades em dados, contratos, runtime, permissao, analytics e testes;
+- pontos de extensao usados ou criados;
+- contratos, eventos, schemas, migrations e payloads preservados;
+- qualquer mudanca lateral fora do foco da branch e sua justificativa;
 - comandos executados e resultado;
 - pendencias deixadas para branches futuras;
 - atualizacao de `docs/registro-de-bordo.md` e, quando a etapa fechar, `docs/diario-de-bordo.md`.
@@ -347,6 +352,18 @@ Gate minimo por tipo de branch:
 | `feat/*` | Unitarios/contratos, integracao quando tocar infraestrutura e smoke quando tocar fluxo vertical. |
 | `test/*` | Suite nova reproduzivel, fixture pequena e falhas claras. |
 | `perf/*` | Baseline, metrica, mudanca, comparacao e limite de regressao documentado. |
+
+## Gate SOLID/OCP-LSP-IoC
+
+O desenho das apps deve preservar extensibilidade sem espalhar acoplamento:
+
+- use cases e dominio nao devem depender de adapters concretos de banco, worker, Qdrant, LLM, storage ou MCP;
+- providers de embeddings/LLM, vector stores, source connectors, steps de ingestao, policies de chunk/contexto e tools MCP devem entrar por contratos pequenos e testaveis;
+- implementacoes concretas de uma mesma familia devem ser substituiveis pela mesma suite de contrato, preservando filtros, workspace scope, erros, idempotencia e formato de resposta;
+- Spring configuration, Angular providers, FastAPI dependencies e setup do MCP devem funcionar como composition roots, ligando concretos sem contaminar application/domain;
+- mudancas em contrato publico, evento, schema Pydantic, tool schema, migration ou payload Qdrant devem ter compatibilidade, versionamento ou plano de migracao explicito;
+- branches de feature nao devem decidir sozinhas alteracoes estruturais ja atribuidas aos portoes `docs/*`;
+- testes de contrato devem cobrir o comportamento antigo quando uma extensao nova for adicionada.
 
 ## Padroes de testes
 
@@ -370,6 +387,7 @@ Estas decisoes nao devem ser tomadas de improviso dentro das feature branches. C
 | Auth local, sessao/token, roles, workspace scope, API/MCP e guardrails | `docs/seguranca-permissoes-mvp` |
 | Provider/modelo de embeddings, LLM real vs adapter mockado, budgets e algoritmos | `docs/algoritmos-rag-mvp` |
 | Taxonomia de analytics, retencao, export/delete, logs e metricas | `docs/analytics-observabilidade-mvp` |
+| Interpretacao de imagens/tabelas em PDFs, assets, elementos, vision interpreter, privacidade e budgets | `docs/interpretacao-imagens-tabelas-pdf` |
 | Ferramenta de lock do worker Python | `chore/worker-python-base` |
 | Comando unico de verificacao local | `chore/workspace-fundacao` e branches base das stacks |
 

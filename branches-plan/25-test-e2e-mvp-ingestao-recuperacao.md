@@ -18,6 +18,7 @@ TEST, RUNTIME, UX, DATA, CONTRACT, OBS
 - Cobrir workspace, colecao, upload, ingestao, chunks, busca e laboratorio.
 - Cobrir settings essenciais.
 - Cobrir status de run.
+- Cobrir interpretacao visual/tabelas com adapter mockado.
 - Cobrir abertura de fonte a partir de citacao.
 - Cobrir feedback local e analytics basico.
 - Coletar logs de falha.
@@ -27,6 +28,7 @@ TEST, RUNTIME, UX, DATA, CONTRACT, OBS
 - Cobertura exaustiva.
 - OCR pesado.
 - LLM real.
+- LLM/VLM real para interpretacao visual.
 - Rede externa.
 
 ## Definido
@@ -51,7 +53,7 @@ TEST, RUNTIME, UX, DATA, CONTRACT, OBS
 ## Testabilidade
 
 - Pipeline e2e passa em ambiente limpo.
-- Criterios 1 a 11 do fechamento do MVP sao exercitados ou justificados.
+- Criterios do fechamento do MVP em `mvp-interface-e-api.md` sao exercitados ou justificados.
 - Falhas deixam logs suficientes.
 
 ## Fechamento

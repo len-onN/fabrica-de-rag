@@ -11,6 +11,7 @@ O plano inicial cobria o nucleo principal do MVP, mas deixava lacunas em seis ar
 - decisoes estruturais ainda sem branch dona;
 - operacao completa de `ingest_run`: status, cancelamento, retry e logs;
 - render de paginas e OCR opcional;
+- interpretacao de imagens e tabelas em PDFs;
 - configuracoes do workspace;
 - navegador de chunks fora do laboratorio;
 - abertura/preview da fonte original a partir de uma citacao.
@@ -28,6 +29,7 @@ Antes da primeira branch de codigo de produto, o projeto deve fechar estes porto
 | `docs/seguranca-permissoes-mvp` | Auth local, sessao/token, roles, matriz de permissoes, workspace scope, API/MCP e segredos. |
 | `docs/algoritmos-rag-mvp` | Numeracao impressa, chunking, contexto, citacoes, ranking, budgets e complexidade. |
 | `docs/analytics-observabilidade-mvp` | Taxonomia de eventos, retencao, export/delete, logs de jobs, privacidade e metricas. |
+| `docs/interpretacao-imagens-tabelas-pdf` | Camada de elementos visuais/tabelas, assets, vision interpreter LLM/VLM, source locator, fallback textual e relacoes com chunks/citacoes. |
 
 ## Cobertura do criterio de fechamento do MVP
 
@@ -37,6 +39,7 @@ Antes da primeira branch de codigo de produto, o projeto deve fechar estes porto
 | Criar uma colecao | `feat/colecoes-documentos-core` | Coberto, com UI operacional expandida. |
 | Enviar um PDF | `feat/ingestao-upload-pdf` | Coberto. |
 | Revisar/corrigir mapa de paginas | `feat/worker-pdf-render-ocr-base`, `feat/paginas-numeracao` | Coberto, incluindo preview de pagina. |
+| Interpretar imagens e tabelas do PDF | `feat/worker-pdf-render-ocr-base`, `feat/worker-pdf-visual-tables-base` | Coberto por camada propria de elementos/assets/tabelas e interpretacao textual por adapter visual. |
 | Rodar ingestao | `feat/ingestao-runs-operacao`, `feat/ingestao-pipeline-indexacao` | Coberto. |
 | Gerar chunks e embeddings | `feat/chunking-semantico`, `feat/embeddings-base`, `feat/qdrant-indexacao` | Coberto. |
 | Perguntar no laboratorio | `feat/busca-vetorial-base`, `feat/context-builder-base`, `feat/laboratorio-recuperacao` | Coberto. |
@@ -57,6 +60,7 @@ Antes da primeira branch de codigo de produto, o projeto deve fechar estes porto
 | Status de ingestao | `feat/ingestao-runs-operacao`, `feat/ingestao-pipeline-indexacao` |
 | Detalhe de documento | `feat/colecoes-documentos-core`, `feat/paginas-numeracao` |
 | Mapa de paginas | `feat/worker-pdf-render-ocr-base`, `feat/paginas-numeracao` |
+| Elementos visuais/tabelas | `feat/worker-pdf-visual-tables-base` |
 | Navegador de chunks | `feat/chunks-navegador` |
 | Laboratorio | `feat/laboratorio-recuperacao`, `feat/resposta-rag-base`, `feat/citacoes-preview-fonte` |
 | Analytics | `feat/analytics-eventos-base`, `feat/analytics-dashboard-base` |
@@ -74,7 +78,7 @@ Continuam fora do MVP:
 - convites multiusuario;
 - service accounts completas;
 - embeddings visuais;
-- captions de imagens;
+- busca multimodal por imagem;
 - curadoria manual profunda de chunks;
 - telemetria remota.
 

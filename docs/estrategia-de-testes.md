@@ -84,6 +84,7 @@ Tipos:
 - testes com PDF fixture pequeno;
 - testes de tempo/memoria apenas quando houver risco real;
 - testes de contrato Pydantic para request/response.
+- testes de interpretacao visual com adapter mockado/deterministico.
 
 Padroes:
 
@@ -92,6 +93,7 @@ Padroes:
 - fixtures pequenas e deterministicos;
 - nao depender de modelo pesado em teste unitario;
 - usar adapter mockado para embeddings/LLM quando houver custo ou rede.
+- usar adapter mockado para LLM/VLM de visao em unit, contract, smoke e e2e por padrao.
 
 ### Banco e migrations
 
@@ -211,6 +213,7 @@ Evitar no e2e:
 - testar todos os campos de formulario;
 - depender de OCR pesado;
 - usar LLM real por padrao;
+- usar LLM/VLM real para interpretacao visual por padrao;
 - depender de rede externa;
 - validar detalhes visuais pequenos;
 - usar sleeps fixos.

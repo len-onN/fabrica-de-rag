@@ -13,33 +13,32 @@ Objetivos:
 - Definir criterios do MVP.
 - Registrar a camada operacional de desenvolvimento por branches, PRs, registro de bordo e diario de bordo.
 
-## Questoes em discussao
+## Estado das decisoes
 
-- Quais controles de ingestao entram no MVP?
-- Qual sera o primeiro nivel de suporte visual em PDFs?
-- O MVP deve incluir apenas texto/OCR ou tambem extracao de imagens em PDFs?
-- Qual sera o formato inicial do MCP server?
-- Vamos iniciar com Qdrant apenas, ou tambem pgvector?
-- Quando entram conectores para bancos vetoriais do usuario?
-- Qual contrato minimo uma colecao externa precisa seguir?
-- Qual sera a taxonomia inicial de eventos de analytics local?
-- Quais dashboards locais de qualidade do RAG entram no MVP?
-- Quais finalidades amplas de uso devem existir como categorias declaradas?
-- O laboratorio de recuperacao entra no primeiro MVP ou em seguida?
-- Quais fontes entram primeiro na base de conhecimento do desenvolvimento?
-- Quais padroes de projeto precisam ser decididos antes de iniciar codigo?
-- Qual o minimo de usuarios, workspaces e roles que entra no MVP sem virar produto enterprise?
-- Quais campos do modelo precisam existir agora para permitir conectores de fontes no futuro?
+As discussoes iniciais abaixo ja foram consolidadas ou encaminhadas para branches donas. A versao vigente e:
 
-## MVP candidato
+- O MVP foca em PDF como unica fonte documental suportada.
+- O suporte visual do MVP inclui render de paginas, preview de fonte, OCR opcional, extracao de imagens/tabelas e interpretacao textual por LLM/VLM quando habilitada.
+- Embeddings visuais, busca multimodal por imagem e curadoria profunda de regioes ficam fora do MVP funcional.
+- O MCP nasce como runtime TypeScript/Node 24 em `apps/mcp`, adaptador fino sobre contratos do backend.
+- Qdrant interno e o vector store inicial; pgvector fica como possibilidade futura.
+- Conectores externos de vector store ficam fora do MVP funcional, mas o modelo deve preparar bindings futuros.
+- A taxonomia final de analytics, retencao, export/delete e logs sera fechada em `docs/analytics-observabilidade-mvp`.
+- O laboratorio de recuperacao entra no MVP funcional.
+- Usuarios, workspaces, memberships e roles basicas entram desde o modelo inicial.
+- Decisoes estruturais de modelo, ingestao, seguranca, algoritmos, analytics e interpretacao de imagens/tabelas em PDFs tem portoes `docs/*` antes do codigo.
+- O desenvolvimento deve seguir o gate SOLID/OCP-LSP-IoC e o trigger de implementacao agentica.
 
-Um primeiro MVP usavel poderia conter:
+## MVP vigente
+
+O primeiro MVP usavel deve conter:
 
 - Upload de PDF.
 - Escopo inicial restrito a PDF como fonte documental.
 - Perfil de ingestao rapido/balanceado.
 - Extracao de texto nativo.
 - OCR opcional por pagina.
+- Interpretacao de imagens, diagramas e tabelas em PDFs, gerando texto estruturado derivado.
 - Mapa de paginas com pagina fisica e pagina impressa.
 - Ancora manual de numeracao impressa.
 - Chunking por bloco semantico.
@@ -54,7 +53,7 @@ Um primeiro MVP usavel poderia conter:
 - Categorias amplas e opcionais de finalidade do workspace: estudo, pesquisa, escrita, codigo, agente ou geral.
 - Docker Compose com Angular, Spring Boot, Python worker, Postgres e Qdrant.
 - Catalogo inicial da base de conhecimento do desenvolvimento.
-- Mapa de fontes e integracoes futuras sem implementacao no MVP.
+- Mapa de fontes e integracoes futuras sem implementacao de conectores no MVP.
 
 ## Fase 1: desenho funcional
 
@@ -120,23 +119,23 @@ Entregaveis:
 - Registro de bordo atualizado ao fim de cada branch.
 - Diario de bordo atualizado ao fim de cada etapa ou antes de pausas longas.
 
-## Backlog de discussoes proximas
+## Proximas especificacoes
 
-- Modelo de dados documental.
-- Mapa de paginas e numeracao impressa.
-- Perfis de ingestao.
-- Estrategias de chunking.
-- Politicas de contexto.
-- Tratamento de imagens em PDF.
-- Mapa de integracoes futuras: Notion, Jira, Confluence, GitHub/GitLab, Drive/Docs e websites.
-- API publica de consulta.
-- Usuarios, workspaces, roles e chaves de API.
-- MCP server.
-- Conectores de vector store do usuario.
-- Telemetria remota opt-in para possivel deploy em nuvem.
-- Analytics maduro com ciencia de dados.
-- Ingestao automatizada de documentacao oficial por versao.
-- Avaliacao de qualidade do RAG.
-- Sequencia detalhada de branches de implementacao.
-- Criterios de abertura e fechamento de PRs para `develop`.
-- Teste de fumaca inicial da stack local.
+Estas frentes ja tem direcao geral, mas precisam de especificacao detalhada nas branches donas:
+
+- Modelo de dados documental: `docs/modelo-dados-contratos-mvp`.
+- Mapa de paginas, numeracao impressa, chunking, contexto e citacoes: `docs/algoritmos-rag-mvp`.
+- Ingestao, retry, cancelamento, storage e reindexacao: `docs/arquitetura-ingestao-rag`.
+- Auth, sessao/token, roles, workspace scope e guardrails: `docs/seguranca-permissoes-mvp`.
+- Analytics, retencao, export/delete, logs e dashboard minimo: `docs/analytics-observabilidade-mvp`.
+- Interpretacao de imagens/tabelas em PDFs, assets, elementos e vision interpreter: `docs/interpretacao-imagens-tabelas-pdf`.
+- Trigger, branch, PR, skills e gates: `docs/trigger-implementacao-agentica.md` e `docs/estrategia-operacional.md`.
+
+Continuam como futuro pos-MVP:
+
+- conectores externos de fontes;
+- conectores externos de vector store;
+- telemetria remota opt-in;
+- analytics maduro com ciencia de dados;
+- embeddings visuais e busca multimodal por imagem;
+- ingestao automatizada de documentacao oficial por versao.

@@ -45,11 +45,12 @@ Fluxo por branch:
 1. Ativar contexto local: README, ADRs, planejamento, padroes, estrategia operacional, registro de bordo.
 2. Ativar skills/fontes oficiais por stack: Angular, Spring, Python, Postgres, Qdrant, MCP ou seguranca conforme a branch.
 3. Escrever mini-especificacao da branch: objetivo, fora de escopo, contratos, testes e colateralidades.
-4. Implementar em passos pequenos.
-5. Rodar verificacoes.
-6. Fazer revisao de agente em modo critico: bugs, riscos, testes faltantes e quebras de contrato.
-7. Atualizar registro de bordo e diario de bordo.
-8. Abrir PR para `develop`.
+4. Declarar pontos de extensao, invariantes preservadas e riscos de regressao lateral.
+5. Implementar em passos pequenos.
+6. Rodar verificacoes.
+7. Fazer revisao de agente em modo critico: bugs, riscos, testes faltantes, quebras de contrato e aderencia ao gate SOLID/OCP-LSP-IoC.
+8. Atualizar registro de bordo e diario de bordo.
+9. Abrir PR para `develop`.
 
 Padrao de colaboracao:
 
@@ -58,6 +59,22 @@ Padrao de colaboracao:
 - a documentacao local prevalece sobre recomendacoes genericas;
 - decisoes novas viram ADR ou atualizacao de padrao;
 - prompts, ferramentas e respostas recuperadas sao insumos, nao autoridade final.
+
+## Portao SOLID/OCP-LSP-IoC
+
+Cada branch deve proteger o projeto contra regressao lateral. Na pratica, isso significa que comportamento novo deve entrar por extensao de contratos, adapters, providers, policies, strategies, schemas ou use cases, preservando fluxos ja estabilizados, garantindo substituibilidade de implementacoes e mantendo dependencias concretas fora do core.
+
+Antes do PR, a branch deve responder:
+
+- quais contratos existentes foram preservados;
+- quais pontos de extensao foram usados ou criados;
+- quais implementacoes novas precisam ser substituiveis por contrato;
+- onde ocorre a injecao/composicao das dependencias concretas;
+- quais modulos fora do escopo precisaram mudar e por que;
+- quais testes protegem compatibilidade e isolamento por workspace;
+- quais migracoes, eventos, payloads ou schemas exigem compatibilidade.
+
+Se a resposta mostrar uma decisao estrutural nao planejada, a branch deve parar e atualizar o portao `docs/*` dono antes de seguir.
 
 ## Desenho das branches
 
@@ -70,6 +87,7 @@ Padrao de colaboracao:
 ### Grupo 1A: portoes de planejamento do MVP
 
 Estas branches devem fechar decisoes arquiteturais antes das branches de codigo que dependem delas.
+Cada portao tambem deve explicitar pontos de extensao, contratos de compatibilidade e riscos de mudanca lateral que as branches futuras nao poderao decidir sozinhas.
 
 | Ordem | Branch | Escopo | Fora de escopo | Testabilidade/fechamento |
 | --- | --- | --- | --- | --- |
@@ -78,6 +96,7 @@ Estas branches devem fechar decisoes arquiteturais antes das branches de codigo 
 | 1.3 | `docs/seguranca-permissoes-mvp` | Auth local, sessao/token, roles, workspace scope, API/MCP e guardrails. | OIDC, MFA, convites e RLS. | Matriz de permissoes e testes obrigatorios definidos. |
 | 1.4 | `docs/algoritmos-rag-mvp` | Numeracao, chunking, busca, context builder, citacoes, budgets e complexidade. | Reranking, busca hibrida e multimodal. | Algoritmos com entradas, saidas, invariantes e fixtures. |
 | 1.5 | `docs/analytics-observabilidade-mvp` | Eventos, retencao, export/delete, logs de jobs, metricas e privacidade. | Telemetria remota e ciencia de dados avancada. | Taxonomia de eventos e dashboard minimo especificados. |
+| 1.6 | `docs/interpretacao-imagens-tabelas-pdf` | Camada de interpretacao de imagens/tabelas em PDFs, assets, elementos, vision interpreter LLM/VLM, source locator, contratos e relacoes com chunks/citacoes. | Embeddings visuais, busca multimodal por imagem e curadoria profunda de regioes. | Contratos de elementos/assets/tabelas/interpretacoes e fixtures definidos. |
 
 ### Grupo 1B: fundacao tecnica testavel
 
@@ -112,6 +131,7 @@ A primeira fatia vertical deve provar que UI, API, banco e autorizacao basica co
 | 11.1 | `feat/ingestao-runs-operacao` | Status de runs, etapas, cancelamento, retry e logs. | Pipeline completo e fila. | State machine de run, transicoes e logs testados. |
 | 12 | `feat/worker-pdf-inspect` | Integrar worker para inspecao basica de PDF: paginas, metadados e texto nativo simples. | OCR e layout avancado. | Teste de contrato Spring -> worker com PDF fixture pequeno. |
 | 12.1 | `feat/worker-pdf-render-ocr-base` | Render de paginas, OCR opcional basico e qualidade textual por pagina. | OCR avancado, captions e tabelas complexas. | Render/OCR testados com fixtures e limites de tempo/memoria. |
+| 12.2 | `feat/worker-pdf-visual-tables-base` | Interpretar imagens e tabelas em PDFs: detectar elementos, extrair assets/tabelas simples, chamar adapter visual quando habilitado e preservar bbox/source locator. | Embeddings visuais, busca multimodal por imagem e curadoria profunda de regioes. | Fixtures com tabela/figura geram elementos, assets, interpretacoes textuais e relacoes citaveis. |
 | 13 | `feat/paginas-numeracao` | Mapa de paginas, pagina fisica, pagina impressa e ancoras de numeracao. | Inferencias complexas multi-segmento se nao couber. | Especificacao do algoritmo, testes de casos-limite e UI minima. |
 
 ### Grupo 4: recuperacao e vetores
@@ -129,7 +149,7 @@ A primeira fatia vertical deve provar que UI, API, banco e autorizacao basica co
 
 | Ordem | Branch | Escopo | Fora de escopo | Testabilidade/fechamento |
 | --- | --- | --- | --- | --- |
-| 18 | `feat/context-builder-base` | Expandir contexto por vizinhos, aplicar budget e preservar citacoes. | Expansao por secao/relacoes complexas. | Especificacao do algoritmo e testes de budget/citacoes. |
+| 18 | `feat/context-builder-base` | Expandir contexto por vizinhos, relacoes diretas de imagem/tabela/legenda, budget e citacoes. | Expansao por secao/relacoes complexas multi-hop. | Especificacao do algoritmo e testes de budget/citacoes/elementos. |
 | 19 | `feat/laboratorio-recuperacao` | Tela de laboratorio com pergunta, chunks recuperados, contexto expandido e citacoes. | Comparacao de perfis e benchmark avancado. | Teste de fluxo UI/API com fixtures. |
 | 20 | `feat/resposta-rag-base` | Geracao de resposta com grounding e citacoes, usando provider real ou adapter mockado definido no planejamento. | Avaliacao automatica avancada. | Testes com LLM mockado e verificacao de citacoes. |
 | 20.1 | `feat/citacoes-preview-fonte` | Abrir fonte original da citacao com pagina, trecho, label fisico/impresso e fallback textual. | Viewer PDF completo, crops e evidencias visuais complexas. | Citacao abre fonte correta e respeita workspace scope. |
@@ -159,6 +179,7 @@ A primeira fatia vertical deve provar que UI, API, banco e autorizacao basica co
 - Toda branch de feature deve atravessar as camadas necessarias para entregar comportamento observavel.
 - Usar mocks apenas onde o servico real geraria custo, instabilidade ou segredo.
 - Introduzir testes no mesmo momento em que o contrato nasce.
+- Aplicar o gate SOLID/OCP-LSP-IoC antes de fechar PR, principalmente quando uma branch tocar contrato, migration, evento, tool, adapter, provider, repository ou algoritmo central.
 - Antes de cada branch, atualizar o registro de bordo com escopo, fontes e criterios de aceite.
 - Depois de cada branch, atualizar o diario de bordo com a historia da etapa.
 
@@ -171,12 +192,13 @@ Como `docs/plano-tecnico-mvp` foi incorporada em `planejamento/documentacao`, o 
 3. `docs/seguranca-permissoes-mvp`
 4. `docs/algoritmos-rag-mvp`
 5. `docs/analytics-observabilidade-mvp`
-6. `chore/workspace-fundacao`
-7. `build/dev-runtime-compose`
-8. `chore/backend-spring-base`
-9. `chore/frontend-angular-base`
-10. `chore/worker-python-base`
-11. `test/smoke-stack-local`
-12. `feat/auth-bootstrap-workspaces`
+6. `docs/interpretacao-imagens-tabelas-pdf`
+7. `chore/workspace-fundacao`
+8. `build/dev-runtime-compose`
+9. `chore/backend-spring-base`
+10. `chore/frontend-angular-base`
+11. `chore/worker-python-base`
+12. `test/smoke-stack-local`
+13. `feat/auth-bootstrap-workspaces`
 
 Esse conjunto cria a base minima para desenvolver com agentes de forma eficiente: cada stack existe, cada contrato tem lugar, cada servico pode ser testado, e a primeira feature real ja nasce atravessando permissoes, banco, API e tela.

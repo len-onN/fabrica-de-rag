@@ -22,8 +22,7 @@ CODE, RUNTIME, CONTRACT, DATA, UX, TEST, PERF
 ## Fora de escopo
 
 - OCR avancado por layout complexo.
-- Captions de imagens.
-- Extracao completa de tabelas.
+- Interpretacao de imagens/tabelas, que entra em `feat/worker-pdf-visual-tables-base`.
 - Embeddings visuais.
 
 ## Definido

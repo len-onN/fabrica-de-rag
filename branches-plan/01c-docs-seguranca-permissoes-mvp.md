@@ -44,6 +44,23 @@ DOC, SEC, CONTRACT, AGENT, TEST
 - Politica de expiracao de sessao.
 - Como representar usuario unico sem bloquear deploy multiusuario futuro.
 - Guardrails minimos para tools MCP.
+- Hash de senha, armazenamento de credenciais locais e politica de bootstrap/reset do primeiro admin.
+- Politica de CORS/CSRF/cookies para modo local e deploy futuro.
+- Modelo de identidade para agentes/API local sem token passthrough.
+- Eventos de auditoria minima para acoes sensiveis.
+
+## Detalhes que devem ficar explicitos
+
+- Fluxos de bootstrap, login, logout, refresh/expiracao e recuperacao/reset local quando aplicavel.
+- Escolha entre cookie de sessao, token local ou abordagem hibrida, com impacto em CSRF/CORS.
+- Matriz role x acao para owner, admin, curator, member, viewer e agent.
+- Regra de workspace scope por recurso: colecao, documento, pagina, chunk, run, analytics, settings, API key e tool MCP.
+- Padrao de enforcement no backend: guards/interceptors/services, erro quando workspace nao pertence ao usuario e filtro obrigatorio em queries.
+- Politica de segredos: onde ficam chaves locais, como mascarar logs e como evitar analytics com credenciais.
+- Identidade MCP/API: capability, workspace, role, limite, correlation id e auditoria.
+- Guardrails minimos: limites de resultados/contexto, bloqueio cross-workspace, confirmacao humana para acoes destrutivas e sem acesso direto a banco/storage.
+- Testes obrigatorios de autorizacao, incluindo dois workspaces e usuario sem permissao.
+- Pontos OCP/LSP/IoC: novas roles, novas capabilities, novos recursos escopados e novas tools sem alterar validadores centrais de forma lateral; validadores e identity providers devem ser substituiveis sem relaxar permissao, workspace scope ou auditoria.
 
 ## Estrategia
 

@@ -9,6 +9,7 @@ Cada branch deve registrar:
 - objetivo;
 - realizacao;
 - padroes e decisoes;
+- pontos de extensao e invariantes preservadas;
 - testes e verificacoes;
 - criterio de fechamento.
 
@@ -32,12 +33,13 @@ Testes/verificacoes:
 - Revisao de links internos.
 - Consistencia de nomes de branches.
 - Registro de bordo atualizado.
+- Gate SOLID/OCP-LSP-IoC registrado nos documentos operacionais.
 
 Fechamento:
 
 - PR para `develop` com camada documental inicial pronta.
 
-## Grupo 1: fundacao tecnica testavel
+## Grupo 1A: portoes de planejamento do MVP
 
 ### `docs/plano-tecnico-mvp`
 
@@ -70,12 +72,14 @@ Padroes/decisoes:
 - MCP server em TypeScript/Node 24 como adaptador fino.
 - Flyway como decisao inicial de migrations, salvo bloqueio.
 - Compose base/dev/e2e.
+- Gate SOLID/OCP-LSP-IoC como criterio de desenho e fechamento de PR.
 
 Testes/verificacoes:
 
 - Checklist de decisoes completo.
 - Links para fontes oficiais.
 - Registro de bordo atualizado.
+- Pontos de extensao e riscos laterais encaminhados aos portoes `docs/*`.
 
 Fechamento:
 
@@ -95,6 +99,8 @@ Realizacao:
 - Definir contratos Pydantic do worker.
 - Definir payload minimo Qdrant.
 - Definir schema base de eventos locais.
+- Definir compatibilidade entre OpenAPI, fixtures, Pydantic, MCP e payload vetorial.
+- Definir pontos de extensao para fontes futuras e vector stores.
 
 Testes/verificacoes:
 
@@ -119,6 +125,7 @@ Realizacao:
 - Definir retry, cancelamento, erro estruturado e logs.
 - Definir idempotencia de reprocessamento/reindexacao.
 - Definir layout de storage local.
+- Definir contrato de step e pontos de extensao para novas etapas/adapters.
 
 Testes/verificacoes:
 
@@ -143,6 +150,7 @@ Realizacao:
 - Definir matriz role x acao.
 - Definir testes obrigatorios de autorizacao.
 - Definir regras de MCP/API local.
+- Definir guardrails, identity e capability para agentes/API sem token passthrough.
 
 Testes/verificacoes:
 
@@ -166,6 +174,7 @@ Realizacao:
 - Especificar chunking, heading path e overlap.
 - Especificar busca, context builder, citacoes e budgets.
 - Definir fixtures e casos-limite.
+- Definir providers/policies/strategies como pontos de extensao testaveis.
 
 Testes/verificacoes:
 
@@ -188,6 +197,7 @@ Realizacao:
 - Definir retencao, export/delete e privacidade.
 - Definir logs de job e erros por pagina.
 - Definir metricas e agregacoes do dashboard.
+- Definir envelope versionado, campos proibidos e separacao entre evento, log e auditoria.
 
 Testes/verificacoes:
 
@@ -198,6 +208,33 @@ Testes/verificacoes:
 Fechamento:
 
 - Branches de analytics e observabilidade implementam taxonomia aprovada.
+
+### `docs/interpretacao-imagens-tabelas-pdf`
+
+Objetivo:
+
+- Fechar a camada de interpretacao de imagens, diagramas e tabelas em PDFs antes da implementacao.
+
+Realizacao:
+
+- Definir `document_element`, assets, tabelas, figuras, bbox, source locator e ordem de leitura.
+- Definir contratos Spring -> worker para extrair elementos visuais/tabelas.
+- Definir vision interpreter por adapter LLM/VLM, com mock deterministico em testes.
+- Definir representacao textual derivada, provider/modelo/prompt version, confidence e cache.
+- Definir relacao entre elementos, chunks, contexto e citacoes.
+
+Testes/verificacoes:
+
+- Contratos com exemplos JSON.
+- Fixtures de tabela simples, figura com legenda e imagem sem legenda.
+- Politica de privacidade/budget para provider remoto.
+- OCP/LSP/IoC para extratores e vision interpreters.
+
+Fechamento:
+
+- Branches de worker, chunking, contexto e citacoes implementam imagens/tabelas por contratos definidos.
+
+## Grupo 1B: fundacao tecnica testavel
 
 ### `chore/workspace-fundacao`
 
@@ -610,6 +647,37 @@ Fechamento:
 
 - Mapa de paginas e preview de citacao podem usar fonte visual real.
 
+### `feat/worker-pdf-visual-tables-base`
+
+Objetivo:
+
+- Implementar a base da camada de interpretacao de imagens e tabelas em PDFs.
+
+Realizacao:
+
+- Detectar imagens, figuras e tabelas em paginas.
+- Extrair assets/regioes e tabelas simples.
+- Persistir elementos, assets, bbox, source locator e ordem de leitura.
+- Chamar vision interpreter por adapter quando habilitado.
+- Persistir interpretacao textual derivada com provider, modelo, prompt version, hash e confidence.
+
+Padroes/decisoes:
+
+- Interpretacao visual e dado derivado, nao fonte canonica.
+- Adapter visual real e substituivel por mock.
+- Provider remoto exige configuracao explicita, budget e privacidade.
+
+Testes/verificacoes:
+
+- Fixture com tabela gera elemento `table`.
+- Fixture com figura gera asset e interpretacao mockada.
+- PDF sem elementos visuais retorna lista vazia.
+- Workspace scope/source locator preservados.
+
+Fechamento:
+
+- Imagens e tabelas ficam preservadas, interpretaveis, citaveis e disponiveis para chunking/context builder.
+
 ### `feat/paginas-numeracao`
 
 Objetivo:
@@ -821,6 +889,7 @@ Realizacao:
 
 - Receber chunks ancoras.
 - Expandir before/after conforme politica.
+- Incluir relacoes diretas de imagem, tabela e legenda quando relevantes.
 - Aplicar budget.
 - Deduplicar.
 - Preservar citacoes.
@@ -829,12 +898,14 @@ Padroes/decisoes:
 
 - Context builder separado da busca.
 - Algoritmo documentado com complexidade.
+- Elementos visuais/tabelas entram como texto derivado citavel.
 
 Testes/verificacoes:
 
 - Budget pequeno.
 - Chunks duplicados.
 - Vizinho ausente.
+- Elemento visual/tabela relacionado.
 - Ordem final.
 
 Fechamento:

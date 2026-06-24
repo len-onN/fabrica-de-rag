@@ -24,6 +24,8 @@ Cada branch deve ter um escopo claro, nome alinhado a Conventional Commits, crit
 - Preservar historico de decisoes, progresso e pendencias.
 - Facilitar retomada do trabalho por humanos ou agentes.
 - Evitar que o MVP avance com lacunas invisiveis de seguranca, dados, performance ou contratos.
+- Manter o codigo aberto a extensao e fechado a mudancas laterais sem justificativa.
+- Garantir substituibilidade de implementacoes e inversao de controle nas dependencias de infraestrutura.
 
 ## Nome de branches
 
@@ -92,7 +94,12 @@ Antes de codificar areas relevantes, detalhar:
 - estrategia de testes;
 - impactos em analytics local;
 - impactos em seguranca e autorizacao;
-- impactos em performance e custo.
+- impactos em performance e custo;
+- pontos de extensao esperados;
+- contratos de substituibilidade para adapters, providers, policies e repositories;
+- composition root ou mecanismo de injecao de dependencias da stack afetada;
+- contratos e invariantes que nao podem quebrar;
+- estrategia de compatibilidade quando um contrato existente precisar mudar.
 
 Quando a decisao tiver efeito arquitetural duradouro, criar ou atualizar ADR.
 
@@ -104,7 +111,9 @@ Durante a implementacao:
 - usar mensagens em portugues seguindo Conventional Commits;
 - preservar contratos explicitos entre stacks;
 - atualizar docs junto com mudancas de comportamento;
-- evitar refatoracoes fora do escopo da branch.
+- evitar refatoracoes fora do escopo da branch;
+- preferir adicionar um adapter, provider, policy, strategy, schema ou use case novo a modificar fluxos centrais que ja estejam cobertos por testes.
+- evitar `new`/instanciacao direta de infraestrutura em use cases ou dominio; ligar concretos por IoC/DI.
 
 ### 4. Verificacao
 
@@ -116,7 +125,8 @@ Antes de fechar a branch:
 - conferir isolamento por workspace quando houver dados;
 - conferir tratamento de erro e estados vazios;
 - conferir eventos de analytics local quando a feature gerar comportamento rastreavel;
-- revisar documentacao alterada.
+- revisar documentacao alterada;
+- conferir aderencia ao gate SOLID/OCP-LSP-IoC e registrar qualquer quebra intencional.
 
 ### 5. Fechamento
 
@@ -180,6 +190,27 @@ Toda branch deve avaliar seus impactos colaterais. A profundidade da avaliacao d
 | Agentes e skills | A mudanca envolve ferramenta, MCP, skill, prompt, contexto, guardrail ou chamada agentica? |
 | Testes | Ha teste de contrato, comportamento, autorizacao, migracao ou caso-limite? |
 | Documentacao | O README, ADR, API, padroes ou diario precisam mudar? |
+| OCP | A mudanca expande por contrato/adapter/policy ou altera fluxo central fora do escopo? |
+| LSP | Uma nova implementacao preserva pre-condicoes, pos-condicoes, erros, filtros, workspace scope, idempotencia e ordenacao esperada? |
+| IoC/DI | Use cases/domain continuam dependendo de abstracoes locais, com concretos ligados no composition root da stack? |
+| Compatibilidade | Algum consumidor existente de API, evento, schema, tool, migration ou payload pode quebrar? |
+
+## Gate SOLID/OCP-LSP-IoC
+
+Antes de fechar uma branch, responder:
+
+- Qual comportamento novo foi adicionado e qual comportamento existente permaneceu intacto?
+- O ponto de variacao ficou explicito por contrato, port, adapter, policy, strategy, evento ou schema?
+- A nova implementacao e substituivel pela anterior sem mudar semantica observavel?
+- Existe suite de contrato compartilhada para implementations da mesma familia?
+- O core application/domain depende apenas de abstracoes locais?
+- Onde os concretos sao ligados: Spring configuration, Angular provider, FastAPI dependency, factory/composition root ou setup MCP?
+- A mudanca exigiu editar uma area lateral ao escopo? Se sim, por que era inevitavel?
+- Ha teste que protege o contrato antigo e o novo comportamento?
+- Algum dado existente, workspace, evento, vetor, arquivo ou tool schema precisa de migracao ou compatibilidade?
+- A implementacao introduziu condicionais globais ou acoplamento entre stacks que deveriam estar atras de uma abstracao local?
+
+Quando uma resposta indicar risco lateral, a branch deve registrar esse risco no bordo e adicionar teste de regressao ou ajuste documental antes do PR.
 
 ## Algoritmos e performance
 
@@ -234,6 +265,7 @@ Esta sequencia resumida mostra o inicio do fluxo. A sequencia completa e os arqu
 | 1.3 | `docs/seguranca-permissoes-mvp` | Fechar auth, permissoes, workspace scope e guardrails. |
 | 1.4 | `docs/algoritmos-rag-mvp` | Especificar algoritmos centrais e budgets. |
 | 1.5 | `docs/analytics-observabilidade-mvp` | Fechar eventos, logs, retencao e metricas. |
+| 1.6 | `docs/interpretacao-imagens-tabelas-pdf` | Fechar imagens/tabelas em PDFs, assets, elementos e vision interpreter. |
 | 2 | `chore/workspace-fundacao` | Criar estrutura raiz e convencoes do repositorio. |
 | 3 | `build/dev-runtime-compose` | Subir compose local com Postgres, Qdrant e servicos preparados. |
 | 4 | `chore/backend-spring-base` | Criar base Spring Boot testavel. |
@@ -246,10 +278,12 @@ Esta sequencia resumida mostra o inicio do fluxo. A sequencia completa e os arqu
 
 A camada operacional depende de dois artefatos vivos:
 
+- [Trigger de implementacao agentica](trigger-implementacao-agentica.md): ponto de partida para retomar ambiente, Git, branch, plano especifico, skills e gates antes de implementar.
 - [Registro de bordo](registro-de-bordo.md): tabela operacional, status das branches, sessao viva e proximos passos.
 - [Diario de bordo](diario-de-bordo.md): narrativa cronologica do que foi feito, por que foi feito e o que mudou no entendimento do projeto.
 - [Plano de branches e escopos](plano-de-branches.md): sequencia detalhada de branches, escopos, fora de escopo e testabilidade.
 - [Cobertura do MVP pelo plano de branches](cobertura-mvp-branches.md): matriz de criterios do MVP, lacunas e branches responsaveis.
+- [Revisao de coesao documental](revisao-coesao-documental.md): fotografia das decisoes vigentes e ajustes feitos para remover divergencias documentais.
 - [Branches plan](../branches-plan/README.md): pasta viva com um `.md` por branch.
 - [Escopos detalhados das branches](escopos-detalhados-branches.md): mini-especificacao de execucao por branch.
 - [Plano tecnico do MVP](plano-tecnico-mvp.md): decisoes tecnicas minimas antes da primeira branch de codigo.

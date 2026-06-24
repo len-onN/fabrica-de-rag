@@ -58,7 +58,7 @@ Object storage
 
 Vector DB
 - embeddings textuais
-- embeddings visuais
+- embeddings visuais futuros
 - payloads minimos para busca
 ```
 
@@ -174,8 +174,9 @@ Um diagrama, por exemplo, pode gerar:
 - Um elemento com bbox e pagina fisica.
 - Um chunk de caption.
 - Um chunk de OCR.
+- Uma interpretacao textual derivada por adapter visual/LLM quando habilitado.
 - Um embedding textual.
-- Opcionalmente, um embedding visual.
+- Futuramente, um embedding visual.
 
 Assim, quando uma resposta usar um chunk, o sistema consegue voltar ate a pagina, regiao visual e fonte original.
 

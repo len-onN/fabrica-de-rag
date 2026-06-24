@@ -21,6 +21,12 @@ DOC, TEST, AGENT, RUNTIME
 - Stack baseline inicial definida.
 - Cobertura do MVP revisada contra o plano de branches.
 - Portoes de planejamento adicionados antes do codigo de produto.
+- Gate SOLID/OCP-LSP-IoC explicitado para evitar mudancas laterais e regressao retro-destrutiva.
+- Cada branch deve declarar pontos de extensao, invariantes preservadas e contratos sensiveis.
+- Cada adapter/provider/policy novo deve declarar substituibilidade, suite de contrato e ligacao por IoC/DI.
+- Trigger de implementacao agentica criado para retomar ambiente, Git, branch, plano especifico, skills e gates antes do codigo.
+- Revisao de coesao documental criada para consolidar decisoes vigentes e remover divergencias textuais.
+- Camada de interpretacao de imagens/tabelas em PDFs adicionada como componente fundamental do MVP.
 
 ## Falta definir
 
@@ -30,6 +36,10 @@ DOC, TEST, AGENT, RUNTIME
 
 - Revisao de links internos.
 - Consistencia entre README, docs e `branches-plan`.
+- Verificacao de que os portoes do grupo 1 deixam decisoes estruturais explicitas antes do codigo.
+- Verificacao de que o README aponta para o trigger de implementacao.
+- Verificacao de que README, planejamento, features, interface/API, plano de branches e `branches-plan` convergem na mesma versao vigente.
+- Verificacao de que imagens/tabelas em PDFs possuem portao documental e branch funcional propria.
 
 ## Fechamento
 

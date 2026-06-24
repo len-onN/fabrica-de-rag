@@ -21,6 +21,47 @@ Este documento registra os padroes que precisam ser decididos antes e durante a 
 - Colateralidades de dados, permissoes, performance, analytics e contratos devem ser avaliadas como parte do fechamento da branch.
 - Branches devem ativar skills e fontes oficiais por contexto, registrando o que foi consultado quando isso influenciar a decisao tecnica.
 - Agentes devem operar por ferramentas guiadas, com menor privilegio, validacao, guardrails, limites e analytics local.
+- Codigo deve seguir SOLID como criterio pratico de manutencao, nao como formalismo.
+- OCP, LSP e IoC/DI devem ser tratados como gates de desenho: novas capacidades entram por contratos, implementacoes substituiveis e injecao de dependencias, evitando mudancas laterais em fluxos ja estabilizados.
+- Toda mudanca deve declarar quais contratos e invariantes preserva, especialmente workspace scope, autorizacao, eventos, payloads vetoriais e migracoes.
+
+## SOLID e evolucao segura
+
+O projeto usa SOLID para proteger a progressao do MVP contra regressao lateral. A regra central e simples: uma branch deve poder expandir comportamento sem reescrever codigo estavel que nao pertence ao seu foco.
+
+Aplicacao pratica:
+
+- SRP: cada modulo, use case, adapter e componente deve ter uma razao principal para mudar.
+- OCP: variacoes previsiveis entram por extensao de contratos ou implementacoes, nao por condicionais espalhadas em fluxos centrais.
+- LSP: uma implementacao nova de adapter, provider, repository, client, policy ou strategy deve respeitar o mesmo contrato observavel da implementacao anterior.
+- ISP: contratos devem ser pequenos o bastante para que clientes nao dependam de capacidades que nao usam.
+- DIP/IoC: application/domain dependem de abstracoes locais; infraestrutura concreta e ligada de fora por injecao de dependencias, configuracao ou composition root.
+
+LSP, neste projeto, significa que trocar uma implementacao nao pode mudar sem aviso pre-condicoes, pos-condicoes, erros, semantica de timeout, idempotencia, workspace scope, ordenacao, filtros obrigatorios ou formato de resposta. Um adapter mockado, um provider real e um provider alternativo precisam ser substituiveis nos testes do mesmo contrato.
+
+IoC/DI, neste projeto, significa que use cases nao instanciam diretamente clientes HTTP, Qdrant, repositories concretos, providers de modelo, storage ou tools. As dependencias concretas entram pelo composition root da stack, mantendo dominio/application testaveis e protegidos de infraestrutura.
+
+Pontos de variacao que devem nascer preparados para extensao:
+
+| Variacao | Extender por | Evitar |
+| --- | --- | --- |
+| Fonte documental futura | `source_connector`, `source_item`, `source_locator` | prender dominio a campos exclusivos de PDF |
+| Vector store futuro | adapter de vector store e contrato de payload | chamar Qdrant diretamente de use cases |
+| Provider de embeddings/LLM | provider versionado e mockavel | if/else por modelo dentro do pipeline |
+| Interpretacao visual de PDF | vision interpreter versionado e mockavel | chamada direta a LLM/VLM dentro do use case |
+| Etapa de ingestao | contrato de step/run e state machine | status solto sem transicao valida |
+| Politica de chunk/contexto | strategy/policy testavel | constantes magicas espalhadas |
+| Tool MCP nova | schema versionado + backend contract | tool acessando banco/storage direto |
+| Evento novo | event envelope versionado | payload ad hoc sem schema |
+
+Regras LSP/IoC para pontos de variacao:
+
+- Todo adapter/provider/policy novo deve passar pela mesma suite de contrato da familia que implementa.
+- Implementacoes podem melhorar performance ou cobertura, mas nao podem relaxar workspace scope, permissao, idempotencia, filtros obrigatorios ou erro estruturado.
+- Mocks e fakes usados em testes devem preservar a semantica publica do contrato, nao apenas retornar qualquer dado conveniente.
+- O core nao deve conhecer classe concreta de infraestrutura; se uma branch precisar disso, ela deve registrar o motivo e abrir decisao tecnica.
+
+Mudancas retro-destrutivas devem ser tratadas como excecao. Se uma branch precisar alterar contrato existente, migration, evento, tool schema, payload Qdrant ou state machine ja consumidos por outra area, ela deve registrar compatibilidade, plano de migracao, testes de regressao e motivo no registro de bordo.
 
 ## Areas a decidir
 
