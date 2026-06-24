@@ -1012,6 +1012,7 @@ archived
 ```text
 queued
 running
+waiting_for_review
 completed
 failed
 cancelled

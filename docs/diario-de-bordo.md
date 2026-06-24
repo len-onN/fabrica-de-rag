@@ -48,6 +48,18 @@ Tambem foram criados exemplos JSON iniciais em `tests/contracts`, cobrindo REST,
 
 O resultado e que as proximas branches podem implementar migrations, endpoints, worker e indexacao com um contrato estrutural ja definido. O proximo portao passa a ser `docs/arquitetura-ingestao-rag`, que deve detalhar state machine, pipeline, retry, cancelamento, idempotencia, storage e reindexacao.
 
+## 2026-06-24 - Arquitetura de ingestao e RAG
+
+Depois do merge do PR #2, foi aberta a branch `docs/arquitetura-ingestao-rag`. O objetivo foi fechar a parte que liga o modelo documental aos fluxos reais de execucao: como o upload vira run, como a run chama o worker, quando pausa para revisao humana, como retry e cancelamento funcionam, onde os artefatos ficam e como o Qdrant e atualizado sem virar fonte da verdade.
+
+A decisao central foi tratar ingestao como uma run persistida no SQL, composta por etapas idempotentes. O Spring Boot fica como orquestrador de estado, permissao, workspace scope, storage, eventos e promocao de resultado ativo. O worker Python executa operacoes documentais por contratos versionados, mas nao decide autorizacao, nao escreve no banco e nao publica diretamente no Qdrant.
+
+Tambem foi decidido que uma run pode entrar em `waiting_for_review` para revisao do mapa de paginas. Isso evita uma escolha ruim entre bloquear o MVP em automacao perfeita ou indexar documentos ambiguos sem controle humano. Retry manual cria nova run vinculada; retry automatico fica restrito a falhas transientes. Cancelamento e cooperativo, com semantica diferente antes, durante e depois de chamadas ao worker.
+
+Para reprocessamento e reindexacao, foi introduzido o conceito de `ingestion_generation`: uma nova execucao pode gerar chunks, embeddings e pontos novos sem sobrescrever o resultado ativo ate a etapa `finalize`. Isso preserva historico, reduz duplicacao e permite apagar/recriar pontos Qdrant por filtros deterministicos. O layout de storage tambem ficou definido por workspace, documento e run, com URIs estaveis e sem expor caminhos livres ao worker.
+
+O portao tambem registrou que REST interno continua suficiente no MVP. Uma fila so entra quando houver concorrencia, durabilidade, backpressure, cancelamento ativo ou escalonamento horizontal que justifiquem a complexidade. A proxima branch passa a ser `docs/seguranca-permissoes-mvp`, responsavel por fechar sessao/token, matriz de permissoes, workspace scope e guardrails.
+
 ## Modelo de entrada futura
 
 ```text

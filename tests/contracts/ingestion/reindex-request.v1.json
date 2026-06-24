@@ -1,0 +1,10 @@
+{
+  "contractVersion": "ingestion.reindex.request.v1",
+  "workspaceId": "wsp_fixture_alpha",
+  "collectionId": "col_fixture_rag",
+  "documentId": "doc_fixture_pdf",
+  "reason": "embedding_model_changed",
+  "reuseChunks": true,
+  "targetEmbeddingModel": "mock-text-embedding",
+  "targetEmbeddingModelVersion": "mock-text-embedding-v2"
+}

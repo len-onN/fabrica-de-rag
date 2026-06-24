@@ -429,3 +429,21 @@ OpenAPI 3.1 e o formato alvo para API publica. A biblioteca concreta de publicac
 Motivo:
 
 Separar ID interno de ID publico reduz vazamento de estrutura e permite fixtures estaveis. Manter SQL como fonte da verdade preserva proveniencia, workspace scope, citacoes, relacoes e auditoria. Versionar contratos desde o inicio impede que DTO REST, Pydantic, MCP, eventos e Qdrant evoluam de forma divergente. Usar `tests/contracts` antes do codigo cria uma ancora verificavel para as proximas branches sem inventar migrations ou endpoints prematuramente.
+
+## ADR-023: Ingestao por runs e etapas idempotentes
+
+Status: aceito.
+
+Decisao:
+
+A ingestao do MVP deve ser orquestrada pelo backend Spring como uma run persistida no SQL, composta por etapas idempotentes. O worker Python executa operacoes documentais por contratos internos versionados, mas nao decide permissao, estado transacional, workspace scope, promocao de resultado ativo ou escrita no Qdrant.
+
+Upload de PDF nao executa processamento pesado no request. A run avanca por etapas: validacao, inspecao, render, extracao de texto, OCR opcional, extracao de elementos visuais/tabelas, interpretacao visual, mapa de paginas, revisao humana quando necessaria, chunking, embeddings, indexacao e finalizacao.
+
+Uma run pode pausar em `waiting_for_review` para revisao do mapa de paginas. Retry manual cria nova run vinculada; retry automatico fica restrito a falhas transientes. Cancelamento e cooperativo. Reprocessamento e reindexacao usam generation para nao duplicar chunks ativos nem pontos vetoriais.
+
+REST interno Spring -> worker permanece suficiente no MVP. Uma fila so deve entrar quando concorrencia, durabilidade, backpressure, cancelamento ativo ou escalonamento horizontal justificarem a complexidade.
+
+Motivo:
+
+PDFs reais geram jobs longos, falhas parciais, revisao humana e artefatos derivados. Sem run persistida, a aplicacao perderia observabilidade, retry e controle de idempotencia. Ao manter o Spring como orquestrador e o worker como executor substituivel, o projeto preserva workspace scope, testes de contrato e a possibilidade de trocar HTTP interno por fila futura sem mudar a semantica observavel.

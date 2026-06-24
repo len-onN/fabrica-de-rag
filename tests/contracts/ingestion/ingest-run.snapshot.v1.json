@@ -1,0 +1,26 @@
+{
+  "contractVersion": "ingestion.run.snapshot.v1",
+  "workspaceId": "wsp_fixture_alpha",
+  "documentId": "doc_fixture_pdf",
+  "runId": "run_fixture_pdf",
+  "status": "waiting_for_review",
+  "documentStatus": "needs_page_review",
+  "profile": "balanced",
+  "idempotencyKey": "sha256:fixture-run",
+  "steps": [
+    {
+      "name": "inspect_pdf",
+      "status": "completed",
+      "attempt": 1,
+      "durationMs": 143
+    },
+    {
+      "name": "build_page_map",
+      "status": "waiting_for_review",
+      "attempt": 1,
+      "durationMs": null
+    }
+  ],
+  "createdAt": "2026-06-24T21:40:00Z",
+  "updatedAt": "2026-06-24T21:41:00Z"
+}

@@ -1,0 +1,15 @@
+{
+  "contractVersion": "ingestion.step_error.v1",
+  "workspaceId": "wsp_fixture_alpha",
+  "runId": "run_fixture_pdf",
+  "stepName": "inspect_pdf",
+  "attempt": 1,
+  "correlationId": "req_fixture_001",
+  "code": "pdf_encrypted",
+  "message": "PDF is encrypted.",
+  "retryable": false,
+  "affectedPage": null,
+  "safeDetails": {
+    "workerContractVersion": "worker.pdf.inspect.response.v1"
+  }
+}

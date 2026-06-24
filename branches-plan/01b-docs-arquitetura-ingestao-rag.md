@@ -1,6 +1,6 @@
 # docs/arquitetura-ingestao-rag
 
-Status: candidata.
+Status: concluida.
 
 ## Objetivo
 
@@ -32,19 +32,22 @@ DOC, RUNTIME, DATA, CONTRACT, OBS, PERF, TEST
 - REST interno Spring -> worker e suficiente no MVP.
 - Jobs longos precisam de status observavel.
 - Qdrant e derivado e pode ser reconstruido.
+- Spring Boot coordena runs, estado transacional, permissao, storage, chamadas ao worker e promocao de resultado ativo.
+- Run pode entrar em `waiting_for_review` quando o mapa de paginas exigir acao humana.
+- Pipeline MVP: validate upload, inspect, render, extract text, OCR opcional, extract visual elements, interpret visual, page map, review, chunking, embeddings, Qdrant e finalize.
+- Retry manual cria nova run vinculada e retry automatico fica restrito a falhas transientes.
+- Cancelamento e cooperativo, com semantica diferente para `queued`, `running`, `waiting_for_review`, `completed` e `failed`.
+- Reprocessamento usa `ingestion_generation` para nao duplicar resultado ativo nem pontos Qdrant.
+- Storage URI usa layout por workspace/documento/run e IDs publicos.
+- Fila fica fora do MVP ate haver concorrencia, durabilidade, cancelamento ativo ou escalonamento que justifiquem.
 
 ## Falta definir
 
-- Estados finais e transicoes permitidas.
-- Semantica de retry por etapa.
-- Semantica de cancelamento.
-- Onde ficam logs de run e erros por pagina.
-- Como reindexar sem duplicar chunks/pontos.
-- Contrato de step de ingestao: entrada, saida, erro, timeout, idempotency key e artefatos gerados.
-- Politica de pausa para revisao humana do mapa de paginas.
-- Layout canonico de storage local para PDF original, renders, OCR, thumbnails, crops e artefatos intermediarios.
-- Relacao entre estado transacional no SQL, chamada ao worker e atualizacao do indice Qdrant.
-- Relacao entre extracao estrutural, interpretacao visual por adapter, assets, elementos e chunks derivados.
+- Nada bloqueante para este portao.
+- Thresholds finos de OCR, chunking, contexto e budgets ficam em `docs/algoritmos-rag-mvp`.
+- Permissoes para iniciar, cancelar, retry e reindexar ficam em `docs/seguranca-permissoes-mvp`.
+- Taxonomia final de eventos e retencao ficam em `docs/analytics-observabilidade-mvp`.
+- Privacidade/budget do provider visual fica em `docs/interpretacao-imagens-tabelas-pdf`.
 
 ## Detalhes que devem ficar explicitos
 
@@ -76,3 +79,5 @@ DOC, RUNTIME, DATA, CONTRACT, OBS, PERF, TEST
 ## Fechamento
 
 - Branches de ingestao implementam fluxo definido, nao uma orquestracao improvisada.
+- Documento canonico criado em `docs/arquitetura-ingestao-rag.md`.
+- Fixtures de contrato de ingestao adicionadas em `tests/contracts/ingestion`.
