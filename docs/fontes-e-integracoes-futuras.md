@@ -12,8 +12,10 @@ MVP:
 
 - upload de PDF;
 - ingestao de PDF;
-- tratamento de paginas, numeracao, elementos, imagens e chunks;
+- tratamento de paginas, numeracao, elementos, imagens internas ao PDF e chunks;
 - citacoes baseadas no PDF enviado.
+
+Ficam fora do MVP: embeddings visuais, busca multimodal por imagem e conectores de novas fontes. Interpretacao textual derivada de imagens/tabelas em PDFs entra por camada propria.
 
 Futuro:
 

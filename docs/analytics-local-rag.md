@@ -14,7 +14,7 @@ MVP:
 
 - analytics local;
 - taxonomia versionada de eventos;
-- eventos de UI, API, worker e MCP;
+- eventos de UI, API e worker; MCP deve ter schema previsto e sera emitido quando as tools basicas entrarem;
 - auditoria de ingestao;
 - dashboard local de qualidade do RAG;
 - feedback de relevancia de chunks e respostas;
@@ -213,6 +213,7 @@ Dashboards locais iniciais:
 - respostas marcadas como uteis/inuteis;
 - uso de politicas de contexto;
 - uso de OCR e revisao de paginas;
+- imagens/tabelas interpretadas, falhas do adapter visual e budgets atingidos;
 - chamadas MCP por ferramenta;
 - limites atingidos por agentes;
 - tempo de processamento por etapa.

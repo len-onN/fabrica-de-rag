@@ -15,11 +15,13 @@ Entram no MVP:
 - mapa de paginas;
 - numeracao impressa;
 - texto nativo e OCR opcional;
+- deteccao e interpretacao de imagens/tabelas em PDFs;
 - chunking textual;
 - embeddings textuais;
 - Qdrant interno;
 - laboratorio de recuperacao;
 - analytics local;
+- API HTTP de consulta RAG;
 - usuario unico local com modelo preparado para workspaces/roles.
 
 Ficam fora do MVP:
@@ -27,12 +29,16 @@ Ficam fora do MVP:
 - conectores externos de fontes como Notion/Jira;
 - upload DOCX/EPUB/MOBI;
 - conectores externos de vector DB;
-- MCP completo;
+- MCP completo com administracao;
 - convites multiusuario;
 - service accounts completas;
 - embeddings visuais;
-- captions de imagens;
+- busca multimodal por imagem;
 - curadoria manual profunda de chunks.
+
+Observacao:
+
+MCP basico (`search_chunks`, `get_chunk`, `expand_context`, `ask_rag`) fica no trilho do MVP como extensao nao bloqueante. Ele nao deve bloquear o fechamento do MVP funcional de ingestao, recuperacao, citacoes e analytics local.
 
 ## Navegacao principal
 
@@ -309,6 +315,7 @@ Exibicoes:
 - paginas detectadas;
 - paginas sem texto nativo;
 - paginas candidatas a OCR;
+- imagens/tabelas detectadas;
 - possiveis paginas vazias;
 - qualidade media de extracao textual;
 - warnings.
@@ -331,7 +338,7 @@ Controles:
 Exibicoes:
 
 - status: queued, running, completed, failed, cancelled;
-- etapas: validacao, extracao, OCR, chunking, embedding, indexacao;
+- etapas: validacao, extracao, OCR, elementos visuais/tabelas, interpretacao visual, chunking, embedding, indexacao;
 - progresso por etapa;
 - duracao;
 - erros por pagina;
@@ -583,6 +590,8 @@ Controles de ingestao:
 - perfil padrao;
 - OCR padrao;
 - idioma OCR padrao;
+- interpretacao de imagens/tabelas: desligada, automatica ou forcar;
+- provider visual: padrao configurado da instancia;
 - chunk target tokens;
 - chunk overlap;
 - politica de contexto padrao.
@@ -840,6 +849,8 @@ POST /worker/v1/pdf/inspect
 POST /worker/v1/pdf/extract-text
 POST /worker/v1/pdf/ocr
 POST /worker/v1/pdf/render-page
+POST /worker/v1/pdf/extract-elements
+POST /worker/v1/pdf/interpret-visual
 POST /worker/v1/chunks/build
 POST /worker/v1/embeddings/text
 ```
@@ -910,6 +921,58 @@ Entrada:
   "strategy": "semantic_block",
   "targetTokens": 700,
   "overlapTokens": 80
+}
+```
+
+### pdf/extract-elements
+
+Saida conceitual:
+
+```json
+{
+  "elements": [
+    {
+      "elementType": "table",
+      "filePageNumber": 3,
+      "bbox": [72, 144, 520, 360],
+      "readingOrder": 18,
+      "text": "| Coluna A | Coluna B |",
+      "confidence": 0.82,
+      "extractionMethod": "table_detector_v1"
+    }
+  ],
+  "assets": []
+}
+```
+
+### pdf/interpret-visual
+
+Entrada:
+
+```json
+{
+  "documentId": "doc_123",
+  "assetId": "asset_123",
+  "purpose": "describe_for_rag",
+  "language": "pt-BR",
+  "promptVersion": "visual_interpretation_v1"
+}
+```
+
+Saida conceitual:
+
+```json
+{
+  "interpretationText": "A figura mostra um fluxo com tres etapas...",
+  "structuredText": {
+    "kind": "figure_description",
+    "containsText": true,
+    "detectedText": ["Etapa 1", "Etapa 2"]
+  },
+  "provider": "mock",
+  "model": "mock-vision",
+  "promptVersion": "visual_interpretation_v1",
+  "confidence": 0.74
 }
 ```
 
@@ -999,9 +1062,10 @@ O MVP esta funcional quando um usuario consegue:
 3. Enviar um PDF.
 4. Revisar/corrigir mapa de paginas.
 5. Rodar ingestao.
-6. Gerar chunks e embeddings.
-7. Perguntar no laboratorio.
-8. Ver resposta com citacoes.
-9. Abrir fonte original da citacao.
-10. Registrar feedback local.
-11. Ver analytics local basico.
+6. Preservar e interpretar imagens/tabelas relevantes do PDF.
+7. Gerar chunks e embeddings.
+8. Perguntar no laboratorio.
+9. Ver resposta com citacoes.
+10. Abrir fonte original da citacao.
+11. Registrar feedback local.
+12. Ver analytics local basico.
