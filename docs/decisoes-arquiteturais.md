@@ -411,3 +411,21 @@ Fora do MVP:
 Motivo:
 
 PDFs reais frequentemente comunicam informacao essencial por tabelas, imagens, diagramas, fluxos e capturas. Tratar o PDF apenas como texto/OCR perderia conhecimento importante e enfraqueceria citacoes. Ao mesmo tempo, chamar uma LLM de visao diretamente dentro do fluxo sem contratos criaria risco de custo, privacidade, falta de reproducibilidade e baixa testabilidade. Separar extracao estrutural de interpretacao visual por adapter preserva proveniencia, permite fallback local/mockado, controla budgets e mantem o pipeline aberto para providers melhores sem reescrever o core.
+
+## ADR-022: Modelo de dados e contratos versionados do MVP
+
+Status: aceito.
+
+Decisao:
+
+O MVP deve usar PostgreSQL como fonte da verdade documental e Qdrant como indice vetorial derivado. Entidades persistentes usam `uuid` como chave primaria interna e `public_id` opaco, prefixado por tipo, como identificador externo em URLs, JSON, fixtures, logs seguros e payloads vetoriais.
+
+O modelo inicial deve cobrir usuarios, workspaces, memberships, colecoes, documentos, paginas, elementos, assets, interpretacoes visuais, chunks, embeddings, runs de ingestao, bindings vetoriais, eventos locais e feedback. Toda entidade de negocio deve carregar `workspace_id` diretamente ou por relacionamento obrigatorio claro.
+
+Contratos REST, Pydantic do worker, payload Qdrant, eventos locais e schemas MCP devem ser versionados. Os exemplos em `tests/contracts` passam a ser a fonte regressiva inicial de compatibilidade ate que as stacks reais publiquem e validem schemas gerados.
+
+OpenAPI 3.1 e o formato alvo para API publica. A biblioteca concreta de publicacao no Spring Boot deve ser validada na branch de scaffold backend, porque depende da compatibilidade real com Spring Boot 4.1 e do `pom.xml` final.
+
+Motivo:
+
+Separar ID interno de ID publico reduz vazamento de estrutura e permite fixtures estaveis. Manter SQL como fonte da verdade preserva proveniencia, workspace scope, citacoes, relacoes e auditoria. Versionar contratos desde o inicio impede que DTO REST, Pydantic, MCP, eventos e Qdrant evoluam de forma divergente. Usar `tests/contracts` antes do codigo cria uma ancora verificavel para as proximas branches sem inventar migrations ou endpoints prematuramente.

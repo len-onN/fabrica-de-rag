@@ -1,0 +1,19 @@
+{
+  "payloadContractVersion": "qdrant.chunk.v1",
+  "workspaceId": "wsp_fixture_alpha",
+  "collectionId": "col_fixture_rag",
+  "documentId": "doc_fixture_pdf",
+  "chunkId": "chk_fixture_intro",
+  "contentKind": "text",
+  "embeddingModel": "mock-text-embedding",
+  "embeddingModelVersion": "mock-text-embedding-v1",
+  "vectorSpace": "text_chunks_v1",
+  "sourceType": "pdf_upload",
+  "filePageStart": 3,
+  "filePageEnd": 3,
+  "printedPageStart": "2",
+  "printedPageEnd": "2",
+  "headingPath": ["Capitulo 1", "Introducao"],
+  "sourceHash": "sha256:fixture",
+  "chunkingVersion": "semantic_block_v1"
+}

@@ -1,0 +1,29 @@
+{
+  "contractVersion": "worker.pdf.extract_elements.response.v1",
+  "requestId": "req_fixture_002",
+  "documentId": "doc_fixture_pdf",
+  "elements": [
+    {
+      "id": "elm_fixture_table",
+      "elementType": "table",
+      "filePageNumber": 3,
+      "bbox": [72, 144, 520, 360],
+      "readingOrder": 18,
+      "text": "| Coluna A | Coluna B |",
+      "structuredContent": {
+        "kind": "table_markdown",
+        "rows": 2,
+        "columns": 2
+      },
+      "confidence": 0.82,
+      "extractionMethod": "table_detector_v1",
+      "sourceLocator": {
+        "sourceType": "pdf_upload",
+        "filePageNumber": 3,
+        "bbox": [72, 144, 520, 360],
+        "readingOrder": 18
+      }
+    }
+  ],
+  "assets": []
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Arquitetura RAG",
+  "description": "Documentos de estudo",
+  "purpose": "study",
+  "defaultIngestionProfile": "balanced",
+  "defaultContextPolicy": "sequential"
+}

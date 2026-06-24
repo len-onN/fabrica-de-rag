@@ -1,6 +1,6 @@
 # docs/modelo-dados-contratos-mvp
 
-Status: candidata.
+Status: concluida.
 
 ## Objetivo
 
@@ -34,18 +34,20 @@ DOC, DATA, CONTRACT, SEC, TEST, PERF
 - Flyway sera usado para migrations.
 - API publica usa `/api/v1`.
 - API interna usa contratos versionados.
+- IDs internos usam `uuid`; IDs publicos opacos prefixados sao usados em URLs, JSON, fixtures, logs seguros e payload Qdrant.
+- O modelo inicial cobre users, auth identities, workspaces, memberships, collections, documents, pages, elements, assets, visual interpretations, chunks, embeddings, runs, vector bindings, analytics events e feedback.
+- Toda entidade principal e escopada por workspace diretamente ou por relacionamento obrigatorio claro.
+- REST usa JSON `camelCase`, enums `snake_case`, paginacao por cursor e erro em Problem Details com `code`, `correlationId` e `fieldErrors`.
+- Worker usa contratos Pydantic versionados por endpoint, com `contractVersion`, `requestId`, `workspaceId` e erro estruturado.
+- Payload Qdrant minimo e versionado como `qdrant.chunk.v1`, com point id deterministico e filtros obrigatorios por workspace/collection.
+- Eventos locais usam envelope `analytics.event.v1`, origem `ui|api|worker|mcp`, correlation id e propriedades sem dados sensiveis.
+- OpenAPI 3.1 e o formato alvo; `tests/contracts` e exemplos JSON sao fonte regressiva inicial ate a biblioteca compativel com Spring Boot 4.1 ser validada no scaffold.
 
 ## Falta definir
 
-- UUID vs bigint vs IDs opacos publicos.
-- Campos obrigatorios de workspace, user, collection, document, page, document_element, asset, visual_interpretation, chunk, run e event.
-- Estrategia de soft delete/archival.
-- Biblioteca final de OpenAPI/schema.
-- Estrategia de compatibilidade entre DTO REST, Pydantic e MCP tool schema.
-- Contratos que serao fonte canonica para geracao/validacao de clientes e fixtures.
-- Politica de versionamento/deprecacao para DTOs, eventos, schemas Pydantic, tool schemas e payload Qdrant.
-- Pontos de extensao para fontes futuras sem prender o modelo a PDF.
-- Invariantes de workspace scope que devem aparecer em constraints, indices e queries.
+- Nada bloqueante para este portao.
+- A dependencia concreta de OpenAPI no `pom.xml` sera validada em `chore/backend-spring-base`, porque depende do scaffold real.
+- Transicoes completas de ingestao, matriz de permissoes, algoritmos, budgets e taxonomia final de analytics ficam nas branches `docs/*` donas.
 
 ## Detalhes que devem ficar explicitos
 
@@ -78,3 +80,5 @@ DOC, DATA, CONTRACT, SEC, TEST, PERF
 ## Fechamento
 
 - Branches de backend, worker, Qdrant e analytics podem implementar sem inventar contrato estrutural.
+- Documento canonico criado em `docs/modelo-dados-contratos-mvp.md`.
+- Exemplos JSON iniciais criados em `tests/contracts`.

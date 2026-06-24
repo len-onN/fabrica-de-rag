@@ -1,0 +1,7 @@
+{
+  "contractVersion": "worker.pdf.inspect.request.v1",
+  "requestId": "req_fixture_001",
+  "workspaceId": "wsp_fixture_alpha",
+  "documentId": "doc_fixture_pdf",
+  "storageUri": "storage://documents/doc_fixture_pdf/original.pdf"
+}

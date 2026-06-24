@@ -1,0 +1,14 @@
+{
+  "id": "col_fixture_rag",
+  "workspaceId": "wsp_fixture_alpha",
+  "name": "Arquitetura RAG",
+  "description": "Documentos de estudo",
+  "purpose": "study",
+  "status": "empty",
+  "defaultIngestionProfile": "balanced",
+  "defaultContextPolicy": "sequential",
+  "documentCount": 0,
+  "chunkCount": 0,
+  "createdAt": "2026-06-24T21:30:00Z",
+  "updatedAt": "2026-06-24T21:30:00Z"
+}

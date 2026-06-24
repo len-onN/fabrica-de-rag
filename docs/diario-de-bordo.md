@@ -36,6 +36,18 @@ Por fim, foi feita uma revisao de coesao documental. A conclusao foi que a ideia
 
 Logo depois, a camada de interpretacao de imagens e tabelas em PDFs foi promovida a componente fundamental do MVP. A decisao foi nao tratar PDF como texto/OCR apenas: imagens, diagramas e tabelas precisam virar elementos interpretaveis, citaveis e aproveitaveis pelo context builder. Para isso, foram adicionados um portao documental (`docs/interpretacao-imagens-tabelas-pdf`) e uma branch funcional (`feat/worker-pdf-visual-tables-base`). A arquitetura definida separa extracao estrutural de assets/tabelas/bbox/source locator da interpretacao por LLM/VLM, que entra por adapter substituivel, com mock deterministico em testes, provider remoto configuravel, cache por hash/modelo/prompt, budget e politicas de privacidade. Embeddings visuais e busca multimodal continuam fora do MVP.
 
+## 2026-06-24 - Modelo de dados e contratos do MVP
+
+A branch `planejamento/documentacao` foi fechada operacionalmente: commitada, publicada, aberta como PR #1 para `develop` e mesclada. A aprovacao formal via GitHub nao foi possivel porque a plataforma nao permite que o proprio autor aprove seu pull request, mas o PR estava limpo, mergeable e com o check de seguranca verde antes do merge.
+
+Com `develop` atualizado, foi aberta a branch `docs/modelo-dados-contratos-mvp`, primeiro portao de planejamento do MVP. O foco foi tirar das futuras branches de codigo as decisoes estruturais que costumam virar improviso: estrategia de IDs, entidades relacionais, workspace scope, soft delete, contratos REST, contratos Spring -> worker, payload Qdrant, envelope de analytics e compatibilidade entre schemas.
+
+A decisao principal foi usar `uuid` como identificador interno e `public_id` opaco prefixado como identificador externo. Isso preserva FKs eficientes e, ao mesmo tempo, evita expor estrutura interna em URLs, JSON, logs e payloads vetoriais. O SQL permanece como fonte da verdade para documentos, paginas, elementos, assets, chunks, runs, eventos e relacoes; Qdrant fica como indice derivado com payload minimo e filtros obrigatorios por workspace e colecao.
+
+Tambem foram criados exemplos JSON iniciais em `tests/contracts`, cobrindo REST, worker, Qdrant, eventos e MCP. Esses exemplos passam a ser a primeira ancora regressiva para DTOs Java, modelos Pydantic, schemas MCP, OpenAPI e fixtures futuras. A biblioteca concreta de OpenAPI ficou encaminhada para a branch de scaffold backend, onde a compatibilidade real com Spring Boot 4.1 podera ser provada por build/teste, mas o formato alvo do contrato foi fixado como OpenAPI 3.1.
+
+O resultado e que as proximas branches podem implementar migrations, endpoints, worker e indexacao com um contrato estrutural ja definido. O proximo portao passa a ser `docs/arquitetura-ingestao-rag`, que deve detalhar state machine, pipeline, retry, cancelamento, idempotencia, storage e reindexacao.
+
 ## Modelo de entrada futura
 
 ```text

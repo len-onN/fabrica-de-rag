@@ -1,0 +1,21 @@
+{
+  "eventVersion": "analytics.event.v1",
+  "eventName": "ingest_stage_completed",
+  "origin": "worker",
+  "workspaceId": "wsp_fixture_alpha",
+  "actor": {
+    "type": "system",
+    "id": null
+  },
+  "correlationId": "req_fixture_001",
+  "occurredAt": "2026-06-24T21:30:00Z",
+  "resource": {
+    "type": "ingest_run",
+    "id": "run_fixture_pdf"
+  },
+  "properties": {
+    "stageName": "inspect",
+    "durationMs": 143,
+    "success": true
+  }
+}
