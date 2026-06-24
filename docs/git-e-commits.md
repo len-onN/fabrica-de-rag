@@ -14,11 +14,32 @@ Exemplos:
 
 ```text
 planejamento/documentacao
-feature/ingestao-pdf
-feature/laboratorio-recuperacao
+docs/estrategia-operacional
+docs/plano-tecnico-mvp
+chore/workspace-fundacao
+feat/ingestao-pdf
+feat/laboratorio-recuperacao
 fix/mapa-paginas
 docs/padroes-projeto
 ```
+
+Para branches de implementacao, usar uma adaptacao de Conventional Commits:
+
+```text
+tipo/escopo-descricao-curta
+```
+
+Exemplos:
+
+```text
+feat/ingestao-upload-pdf
+feat/paginas-numeracao
+perf/context-builder
+test/worker-pdf
+build/dev-runtime-compose
+```
+
+A branch deve nascer de `develop` e retornar para `develop` por pull request ao fim do escopo.
 
 ## Conventional Commits
 
@@ -90,6 +111,8 @@ git commit \
 - Usar corpo do commit quando o motivo ou o impacto nao couber na primeira linha.
 - Commits de planejamento podem ser `docs`.
 - Commits de configuracao de projeto podem ser `chore`, `build` ou `ci`, conforme o caso.
+- Ao fechar uma branch, atualizar o registro de bordo e o diario de bordo antes do PR.
+- PRs devem apontar para `develop` e resumir escopo, testes, riscos e proximos passos.
 
 ## Primeiro fluxo do repositorio
 

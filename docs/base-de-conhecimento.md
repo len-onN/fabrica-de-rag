@@ -13,6 +13,7 @@ A ideia nao e carregar todo o conhecimento em todo momento. A ideia e manter col
 - Separar conhecimento por stack e dominio.
 - Evitar misturar documentacao de versoes diferentes.
 - Ativar colecoes por contexto de trabalho.
+- Registrar skills/fontes ativadas quando uma branch depender de conhecimento especializado.
 - Manter decisoes do projeto em ADRs e documentos locais.
 - Tratar a base local do projeto como fonte mais autoritativa para decisoes ja tomadas.
 
@@ -28,6 +29,13 @@ Conteudo:
 - planejamento;
 - features;
 - padroes de projeto;
+- branches-plan;
+- estrategia operacional;
+- plano tecnico do MVP;
+- cobertura do MVP pelo plano de branches;
+- plano de branches e escopos;
+- estrategia de testes;
+- skills e boas praticas para agentes;
 - contratos;
 - codigo e migracoes, quando existirem.
 
@@ -173,6 +181,10 @@ Uso:
 Fontes iniciais:
 
 - Model Context Protocol docs: https://modelcontextprotocol.io/docs/getting-started/intro
+- Model Context Protocol SDKs: https://modelcontextprotocol.io/docs/sdk
+- Model Context Protocol architecture: https://modelcontextprotocol.io/docs/learn/architecture
+- Model Context Protocol security best practices: https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices
+- Model Context Protocol build server: https://modelcontextprotocol.io/docs/develop/build-server
 - Spring AI MCP: https://docs.spring.io/spring-ai/reference/
 - Angular CLI MCP: https://angular.dev/ai/mcp
 
@@ -181,6 +193,28 @@ Uso:
 - Ferramentas MCP.
 - Contratos de agentes.
 - Limites, seguranca e tool calling.
+
+### openai-agents-referencia
+
+Fontes iniciais:
+
+- OpenAI Agents SDK: https://openai.github.io/openai-agents-python/
+- OpenAI Agents SDK tools: https://openai.github.io/openai-agents-python/tools/
+- OpenAI Agents SDK guardrails: https://openai.github.io/openai-agents-python/guardrails/
+- OpenAI Agents SDK tracing: https://openai.github.io/openai-agents-python/tracing/
+- OpenAI Agents SDK context management: https://openai.github.io/openai-agents-python/context/
+
+Uso:
+
+- Referencia de arquitetura para agentes com ferramentas.
+- Guardrails.
+- Tracing e depuracao de fluxos agenticos.
+- Context management.
+- Handoffs e agentes como ferramentas.
+
+Observacao:
+
+Essa colecao nao significa decisao de dependencia obrigatoria. Ela serve como fonte primaria para boas praticas de agentes quando a branch envolver ferramentas, orquestracao, guardrails, traces ou execucao assistida.
 
 ### seguranca-e-acesso
 
@@ -220,6 +254,44 @@ Uso:
 - Sempre que a implementacao comecar em uma area nova.
 - Sempre que uma decisao local precisar prevalecer sobre uma recomendacao generica.
 
+### skills-e-boas-praticas-para-agentes
+
+Conteudo:
+
+- politica local de uso de skills;
+- fontes oficiais por contexto;
+- boas praticas para agentes;
+- guardrails;
+- menor privilegio;
+- contratos de ferramentas;
+- observabilidade de chamadas agenticas;
+- seguranca MCP.
+
+Uso:
+
+- Sempre que uma branch envolver agentes, MCP, ferramentas, prompts, contexto, skills ou execucao assistida.
+- Sempre que uma recomendacao de agente precisar ser validada contra os limites do projeto.
+- Sempre que uma ferramenta nova for exposta para uso por agentes.
+
+### testes-e-qualidade
+
+Fontes iniciais:
+
+- Docker Compose multiple files: https://docs.docker.com/compose/how-tos/multiple-compose-files/
+- Docker Compose profiles: https://docs.docker.com/compose/how-tos/profiles/
+- Spring Boot testing: https://docs.spring.io/spring-boot/reference/testing/
+- Spring Boot Testcontainers: https://docs.spring.io/spring-boot/reference/testing/testcontainers.html
+- Angular testing: https://angular.dev/guide/testing
+- FastAPI testing: https://fastapi.tiangolo.com/tutorial/testing/
+- pytest good practices: https://docs.pytest.org/en/stable/explanation/goodpractices.html
+- Playwright Docker: https://playwright.dev/docs/docker
+
+Uso:
+
+- Sempre que uma branch criar contrato, infraestrutura, teste de integracao, teste de fumaca ou e2e.
+- Sempre que a estrategia de teste de uma feature nao estiver clara.
+- Sempre que uma branch tocar Docker Compose ou ambiente local.
+
 ## Politica de ativacao
 
 Ativar apenas o necessario:
@@ -235,12 +307,14 @@ Backend Spring
 -> spring-boot
 -> seguranca-e-acesso
 -> postgres
+-> testes-e-qualidade
 -> padroes-de-projeto
 
 Worker Python
 -> projeto-local
 -> python-worker
 -> rag-engineering
+-> testes-e-qualidade
 -> padroes-de-projeto
 
 Vector DB
@@ -251,8 +325,21 @@ Vector DB
 MCP
 -> projeto-local
 -> mcp-agentes
+-> openai-agents-referencia
 -> seguranca-e-acesso
 -> spring-ai
+
+Agentes e skills
+-> projeto-local
+-> skills-e-boas-praticas-para-agentes
+-> mcp-agentes
+-> openai-agents-referencia
+-> seguranca-e-acesso
+
+Testes e e2e
+-> projeto-local
+-> testes-e-qualidade
+-> padroes-de-projeto
 ```
 
 ## Ingestao futura
@@ -276,4 +363,6 @@ Regras:
 4. Ingerir documentacao local do proprio projeto.
 5. Ingerir Angular e Spring Boot.
 6. Ingerir Postgres, Qdrant e RAG.
-7. Usar o proprio produto para consultar suas decisoes e referencias.
+7. Ingerir referencias de testes, Compose e e2e.
+8. Ingerir MCP, seguranca e referencias de agentes.
+9. Usar o proprio produto para consultar suas decisoes e referencias.

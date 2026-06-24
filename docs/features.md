@@ -15,7 +15,7 @@ Este documento registra ideias de funcionalidades. Os status iniciais sao apenas
 | --- | --- | --- |
 | Upload de PDF | MVP | Entrada principal do produto. |
 | Upload de Markdown, HTML e TXT | Futuro | Mapear como fontes futuras, sem entrar no MVP. |
-| Upload de DOCX/EPUB/MOBI | Futuro | Possivel por conversao/extração estrutural, mas fora do MVP. |
+| Upload de DOCX/EPUB/MOBI | Futuro | Possivel por conversao/extracao estrutural, mas fora do MVP. |
 | Perfis de ingestao | MVP | Rapido, balanceado, visual, forense e personalizado. |
 | Runs de ingestao auditaveis | MVP | Registrar parametros, modelos, versoes e resultados. |
 | Reprocessamento por perfil | Planejado | Permitir comparar resultados entre estrategias. |
@@ -39,7 +39,7 @@ Este documento registra ideias de funcionalidades. Os status iniciais sao apenas
 | OCR por pagina | MVP | Manual/automatico quando texto nativo for insuficiente. |
 | Deteccao de tabelas | Planejado | Tabelas nao devem ser quebradas como texto comum. |
 | Extracao de imagens embutidas | Planejado | Associar imagem, pagina, bbox e texto proximo. |
-| Render de paginas | Planejado | Base para OCR visual, crops e validacao. |
+| Render de paginas | MVP | Base para mapa de paginas, OCR opcional e preview de citacoes. |
 | Crops de regioes relevantes | Futuro | Evidencia visual granular. |
 
 ## Chunking e curadoria
@@ -114,7 +114,7 @@ Este documento registra ideias de funcionalidades. Os status iniciais sao apenas
 | Perguntar contra uma colecao | MVP | Testar RAG antes de publicar. |
 | Ver chunks recuperados | MVP | Transparencia basica. |
 | Ver contexto expandido | MVP | Mostrar o que foi enviado ao modelo. |
-| Marcar relevante/irrelevante | Planejado | Feedback para avaliacao e melhoria. |
+| Marcar relevante/irrelevante | MVP | Feedback local para avaliacao e melhoria. |
 | Comparar perfis/modelos | Futuro | Benchmark interno de configuracoes. |
 
 ## Analytics local de RAG
@@ -127,8 +127,8 @@ Este documento registra ideias de funcionalidades. Os status iniciais sao apenas
 | Feedback de relevancia | MVP | Marcar chunk relevante/irrelevante e resposta util/inutil dentro da propria instancia. |
 | Analytics MCP/API | MVP | Ferramentas chamadas, sequencias, limites atingidos, erros e loops detectados. |
 | Dashboard local de qualidade do RAG | MVP | Visao para o usuario melhorar colecoes, documentos e politicas. |
-| Exportacao de analytics local | Planejado | Exportar dados para estudo proprio, notebooks ou analises externas. |
-| Retencao configuravel | Planejado | Usuario decide quanto historico local manter. |
+| Exportacao de analytics local | MVP | Exportar dados locais basicos para estudo proprio. |
+| Retencao configuravel | MVP | Usuario decide quanto historico local manter. |
 | Telemetria remota opt-in | Futuro | Apenas se houver deploy/distribuicao, desligada por padrao e sem conteudo. |
 | Ciencia de dados local/remota | Futuro | Coortes, anomalias, recomendacoes de presets e estudos agregados. |
 
@@ -188,6 +188,6 @@ Este documento registra ideias de funcionalidades. Os status iniciais sao apenas
 | Feature | Status | Observacoes |
 | --- | --- | --- |
 | Docker Compose local | MVP | Angular, Spring Boot, Python worker, Postgres, Qdrant. |
-| Jobs de ingestao assincronos | Planejado | Inicialmente HTTP; fila quando necessario. |
-| Observabilidade basica | Planejado | Logs, status de jobs, erros por pagina. |
+| Jobs de ingestao observaveis | MVP | Runs com status, etapas, cancelamento/retry e logs; fila fica para quando necessario. |
+| Observabilidade basica | MVP | Logs, status de jobs, erros por pagina. |
 | Controle de custos | Futuro | Importante quando houver modelos via API. |

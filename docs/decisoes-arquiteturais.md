@@ -311,3 +311,80 @@ Papeis:
 Motivo:
 
 A aplicacao e uma ferramenta de engenharia de conhecimento. Ela deve ter personalidade visual, mas precisa ser legivel, calma e utilitaria para uso prolongado. Violeta oferece identidade; verde comunica confianca e progresso; neutros preservam densidade e clareza.
+
+## ADR-016: Desenvolvimento guiado por skills e fontes oficiais
+
+Status: aceito.
+
+Decisao:
+
+O desenvolvimento da Fabrica de RAG deve ser guiado por documentacao local, fontes oficiais das stacks e skills especializadas ativadas por contexto. Branches tecnicas devem registrar quais fontes ou skills foram consultadas quando isso influenciar decisoes de arquitetura, contratos, agentes, MCP, seguranca ou algoritmos.
+
+Para agentes e MCP, o projeto deve manter uma politica propria de boas praticas: ferramentas guiadas, menor privilegio, schemas explicitos, guardrails, limites, observabilidade, analytics local e validacao de permissoes no backend.
+
+Fontes de referencia para agentes podem incluir OpenAI Agents SDK, Model Context Protocol, Spring AI MCP e Angular Agent Skills. Essas fontes orientam boas praticas, mas nao implicam dependencia obrigatoria ate que uma ADR especifica decida isso.
+
+Motivo:
+
+O projeto sera desenvolvido com apoio de agentes e tambem oferecera ferramentas para agentes. Sem uma politica explicita, decisoes podem ser tomadas por memoria solta, recomendacoes genericas ou documentacao desatualizada. Registrar fontes, skills e guardrails por branch aumenta a qualidade das decisoes, melhora retomada de contexto e reduz riscos de seguranca, permissao, vazamento de dados e acoplamento prematuro.
+
+## ADR-017: Fundacao minima testavel antes das fatias verticais
+
+Status: aceito.
+
+Decisao:
+
+O MVP deve ser desenvolvido a partir de uma fundacao minima testavel, seguida por fatias verticais de comportamento. A fundacao deve criar monorepo, estrutura das aplicacoes, Compose local, base Spring Boot, base Angular, base Python worker e teste de fumaca da stack. Ela nao deve tentar implementar todos os dominios em profundidade antes dos casos de uso.
+
+Apos a fundacao, as features devem atravessar as camadas necessarias para entregar comportamento observavel: UI, API, banco, worker, Qdrant, analytics ou MCP conforme o escopo.
+
+Motivo:
+
+Branches horizontais grandes, como "todo backend" ou "todo frontend", atrasam a integracao real e dificultam revisao por agentes. Uma fundacao minima testavel permite validar cedo que as stacks sobem e conversam. Fatias verticais reduzem risco de integracao tardia e mantem testabilidade a cada PR.
+
+## ADR-018: Estrategia de testes em camadas com Compose e2e
+
+Status: aceito.
+
+Decisao:
+
+A estrategia de testes deve combinar unitarios, contratos, slices/componentes, integracao, smoke da stack local e poucos fluxos e2e de alto valor. O e2e deve usar Docker Compose dedicado, com arquivo canonico em `infra/compose/compose.e2e.yml`, Playwright como runner de UI e fixtures pequenas/deterministicas.
+
+O e2e nao deve depender de rede externa, OCR pesado ou LLM real por padrao. Servicos externos caros ou instaveis devem ser mockados/adaptados ate que uma branch especifica decida outro caminho.
+
+Motivo:
+
+O projeto envolve varias camadas e integracoes. Depender apenas de e2e criaria uma suite lenta, fragil e dificil de depurar. Depender apenas de unitarios nao provaria contratos entre Angular, Spring Boot, Python worker, PostgreSQL, Qdrant e agentes. A combinacao em camadas permite feedback rapido na maioria das branches e uma prova ponta a ponta nos fluxos criticos.
+
+## ADR-019: Stack baseline do MVP
+
+Status: aceito.
+
+Decisao:
+
+Adotar a seguinte linha tecnica inicial para o MVP:
+
+- Frontend: Angular 22.x, Node.js 24 LTS, npm/package-lock e componentes proprios com Angular CDK.
+- Backend: Spring Boot 4.1.x, Java 21 LTS, Maven wrapper e Flyway.
+- Worker: Python 3.13.x, FastAPI, Pydantic, layout `src` e contratos versionados.
+- Banco: PostgreSQL 18.x como fonte da verdade.
+- Vector DB: Qdrant 1.18.x como indice derivado.
+- E2E: Docker Compose em camadas e Playwright.
+
+Patches exatos devem ser fixados nos lockfiles, wrappers e imagens Docker das branches que criarem os apps reais. Imagens versionadas iniciais: `postgres:18.4` e `qdrant/qdrant:v1.18.2`.
+
+Motivo:
+
+O MVP precisa de uma fundacao moderna, mas conservadora o bastante para ser testavel e mantida por agentes. A escolha privilegia linhas oficialmente suportadas, integra bem frontend/backend/worker e evita depender de runtimes em estado Current ou de imagens `latest`.
+
+## ADR-020: MCP server como adaptador fino em TypeScript/Node
+
+Status: aceito.
+
+Decisao:
+
+Criar um runtime proprio para ferramentas MCP em `apps/mcp`, usando TypeScript sobre Node.js 24 LTS. O MCP server deve expor tools guiadas, com schemas explicitos, limites, observabilidade e menor privilegio. Ele nao deve acessar diretamente Postgres, Qdrant, storage local ou filesystem livre no MVP; tools devem chamar contratos do backend, que continua responsavel por identity, workspace scope, autorizacao, auditoria e regras de negocio.
+
+Motivo:
+
+O SDK TypeScript do MCP esta em Tier 1 e Node 24 ja e uma dependencia do projeto por causa do Angular. Separar `apps/mcp` mantem a superficie de agentes isolada, facilita testes de schemas e reduz o risco de tools contornarem os controles centrais do backend.

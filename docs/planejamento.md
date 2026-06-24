@@ -1,6 +1,6 @@
 # Planejamento
 
-## Fase atual: concepcao
+## Fase atual: concepcao em transicao para planejamento tecnico
 
 Objetivos:
 
@@ -11,6 +11,7 @@ Objetivos:
 - Criar estrategia de base de conhecimento do desenvolvimento.
 - Discutir UX de engenharia de conhecimento.
 - Definir criterios do MVP.
+- Registrar a camada operacional de desenvolvimento por branches, PRs, registro de bordo e diario de bordo.
 
 ## Questoes em discussao
 
@@ -68,6 +69,10 @@ Entregaveis:
 - Politica de retencao e privacidade local.
 - Estrategia de base de conhecimento e fontes por stack.
 - Primeira versao dos padroes de projeto.
+- Estrategia operacional de desenvolvimento.
+- Politica de skills e boas praticas para agentes.
+- Registro de bordo inicial.
+- Diario de bordo inicial.
 - Modelo funcional de usuarios, roles e permissoes.
 - Contrato conceitual para fontes futuras: source connector, source item e source locator.
 - Criterios de aceite do MVP.
@@ -90,6 +95,13 @@ Entregaveis:
 - Esquema inicial de usuarios, workspaces, memberships e autorizacao.
 - Modelo preparado para registrar origem/localizador de fonte sem depender apenas de paginas PDF.
 - Docker Compose inicial.
+- Mapa de skills/fontes oficiais por branch tecnica.
+- Plano de implementacao por branches, com escopo, criterios de aceite e PR para `develop`.
+- Plano de fundacao minima testavel e fatias verticais de desenvolvimento.
+- Plano tecnico do MVP com estrutura de repo, padroes de projeto, contratos e decisoes de teste.
+- Estrategia de testes com unitarios, contratos, integracao, smoke e e2e via Docker Compose.
+- Checklist de colateralidades por branch: dados, permissoes, workspace, analytics, performance, contratos e testes.
+- Especificacao inicial dos algoritmos criticos antes de implementacao.
 
 ## Fase 3: implementacao do MVP
 
@@ -105,6 +117,8 @@ Entregaveis:
 - Base local do projeto alimentada com docs, ADRs e padroes.
 - Modo local com usuario unico e estrutura multiworkspace pronta.
 - Documentacao de execucao local.
+- Registro de bordo atualizado ao fim de cada branch.
+- Diario de bordo atualizado ao fim de cada etapa ou antes de pausas longas.
 
 ## Backlog de discussoes proximas
 
@@ -123,3 +137,6 @@ Entregaveis:
 - Analytics maduro com ciencia de dados.
 - Ingestao automatizada de documentacao oficial por versao.
 - Avaliacao de qualidade do RAG.
+- Sequencia detalhada de branches de implementacao.
+- Criterios de abertura e fechamento de PRs para `develop`.
+- Teste de fumaca inicial da stack local.
