@@ -34,6 +34,7 @@ Se o Git bloquear a checagem por `dubious ownership`, o agente nao deve contorna
 - [Features planejadas](docs/features.md)
 - [MVP: interface e API](docs/mvp-interface-e-api.md)
 - [Modelo de dados e contratos do MVP](docs/modelo-dados-contratos-mvp.md)
+- [Arquitetura de ingestao e RAG](docs/arquitetura-ingestao-rag.md)
 - [Design visual](docs/design-visual.md)
 - [Estrategia de base de conhecimento](docs/base-de-conhecimento.md)
 - [Padroes de projeto e desenvolvimento](docs/padroes-de-projeto.md)

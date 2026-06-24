@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-24 |
 | Fase | Portoes de planejamento do MVP |
-| Branch atual | `docs/modelo-dados-contratos-mvp` |
+| Branch atual | `docs/arquitetura-ingestao-rag` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Fechar modelo relacional, IDs, REST, Pydantic, Qdrant, eventos e OpenAPI |
-| Status | PR de planejamento/documentacao mesclado; modelo de dados e contratos do MVP especificados; exemplos JSON iniciais adicionados em `tests/contracts` |
-| Proximo marco | Abrir PR de `docs/modelo-dados-contratos-mvp` para `develop` e seguir para `docs/arquitetura-ingestao-rag` |
+| Objetivo atual | Fechar state machine, pipeline, retry/cancelamento, idempotencia, storage e reindexacao |
+| Status | PRs #1 e #2 mesclados; arquitetura de ingestao/RAG especificada com runs, etapas idempotentes, pausa para revisao, storage URI e reindexacao por generation |
+| Proximo marco | Abrir PR de `docs/arquitetura-ingestao-rag` para `develop` e seguir para `docs/seguranca-permissoes-mvp` |
 
 ## Sessao viva
 
@@ -53,10 +53,12 @@ A branch `planejamento/documentacao` foi commitada, publicada, aberta como PR #1
 
 Na branch `docs/modelo-dados-contratos-mvp`, o primeiro portao de planejamento foi fechado em nivel contratual: IDs internos/publicos, modelo relacional conceitual, soft delete, workspace scope, REST, worker/Pydantic, Qdrant, eventos locais, compatibilidade entre schemas e exemplos JSON iniciais em `tests/contracts`.
 
+O PR #2 de `docs/modelo-dados-contratos-mvp` foi mesclado em `develop`. Na sequencia, a branch `docs/arquitetura-ingestao-rag` fechou a orquestracao de ingestao: state machines de documento/run/etapa, pipeline com pausa para revisao do mapa de paginas, retry, cancelamento cooperativo, idempotencia por run/step, reprocessamento por `ingestion_generation`, layout de storage local e criterios para adiar fila ate haver necessidade real.
+
 Proximo passo concreto:
 
-- abrir PR da branch `docs/modelo-dados-contratos-mvp` para `develop`;
-- iniciar `docs/arquitetura-ingestao-rag`;
+- abrir PR da branch `docs/arquitetura-ingestao-rag` para `develop`;
+- iniciar `docs/seguranca-permissoes-mvp`;
 - seguir com os demais portoes, incluindo `docs/interpretacao-imagens-tabelas-pdf`, antes de `chore/workspace-fundacao`.
 
 ## Quadro de branches
@@ -65,8 +67,8 @@ Proximo passo concreto:
 | --- | --- | --- | --- | --- |
 | `planejamento/documentacao` | Mesclada | Registrar proposta, MVP, ADRs, padroes iniciais e camada operacional | #1 | Mesclada em `develop`. |
 | `docs/plano-tecnico-mvp` | Incorporada na branch atual | Fechar decisoes tecnicas minimas antes da primeira branch de codigo | Nao aplicavel | Escopo executado dentro de `planejamento/documentacao`. |
-| `docs/modelo-dados-contratos-mvp` | Em fechamento | Fechar modelo relacional, IDs, REST, Pydantic, Qdrant, eventos e OpenAPI | Pendente | Primeiro portao de planejamento. |
-| `docs/arquitetura-ingestao-rag` | Candidata | Fechar state machine, pipeline, retry/cancel, idempotencia, storage e reindexacao | Pendente | Evita improviso no fluxo de ingestao. |
+| `docs/modelo-dados-contratos-mvp` | Mesclada | Fechar modelo relacional, IDs, REST, Pydantic, Qdrant, eventos e OpenAPI | #2 | Primeiro portao de planejamento. |
+| `docs/arquitetura-ingestao-rag` | Em fechamento | Fechar state machine, pipeline, retry/cancel, idempotencia, storage e reindexacao | Pendente | Evita improviso no fluxo de ingestao. |
 | `docs/seguranca-permissoes-mvp` | Candidata | Fechar auth local, roles, workspace scope, API/MCP e guardrails | Pendente | Deve anteceder `feat/auth-bootstrap-workspaces`. |
 | `docs/algoritmos-rag-mvp` | Candidata | Especificar numeracao, chunking, busca, contexto, citacoes e budgets | Pendente | Deve anteceder branches de algoritmo. |
 | `docs/analytics-observabilidade-mvp` | Candidata | Fechar eventos, retencao, export/delete, logs, metricas e privacidade | Pendente | Deve anteceder branches de analytics. |
@@ -112,8 +114,9 @@ Proximo passo concreto:
 | Estrutura de repositorio/pacotes | Definida inicialmente | Criar `apps/api`, `apps/web`, `apps/worker`, `apps/mcp`, `infra/compose`, `tests`, `scripts` em `chore/workspace-fundacao`. |
 | Migracoes de banco | Definida inicialmente | Usar Flyway e aplicar convencoes na primeira branch backend. |
 | Modelo documental inicial | Especificado | Implementar em migrations nas branches de backend/documentos. |
-| Contrato Spring -> Python worker | Especificado | Detalhar pipeline, etapas e retry em `docs/arquitetura-ingestao-rag`. |
-| Contrato Qdrant | Payload minimo especificado | Detalhar reindexacao e idempotencia em `docs/arquitetura-ingestao-rag`. Imagem inicial: `qdrant/qdrant:v1.18.2`. |
+| Contrato Spring -> Python worker | Especificado | Implementar adapters HTTP internos nas branches de worker/ingestao. |
+| Contrato Qdrant | Payload, reindexacao e idempotencia especificados | Implementar adapter Qdrant e testes de filtro/idempotencia nas branches de indexacao. Imagem inicial: `qdrant/qdrant:v1.18.2`. |
+| Arquitetura de ingestao | Especificada | Implementar state machine, background job e storage nas branches de ingestao. |
 | Estrategia de testes | Registrada inicialmente | Implementar base em `chore/workspace-fundacao`, Compose em `build/dev-runtime-compose` e smoke em `test/smoke-stack-local`. |
 | Algoritmos iniciais | Com branch dona | Especificar em `docs/algoritmos-rag-mvp` antes das branches de algoritmo. |
 | Interpretacao visual/tabelas em PDF | Com branch dona | Especificar em `docs/interpretacao-imagens-tabelas-pdf` antes de `feat/worker-pdf-visual-tables-base`. |

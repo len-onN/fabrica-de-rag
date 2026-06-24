@@ -344,10 +344,15 @@ Indices minimos:
 - `workspace_id`
 - `knowledge_collection_id`
 - `document_id`
-- `status`: `queued`, `running`, `completed`, `failed`, `cancelled`
+- `status`: `queued`, `running`, `waiting_for_review`, `completed`, `failed`, `cancelled`
+- `retry_of_run_id null`
+- `reprocess_of_run_id null`
+- `idempotency_key`
+- `ingestion_generation null`
 - `profile`: `fast`, `balanced`
 - `parameters jsonb`
 - `worker_contract_version`
+- `cancel_requested_at null`
 - `started_at null`
 - `finished_at null`
 - `created_by_user_id`
@@ -359,12 +364,18 @@ Indices minimos:
 - `workspace_id`
 - `ingest_run_id`
 - `stage_name`: `validation`, `inspect`, `extract_text`, `ocr`, `render`, `visual_elements`, `visual_interpretation`, `chunking`, `embedding`, `indexing`
-- `status`: `queued`, `running`, `completed`, `failed`, `skipped`, `cancelled`
+- `status`: `queued`, `running`, `completed`, `failed`, `skipped`, `waiting_for_review`, `cancelled`
+- `attempt`
+- `idempotency_key`
 - `progress_current null`
 - `progress_total null`
+- `started_at null`
+- `finished_at null`
 - `duration_ms null`
 - `error_code null`
 - `error_message null`
+- `safe_details jsonb`
+- `artifact_refs jsonb`
 - `created_at`, `updated_at`
 
 `ingest_run_logs`

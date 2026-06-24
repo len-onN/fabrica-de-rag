@@ -15,6 +15,7 @@ Layout inicial:
 ```text
 rest/
 worker/
+ingestion/
 qdrant/
 events/
 mcp/
