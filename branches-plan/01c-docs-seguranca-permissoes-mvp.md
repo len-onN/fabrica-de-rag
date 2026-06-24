@@ -1,6 +1,6 @@
 # docs/seguranca-permissoes-mvp
 
-Status: candidata.
+Status: concluida.
 
 ## Objetivo
 
@@ -36,18 +36,31 @@ DOC, SEC, CONTRACT, AGENT, TEST
 - UI nao e fronteira de seguranca.
 - Roles iniciais existem desde o modelo.
 - MCP nao acessa banco diretamente.
+- Browser usa sessao server-side opaca em cookie `HttpOnly`.
+- Mutacoes autenticadas por cookie exigem CSRF para SPA.
+- CORS e same-origin por padrao, com allowlist explicita no perfil de desenvolvimento.
+- Senha local usa `Argon2id` como algoritmo alvo.
+- Bootstrap so funciona antes de existir usuario ativo.
+- Matriz role x acao do MVP foi fechada.
+- API keys futuras usam hash persistido, role `agent` e capabilities explicitas.
+- MCP/agentes nao usam token passthrough de usuario humano.
+- Auditoria minima usa eventos locais seguros ate existir trilha dedicada.
 
 ## Falta definir
 
-- Mecanismo exato de sessao/token local.
-- Matriz acao x role.
-- Politica de expiracao de sessao.
-- Como representar usuario unico sem bloquear deploy multiusuario futuro.
-- Guardrails minimos para tools MCP.
-- Hash de senha, armazenamento de credenciais locais e politica de bootstrap/reset do primeiro admin.
-- Politica de CORS/CSRF/cookies para modo local e deploy futuro.
-- Modelo de identidade para agentes/API local sem token passthrough.
-- Eventos de auditoria minima para acoes sensiveis.
+- Valores finais de budgets numericos para busca/contexto/tools, dono: `docs/algoritmos-rag-mvp`.
+- Taxonomia completa, retencao e dashboard de analytics/auditoria, dono: `docs/analytics-observabilidade-mvp`.
+- Implementacao concreta de Spring Security, migrations, UI e testes, dono: `feat/auth-bootstrap-workspaces`.
+- API keys reais para clientes externos, dono: `feat/api-rag-publica`.
+- Tool schemas completos e transporte MCP, dono: `feat/mcp-tools-base`.
+- OIDC/OAuth, MFA, convites, service accounts completas e RLS ficam fora do MVP.
+
+## Fontes/skills ativadas
+
+- Documentacao local do projeto.
+- OWASP Password Storage, Authorization, CSRF Prevention e MCP Security Cheat Sheets.
+- Spring Security CSRF para SPA.
+- Nenhuma skill de implementacao de stack foi ativada porque esta branch fecha contrato documental, nao codigo Spring/Angular/MCP.
 
 ## Detalhes que devem ficar explicitos
 
@@ -64,11 +77,11 @@ DOC, SEC, CONTRACT, AGENT, TEST
 
 ## Estrategia
 
-1. Criar matriz de permissoes do MVP.
-2. Definir contratos de login/bootstrap.
-3. Mapear recursos escopados por workspace.
-4. Definir testes obrigatorios de autorizacao.
-5. Registrar ADR quando necessario.
+1. Criar matriz de permissoes do MVP. Concluido em `docs/seguranca-permissoes-mvp.md`.
+2. Definir contratos de login/bootstrap. Concluido com fixtures em `tests/contracts/rest`.
+3. Mapear recursos escopados por workspace. Concluido em `docs/seguranca-permissoes-mvp.md`.
+4. Definir testes obrigatorios de autorizacao. Concluido em `docs/seguranca-permissoes-mvp.md`.
+5. Registrar ADR quando necessario. Concluido em ADR-024.
 
 ## Testabilidade
 
@@ -76,7 +89,11 @@ DOC, SEC, CONTRACT, AGENT, TEST
 - Cada endpoint sensivel tem role minima.
 - Testes de isolamento entre workspaces sao obrigatorios.
 - Tools MCP tem identidade, permissao e limite.
+- Fixtures de contrato cobrem bootstrap, login, `me`, matriz de permissoes e contexto de tool agentica.
+- Links internos e consistencia documental devem ser verificados antes do PR.
 
 ## Fechamento
 
 - Branches de auth, API, analytics e MCP implementam regras ja decididas.
+- Registro de bordo e diario de bordo atualizados.
+- Proximo portao: `docs/algoritmos-rag-mvp`.

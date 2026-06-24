@@ -29,12 +29,13 @@ CODE, CONTRACT, TEST, SEC, OBS, PERF
 - API versionada em `/api/v1`.
 - Permissoes separadas.
 - Erros padronizados.
+- API keys usam segredo exibido uma vez, hash persistido, role `agent`, capabilities, expiracao e revogacao.
+- Browser pode usar sessao, mas clientes externos nao usam token passthrough de usuario humano.
 
 ## Falta definir
 
 - Formato final da resposta publica.
-- Limites iniciais.
-- Politica de chaves de API.
+- Limites numericos iniciais de busca/contexto, herdados de `docs/algoritmos-rag-mvp`.
 
 ## Estrategia
 
@@ -42,7 +43,8 @@ CODE, CONTRACT, TEST, SEC, OBS, PERF
 2. Criar use case.
 3. Aplicar autorizacao.
 4. Emitir analytics.
-5. Testar isolamento.
+5. Aplicar API key/capabilities quando cliente externo for suportado.
+6. Testar isolamento.
 
 ## Testabilidade
 
@@ -54,4 +56,3 @@ CODE, CONTRACT, TEST, SEC, OBS, PERF
 ## Fechamento
 
 - Clientes externos consultam RAG com seguranca minima.
-

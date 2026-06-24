@@ -32,13 +32,14 @@ As stacks principais ja estao definidas para o MVP.
 
 Ainda precisam ser decididos em branches de planejamento ou base com dono explicito:
 
-- estrategia de login/bootstrap local: `docs/seguranca-permissoes-mvp`;
-- HTTP direto vs fila para jobs longos: `docs/arquitetura-ingestao-rag`;
 - modelo de embeddings e provider/modelo LLM inicial: `docs/algoritmos-rag-mvp`;
 - biblioteca final de geracao OpenAPI compativel com Spring Boot 4.1: `docs/modelo-dados-contratos-mvp`;
 - ferramenta de lock do worker Python: `chore/worker-python-base`;
-- versionamento de tools MCP e budgets numericos: `docs/seguranca-permissoes-mvp` e `docs/algoritmos-rag-mvp`;
+- versionamento final de tool schemas MCP: `feat/mcp-tools-base`;
+- budgets numericos de busca/contexto/tools: `docs/algoritmos-rag-mvp`;
 - estrategia final de seeds e fixtures e2e: `test/e2e-mvp-ingestao-recuperacao`.
+
+Ja ficou decidido em `docs/arquitetura-ingestao-rag`: REST interno Spring -> worker continua suficiente no MVP e fila entra apenas quando concorrencia, durabilidade, backpressure, cancelamento ativo ou escalonamento justificarem. Ja ficou decidido em `docs/seguranca-permissoes-mvp`: login/bootstrap local por sessao server-side opaca, CSRF para mutacoes de SPA, matriz role x acao, API keys futuras com role `agent` e capabilities, e proibicao de token passthrough para agentes.
 
 ## Politica de uso de skills
 

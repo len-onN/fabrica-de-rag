@@ -1,0 +1,5 @@
+{
+  "schemaVersion": "rest.auth.login.request.v1",
+  "email": "owner@example.test",
+  "password": "fixture-passphrase-12"
+}

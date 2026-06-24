@@ -14,6 +14,7 @@ Layout inicial:
 
 ```text
 rest/
+security/
 worker/
 ingestion/
 qdrant/

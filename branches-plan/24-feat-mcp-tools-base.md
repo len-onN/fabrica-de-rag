@@ -33,13 +33,16 @@ AGENT, CODE, CONTRACT, TEST, SEC, OBS
 - Runtime inicial em TypeScript/Node 24 dentro de `apps/mcp`.
 - MCP server como adaptador fino sobre contratos do backend.
 - Sem acesso direto a Postgres, Qdrant ou filesystem livre pelo MCP no MVP.
+- Identidade `agent` com capabilities explicitas.
+- Proibido token passthrough de usuario humano.
+- Tool call carrega workspace, correlation id, capability e limites.
 
 ## Falta definir
 
 - Versionamento de tools.
-- Politica de limites por ferramenta.
 - Transporte inicial local/remoto.
 - Estrategia de compatibilidade entre schemas MCP e contratos REST.
+- Limites numericos finais por ferramenta, herdados de `docs/algoritmos-rag-mvp`.
 
 ## Estrategia
 
@@ -48,7 +51,7 @@ AGENT, CODE, CONTRACT, TEST, SEC, OBS
 3. Integrar com use cases existentes via backend.
 4. Aplicar identity/workspace/permission.
 5. Registrar eventos.
-6. Testar falhas e limites.
+6. Testar falhas, schemas fechados, capabilities e limites.
 
 ## Testabilidade
 

@@ -631,8 +631,11 @@ Prefixo:
 POST /api/v1/bootstrap
 POST /api/v1/auth/login
 POST /api/v1/auth/logout
+GET  /api/v1/auth/csrf
 GET  /api/v1/me
 ```
+
+Auth do browser usa sessao server-side opaca em cookie `HttpOnly`. Requests mutantes autenticadas por cookie enviam CSRF em `X-XSRF-TOKEN`, conforme [Seguranca e permissoes do MVP](seguranca-permissoes-mvp.md).
 
 ### Workspaces
 

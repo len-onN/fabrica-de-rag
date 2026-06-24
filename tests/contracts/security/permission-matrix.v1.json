@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "security.permission_matrix.v1",
+  "roles": [
+    "owner",
+    "admin",
+    "curator",
+    "member",
+    "viewer",
+    "agent"
+  ],
+  "permissions": [
+    {
+      "name": "workspace.update",
+      "allowRoles": [
+        "owner",
+        "admin"
+      ]
+    },
+    {
+      "name": "collection.create",
+      "allowRoles": [
+        "owner",
+        "admin",
+        "curator"
+      ]
+    },
+    {
+      "name": "document.upload",
+      "allowRoles": [
+        "owner",
+        "admin",
+        "curator"
+      ]
+    },
+    {
+      "name": "page_map.edit",
+      "allowRoles": [
+        "owner",
+        "admin",
+        "curator"
+      ]
+    },
+    {
+      "name": "rag.search",
+      "allowRoles": [
+        "owner",
+        "admin",
+        "curator",
+        "member",
+        "viewer"
+      ],
+      "allowAgentWithCapability": true
+    },
+    {
+      "name": "analytics.delete",
+      "allowRoles": [
+        "owner",
+        "admin"
+      ]
+    },
+    {
+      "name": "mcp.use",
+      "allowRoles": [],
+      "allowAgentWithCapability": true
+    }
+  ]
+}

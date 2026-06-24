@@ -124,7 +124,7 @@ Direcao inicial:
 
 Decisoes pendentes:
 
-- estrategia de login no MVP;
+- implementacao concreta de login local conforme `docs/seguranca-permissoes-mvp.md`;
 - forma de bootstrap do primeiro admin;
 - roles finais;
 - permissoes por recurso;

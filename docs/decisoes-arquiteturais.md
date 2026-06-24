@@ -447,3 +447,19 @@ REST interno Spring -> worker permanece suficiente no MVP. Uma fila so deve entr
 Motivo:
 
 PDFs reais geram jobs longos, falhas parciais, revisao humana e artefatos derivados. Sem run persistida, a aplicacao perderia observabilidade, retry e controle de idempotencia. Ao manter o Spring como orquestrador e o worker como executor substituivel, o projeto preserva workspace scope, testes de contrato e a possibilidade de trocar HTTP interno por fila futura sem mudar a semantica observavel.
+
+## ADR-024: Auth local por sessao opaca e agentes por capabilities
+
+Status: aceito.
+
+Decisao:
+
+O MVP deve autenticar a UI por sessao server-side opaca em cookie `HttpOnly`, com segredo aleatorio, hash persistido no backend, expiracao idle/absoluta e logout revogando a sessao no servidor. Como a UI usa cookie, requests mutantes exigem CSRF para SPA via token em header `X-XSRF-TOKEN`, com CORS same-origin por padrao e allowlist explicita apenas em desenvolvimento.
+
+Senhas locais usam `Argon2id` como algoritmo alvo. Bootstrap cria o primeiro usuario, workspace e membership `owner` somente quando nao houver usuario ativo. Recuperacao de senha por email, OIDC/OAuth, MFA, convites e RLS ficam fora do MVP.
+
+Autorizacao combina role por workspace com atributos do recurso, deny-by-default e validacao a cada request. API keys e MCP usam identidade propria `agent`, capabilities explicitas, limites e auditoria. Token passthrough de usuario humano para agentes e proibido. Tools MCP acessam dados apenas por contratos do backend, sem acesso direto a Postgres, Qdrant, storage ou filesystem livre.
+
+Motivo:
+
+Sessao opaca mantem o MVP local simples e revogavel, evita expor JWTs longos no browser e encaixa bem no Spring Security. CSRF e CORS explicitos reduzem risco da escolha por cookies. Separar usuarios humanos de agentes evita confused deputy, melhora auditoria e permite limitar ferramentas por workspace, capability, budget e schema sem abrir uma superficie administrativa prematura.

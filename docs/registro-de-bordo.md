@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-24 |
 | Fase | Portoes de planejamento do MVP |
-| Branch atual | `docs/arquitetura-ingestao-rag` |
+| Branch atual | `docs/seguranca-permissoes-mvp` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Fechar state machine, pipeline, retry/cancelamento, idempotencia, storage e reindexacao |
-| Status | PRs #1 e #2 mesclados; arquitetura de ingestao/RAG especificada com runs, etapas idempotentes, pausa para revisao, storage URI e reindexacao por generation |
-| Proximo marco | Abrir PR de `docs/arquitetura-ingestao-rag` para `develop` e seguir para `docs/seguranca-permissoes-mvp` |
+| Objetivo atual | Fechar auth local, sessao, roles, workspace scope, API/MCP e guardrails |
+| Status | PRs #1, #2 e #3 mesclados; branch `docs/seguranca-permissoes-mvp` aberta a partir de `develop` e portao de seguranca em fechamento |
+| Proximo marco | Abrir PR de `docs/seguranca-permissoes-mvp` para `develop` e seguir para `docs/algoritmos-rag-mvp` |
 
 ## Sessao viva
 
@@ -53,12 +53,14 @@ A branch `planejamento/documentacao` foi commitada, publicada, aberta como PR #1
 
 Na branch `docs/modelo-dados-contratos-mvp`, o primeiro portao de planejamento foi fechado em nivel contratual: IDs internos/publicos, modelo relacional conceitual, soft delete, workspace scope, REST, worker/Pydantic, Qdrant, eventos locais, compatibilidade entre schemas e exemplos JSON iniciais em `tests/contracts`.
 
-O PR #2 de `docs/modelo-dados-contratos-mvp` foi mesclado em `develop`. Na sequencia, a branch `docs/arquitetura-ingestao-rag` fechou a orquestracao de ingestao: state machines de documento/run/etapa, pipeline com pausa para revisao do mapa de paginas, retry, cancelamento cooperativo, idempotencia por run/step, reprocessamento por `ingestion_generation`, layout de storage local e criterios para adiar fila ate haver necessidade real.
+O PR #2 de `docs/modelo-dados-contratos-mvp` foi mesclado em `develop`. Na sequencia, a branch `docs/arquitetura-ingestao-rag` fechou a orquestracao de ingestao: state machines de documento/run/etapa, pipeline com pausa para revisao do mapa de paginas, retry, cancelamento cooperativo, idempotencia por run/step, reprocessamento por `ingestion_generation`, layout de storage local e criterios para adiar fila ate haver necessidade real. O PR #3 foi mesclado em `develop`.
+
+Na branch `docs/seguranca-permissoes-mvp`, o portao de seguranca foi especificado: UI com sessao server-side opaca em cookie `HttpOnly`, CSRF para mutacoes de SPA, CORS same-origin por padrao, senha local com `Argon2id`, bootstrap unico do primeiro owner, matriz role x acao, workspace scope por recurso, API keys futuras com hash/capabilities, agentes MCP sem token passthrough e auditoria minima por eventos locais seguros. A decisao duradoura foi registrada na ADR-024.
 
 Proximo passo concreto:
 
-- abrir PR da branch `docs/arquitetura-ingestao-rag` para `develop`;
-- iniciar `docs/seguranca-permissoes-mvp`;
+- revisar links/fixtures da branch `docs/seguranca-permissoes-mvp`;
+- abrir PR da branch `docs/seguranca-permissoes-mvp` para `develop`;
 - seguir com os demais portoes, incluindo `docs/interpretacao-imagens-tabelas-pdf`, antes de `chore/workspace-fundacao`.
 
 ## Quadro de branches
@@ -68,8 +70,8 @@ Proximo passo concreto:
 | `planejamento/documentacao` | Mesclada | Registrar proposta, MVP, ADRs, padroes iniciais e camada operacional | #1 | Mesclada em `develop`. |
 | `docs/plano-tecnico-mvp` | Incorporada na branch atual | Fechar decisoes tecnicas minimas antes da primeira branch de codigo | Nao aplicavel | Escopo executado dentro de `planejamento/documentacao`. |
 | `docs/modelo-dados-contratos-mvp` | Mesclada | Fechar modelo relacional, IDs, REST, Pydantic, Qdrant, eventos e OpenAPI | #2 | Primeiro portao de planejamento. |
-| `docs/arquitetura-ingestao-rag` | Em fechamento | Fechar state machine, pipeline, retry/cancel, idempotencia, storage e reindexacao | Pendente | Evita improviso no fluxo de ingestao. |
-| `docs/seguranca-permissoes-mvp` | Candidata | Fechar auth local, roles, workspace scope, API/MCP e guardrails | Pendente | Deve anteceder `feat/auth-bootstrap-workspaces`. |
+| `docs/arquitetura-ingestao-rag` | Mesclada | Fechar state machine, pipeline, retry/cancel, idempotencia, storage e reindexacao | #3 | Evita improviso no fluxo de ingestao. |
+| `docs/seguranca-permissoes-mvp` | Em fechamento | Fechar auth local, roles, workspace scope, API/MCP e guardrails | Pendente | Deve anteceder `feat/auth-bootstrap-workspaces`. |
 | `docs/algoritmos-rag-mvp` | Candidata | Especificar numeracao, chunking, busca, contexto, citacoes e budgets | Pendente | Deve anteceder branches de algoritmo. |
 | `docs/analytics-observabilidade-mvp` | Candidata | Fechar eventos, retencao, export/delete, logs, metricas e privacidade | Pendente | Deve anteceder branches de analytics. |
 | `docs/interpretacao-imagens-tabelas-pdf` | Candidata | Fechar camada de imagens/tabelas em PDFs, assets, elementos e vision interpreter | Pendente | Deve anteceder worker visual/tabelas, chunking e citacoes. |
@@ -117,6 +119,7 @@ Proximo passo concreto:
 | Contrato Spring -> Python worker | Especificado | Implementar adapters HTTP internos nas branches de worker/ingestao. |
 | Contrato Qdrant | Payload, reindexacao e idempotencia especificados | Implementar adapter Qdrant e testes de filtro/idempotencia nas branches de indexacao. Imagem inicial: `qdrant/qdrant:v1.18.2`. |
 | Arquitetura de ingestao | Especificada | Implementar state machine, background job e storage nas branches de ingestao. |
+| Seguranca e permissoes | Especificada | Implementar sessao, CSRF, roles, matriz de permissoes, workspace scope e testes em `feat/auth-bootstrap-workspaces`; aplicar API key/MCP nas branches proprias. |
 | Estrategia de testes | Registrada inicialmente | Implementar base em `chore/workspace-fundacao`, Compose em `build/dev-runtime-compose` e smoke em `test/smoke-stack-local`. |
 | Algoritmos iniciais | Com branch dona | Especificar em `docs/algoritmos-rag-mvp` antes das branches de algoritmo. |
 | Interpretacao visual/tabelas em PDF | Com branch dona | Especificar em `docs/interpretacao-imagens-tabelas-pdf` antes de `feat/worker-pdf-visual-tables-base`. |

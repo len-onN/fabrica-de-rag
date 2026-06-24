@@ -28,7 +28,7 @@ Caracteristicas:
 - instancia local ou self-hosted pequena;
 - bootstrap de um usuario/admin;
 - um workspace padrao criado automaticamente;
-- login simples ou modo dev/local, a decidir no planejamento tecnico;
+- login local por sessao server-side opaca em cookie seguro, conforme `docs/seguranca-permissoes-mvp.md`;
 - sem convites complexos no primeiro ciclo.
 
 ### Servidor multiusuario
@@ -120,6 +120,16 @@ auth_identities
 - password_hash
 - created_at
 
+auth_sessions
+- id
+- user_id
+- session_hash
+- csrf_token_hash
+- expires_at
+- absolute_expires_at
+- revoked_at
+- created_at
+
 workspaces
 - id
 - name
@@ -140,8 +150,10 @@ api_keys
 - workspace_id
 - created_by_user_id
 - name
+- key_prefix
 - key_hash
 - role
+- capabilities
 - expires_at
 - revoked_at
 
@@ -254,6 +266,8 @@ Direcao inicial:
 - service accounts e API keys recebem permissoes restritas;
 - agentes MCP nao devem herdar permissoes ilimitadas de um usuario humano.
 
+O portao `docs/seguranca-permissoes-mvp.md` fecha a decisao operacional: browser usa sessao server-side opaca com CSRF para mutacoes, API keys futuras usam segredo exibido uma vez e hash persistido, e agentes/API operam com role `agent` mais capabilities explicitas. A matriz role x acao e a lista endpoint x permissao vivem nesse documento para evitar divergencia.
+
 Exemplo conceitual:
 
 ```text
@@ -287,6 +301,8 @@ API key ou service account
 -> limites de contexto
 -> logs/analytics com origem agent
 ```
+
+No MVP, API keys reais entram apenas quando `feat/api-rag-publica` e `feat/mcp-tools-base` forem implementadas. A regra ja fica definida: chaves nao simulam usuario humano, nao podem receber role administrativa, sao revogaveis por workspace e carregam capability allowlist.
 
 ## Banco de dados e isolamento
 

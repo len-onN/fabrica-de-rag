@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "rest.bootstrap.response.v1",
+  "user": {
+    "id": "usr_fixture_owner",
+    "displayName": "Fixture Owner",
+    "email": "owner@example.test"
+  },
+  "workspace": {
+    "id": "wsp_fixture_alpha",
+    "name": "Workspace Fixture",
+    "purpose": "study"
+  },
+  "membership": {
+    "id": "mem_fixture_owner_alpha",
+    "role": "owner",
+    "status": "active"
+  },
+  "session": {
+    "authenticated": true,
+    "csrfHeaderName": "X-XSRF-TOKEN"
+  }
+}

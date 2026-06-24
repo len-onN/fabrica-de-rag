@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "rest.auth.me.response.v1",
+  "user": {
+    "id": "usr_fixture_owner",
+    "displayName": "Fixture Owner",
+    "email": "owner@example.test"
+  },
+  "workspaces": [
+    {
+      "id": "wsp_fixture_alpha",
+      "name": "Workspace Fixture",
+      "role": "owner",
+      "capabilities": [
+        "workspace.read",
+        "workspace.update",
+        "collection.create",
+        "document.upload",
+        "rag.search",
+        "rag.context",
+        "rag.ask",
+        "analytics.view",
+        "api_key.create",
+        "mcp.manage"
+      ]
+    }
+  ],
+  "activeWorkspaceId": "wsp_fixture_alpha"
+}

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "rest.bootstrap.request.v1",
+  "displayName": "Fixture Owner",
+  "email": "owner@example.test",
+  "password": "fixture-passphrase-12",
+  "workspaceName": "Workspace Fixture",
+  "workspacePurpose": "study",
+  "analytics": {
+    "enabled": true,
+    "retentionDays": 90
+  }
+}
