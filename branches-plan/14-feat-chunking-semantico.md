@@ -32,6 +32,7 @@ CODE, DATA, CONTRACT, TEST, PERF
 - Default `balanced`: target 700 tokens e overlap 80.
 - Default `fast`: target 450 tokens e overlap 40.
 - Tabelas e interpretacoes visuais citaveis viram chunks proprios quando couberem no budget.
+- Regras de tabela/visual fechadas em `docs/interpretacao-imagens-tabelas-pdf.md`: tabela pequena entra como `table_text`, interpretacao concluida entra como `visual_interpretation`, e ambas preservam source locator.
 
 ## Falta definir
 
@@ -52,6 +53,7 @@ CODE, DATA, CONTRACT, TEST, PERF
 - Limite de tamanho.
 - Overlap.
 - Ordem e proveniencia.
+- Tabela como unidade, tabela grande truncada com flag e interpretacao visual sem duplicar overlap.
 
 ## Fechamento
 

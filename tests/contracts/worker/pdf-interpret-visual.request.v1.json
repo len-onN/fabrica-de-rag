@@ -1,0 +1,48 @@
+{
+  "contractVersion": "worker.pdf.interpret_visual.request.v1",
+  "requestId": "req_fixture_visual_002",
+  "workspaceId": "wsp_fixture_alpha",
+  "documentId": "doc_fixture_pdf",
+  "runId": "run_fixture_pdf",
+  "language": "pt-BR",
+  "provider": "mock-vision-interpreter",
+  "model": "mock-vision-interpreter-v1",
+  "promptVersion": "visual_interpreter_pdf_v1",
+  "privacyPolicy": {
+    "remoteProviderEnabled": false,
+    "includeNearbyText": false,
+    "sendFullPageRender": false,
+    "sendOriginalPdf": false,
+    "historyMode": "metadata_only"
+  },
+  "budget": {
+    "maxItems": 20,
+    "maxImagePixelsLongestSide": 2048,
+    "timeoutPerItemMs": 30000,
+    "maxOutputTokensPerItem": 800
+  },
+  "items": [
+    {
+      "elementId": "elm_fixture_figure",
+      "assetId": "ast_fixture_figure_crop",
+      "assetStorageUri": "storage://workspaces/wsp_fixture_alpha/documents/doc_fixture_pdf/runs/run_fixture_pdf/elements/elm_fixture_figure/asset.png",
+      "elementType": "figure",
+      "caption": "Figura 1. Fluxo simplificado de ingestao ate citacao.",
+      "detectedText": ["upload", "worker", "chunks", "citacao"],
+      "sourceLocator": {
+        "sourceType": "pdf_upload",
+        "documentId": "doc_fixture_pdf",
+        "filePageNumber": 3,
+        "printedLabel": "1",
+        "unit": "pdf_points_top_left",
+        "pageWidth": 612,
+        "pageHeight": 792,
+        "rotation": 0,
+        "bbox": [96, 292, 486, 410],
+        "readingOrder": 19,
+        "elementId": "elm_fixture_figure",
+        "assetId": "ast_fixture_figure_crop"
+      }
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "eventVersion": "analytics.event.v1",
+  "eventName": "table_extracted",
+  "origin": "worker",
+  "retentionClass": "analytics",
+  "workspaceId": "wsp_fixture_alpha",
+  "actor": {
+    "type": "system",
+    "id": null
+  },
+  "correlationId": "req_fixture_visual_001",
+  "occurredAt": "2026-06-25T14:59:00Z",
+  "resource": {
+    "type": "document_element",
+    "id": "elm_fixture_table"
+  },
+  "properties": {
+    "rowsBucket": "1_5",
+    "columnsBucket": "1_5",
+    "confidenceBucket": "0_80_0_90",
+    "hasCellBBoxes": true,
+    "continuedAcrossPages": false
+  }
+}

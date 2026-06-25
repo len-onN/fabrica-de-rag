@@ -507,6 +507,10 @@ PDF:
   "documentId": "doc_fixture_pdf",
   "filePageNumber": 3,
   "printedLabel": "2",
+  "unit": "pdf_points_top_left",
+  "pageWidth": 612,
+  "pageHeight": 792,
+  "rotation": 0,
   "bbox": [72, 144, 520, 360],
   "readingOrder": 18
 }
@@ -515,7 +519,7 @@ PDF:
 Regras:
 
 - `filePageNumber` e 1-based.
-- `bbox` usa pontos PDF ou unidade declarada no contrato do worker. A unidade deve ser fixa por contrato.
+- `bbox` usa `pdf_points_top_left`, com pagina normalizada apos rotacao, conforme `docs/interpretacao-imagens-tabelas-pdf.md`.
 - Campos de fontes futuras entram sem alterar chunks existentes.
 - Citacoes devem conseguir montar pelo menos documento, pagina fisica, pagina impressa quando houver, chunk e trecho.
 

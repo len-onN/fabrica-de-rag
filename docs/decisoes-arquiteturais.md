@@ -412,6 +412,14 @@ Motivo:
 
 PDFs reais frequentemente comunicam informacao essencial por tabelas, imagens, diagramas, fluxos e capturas. Tratar o PDF apenas como texto/OCR perderia conhecimento importante e enfraqueceria citacoes. Ao mesmo tempo, chamar uma LLM de visao diretamente dentro do fluxo sem contratos criaria risco de custo, privacidade, falta de reproducibilidade e baixa testabilidade. Separar extracao estrutural de interpretacao visual por adapter preserva proveniencia, permite fallback local/mockado, controla budgets e mantem o pipeline aberto para providers melhores sem reescrever o core.
 
+Detalhamento fechado no portao `docs/interpretacao-imagens-tabelas-pdf`:
+
+- `pdf.source_locator.v1` usa pagina fisica 1-based, bbox `pdf_points_top_left`, dimensoes da pagina, rotacao normalizada e ordem de leitura.
+- tabelas usam `pdf.table_json.v1` como estrutura minima e `pdf.table_markdown.v1` como fallback citavel.
+- interpretacoes visuais usam `pdf.visual_interpretation.v1`, `visual_interpreter_pdf_v1`, provider/modelo/prompt version, input hash, confidence e erro estruturado.
+- provider remoto de visao fica opt-in; testes, smoke e e2e usam `mock-vision-interpreter`.
+- cache e reprocessamento seguem hash de asset/source locator/provider/model/prompt/policy, escopado ao workspace no MVP.
+
 ## ADR-022: Modelo de dados e contratos versionados do MVP
 
 Status: aceito.

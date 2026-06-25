@@ -1,0 +1,27 @@
+{
+  "contractVersion": "worker.pdf.extract_elements.request.v1",
+  "requestId": "req_fixture_visual_001",
+  "workspaceId": "wsp_fixture_alpha",
+  "documentId": "doc_fixture_pdf",
+  "runId": "run_fixture_pdf",
+  "storageUri": "storage://workspaces/wsp_fixture_alpha/documents/doc_fixture_pdf/original/original.pdf",
+  "pages": [
+    {
+      "filePageNumber": 3,
+      "pageAssetId": "ast_fixture_page_3_render",
+      "renderStorageUri": "storage://workspaces/wsp_fixture_alpha/documents/doc_fixture_pdf/runs/run_fixture_pdf/pages/3/render.png",
+      "pageWidth": 612,
+      "pageHeight": 792,
+      "rotation": 0
+    }
+  ],
+  "options": {
+    "detectTables": true,
+    "detectImages": true,
+    "detectCaptions": true,
+    "includeCellBBoxes": true,
+    "renderAssetReferences": true,
+    "maxElements": 1000,
+    "maxTableCells": 2000
+  }
+}

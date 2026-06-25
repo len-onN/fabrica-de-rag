@@ -34,6 +34,7 @@ CODE, CONTRACT, TEST, PERF
 - Politicas iniciais: `conservative_neighbors_v1` e `sequential_neighbors_v1`.
 - Budget default: laboratorio 6000 tokens, API 5000, MCP 4000.
 - Tabelas tentam entrar como unidade; quando nao couberem, entram truncadas com flag e citacao preservada.
+- Regras de elementos visuais/tabelas fechadas em `docs/interpretacao-imagens-tabelas-pdf.md`.
 
 ## Falta definir
 
@@ -55,6 +56,7 @@ CODE, CONTRACT, TEST, PERF
 - Elemento visual relacionado.
 - Tabela preservada como unidade.
 - Ordem final.
+- Interpretacao visual marcada como dado derivado e citacao preservada mesmo com truncamento.
 
 ## Fechamento
 

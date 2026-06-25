@@ -1,6 +1,6 @@
 # docs/interpretacao-imagens-tabelas-pdf
 
-Status: candidata.
+Status: em fechamento.
 
 ## Objetivo
 
@@ -35,18 +35,20 @@ DOC, DATA, CONTRACT, RUNTIME, PERF, TEST
 - Interpretacao visual textual por LLM/VLM entra por adapter configuravel, com modo mockado/local para testes e opt-in quando houver provider remoto.
 - O worker Python concentra processamento documental pesado.
 - SQL continua sendo a fonte da verdade para elementos, assets, relacoes e proveniencia.
+- `docs/interpretacao-imagens-tabelas-pdf.md` fecha `pdf.source_locator.v1`, `pdf.document_element.v1`, `pdf.asset.v1`, `pdf.table_json.v1`, `pdf.table_markdown.v1`, `pdf.visual_interpretation.v1` e os contratos `worker.pdf.extract_elements.*.v1` e `worker.pdf.interpret_visual.*.v1`.
+- Bbox usa `pdf_points_top_left`, pagina fisica 1-based, pagina normalizada apos rotacao e source locator citavel.
+- Tabelas preservam estrutura JSON minima e Markdown como fallback textual/chunk inicial.
+- Provider remoto de visao fica desligado por padrao; mock deterministico e obrigatorio para testes, smoke e e2e.
+- Cache de interpretacao visual e versionado por hash de asset/source locator/provider/model/prompt/policy e escopado por workspace.
+- Budgets iniciais, erros estruturados, eventos seguros e fixtures JSON foram definidos.
 
 ## Falta definir
 
-- Contrato minimo de elemento visual/tabela.
-- Estrutura de `source_locator` com pagina, bbox, ordem de leitura e tipo de elemento.
-- Formato textual inicial de tabelas: Markdown, linhas normalizadas, CSV-like ou JSON estruturado.
-- Estrategia de caption/descricao: legenda extraida, texto proximo, OCR interno, interpretacao por LLM/VLM ou descricao manual futura.
-- Contrato do vision interpreter: entrada de imagem/crop/tabela renderizada, prompt/policy, saida estruturada, modelo, versao, confidence e erros.
-- Politica de privacidade para provider remoto: consentimento, mascaramento quando possivel, limites e registro sem expor imagem/conteudo sensivel indevido.
-- Politica de cache/reprocessamento da interpretacao visual por hash de asset + modelo + prompt version.
-- Politica de qualidade/confianca por elemento.
-- Como relacionar chunk textual, tabela, imagem e legenda sem duplicar contexto.
+- Biblioteca concreta para extracao de tabelas/imagens no worker.
+- Parametros reais de memoria/tempo por biblioteca.
+- Prompt final de provider remoto quando um provider real for escolhido.
+- UX final de destaque de bbox, modal/painel e fallback visual.
+- Ajustes finos apos fixtures reais de PDF.
 
 ## Detalhes que devem ficar explicitos
 
@@ -63,11 +65,11 @@ DOC, DATA, CONTRACT, RUNTIME, PERF, TEST
 
 ## Estrategia
 
-1. Mapear elementos visuais/tabelas exigidos pelo MVP.
-2. Definir contratos e exemplos JSON em `tests/contracts`.
-3. Definir relacoes com paginas, assets, chunks e citacoes.
-4. Definir limites do MVP e backlog futuro multimodal.
-5. Atualizar ADRs, plano de branches e escopos funcionais.
+1. Mapear elementos visuais/tabelas exigidos pelo MVP. Concluido em `docs/interpretacao-imagens-tabelas-pdf.md`.
+2. Definir contratos e exemplos JSON em `tests/contracts`. Concluido com fixtures de worker, RAG e eventos.
+3. Definir relacoes com paginas, assets, chunks e citacoes. Concluido por source locator, relations e regras de contexto.
+4. Definir limites do MVP e backlog futuro multimodal. Concluido; embeddings visuais e busca multimodal seguem fora do MVP.
+5. Atualizar ADRs, plano de branches e escopos funcionais. Concluido nesta branch.
 
 ## Testabilidade
 
@@ -76,6 +78,8 @@ DOC, DATA, CONTRACT, RUNTIME, PERF, TEST
 - O contrato preserva workspace scope e source locator.
 - Tabelas nao sao quebradas como paragrafo comum sem criterio explicito.
 - Citacao consegue voltar a pagina/bbox ou fallback textual.
+- Eventos visuais nao carregam binario, prompt completo nem texto integral.
+- Provider mockado permite testes sem rede e sem modelo real.
 
 ## Fechamento
 
