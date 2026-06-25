@@ -1,0 +1,18 @@
+{
+  "contractVersion": "rag.ask.response.v1",
+  "workspaceId": "wsp_fixture_alpha",
+  "collectionId": "col_fixture_rag",
+  "queryId": "qry_fixture_002",
+  "status": "insufficient_evidence",
+  "answer": null,
+  "citations": [],
+  "retrievedChunks": [],
+  "expandedContext": [],
+  "reason": "no_reliable_context",
+  "metrics": {
+    "retrievedChunks": 0,
+    "contextItems": 0,
+    "estimatedTokens": 0,
+    "latencyMs": 41
+  }
+}

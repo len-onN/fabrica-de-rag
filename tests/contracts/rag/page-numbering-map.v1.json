@@ -1,0 +1,67 @@
+{
+  "contractVersion": "rag.page_numbering.map.v1",
+  "workspaceId": "wsp_fixture_alpha",
+  "documentId": "doc_fixture_pdf",
+  "algorithm": "page_numbering_anchor_segments_v1",
+  "segments": [
+    {
+      "segmentId": "seg_fixture_preface",
+      "startFilePageNumber": 2,
+      "endFilePageNumber": 2,
+      "numberingStyle": "roman",
+      "anchorFilePageNumber": 2,
+      "anchorPrintedLabel": "i"
+    },
+    {
+      "segmentId": "seg_fixture_body",
+      "startFilePageNumber": 3,
+      "endFilePageNumber": 5,
+      "numberingStyle": "arabic",
+      "anchorFilePageNumber": 3,
+      "anchorPrintedLabel": "1"
+    }
+  ],
+  "pages": [
+    {
+      "pageId": "pag_fixture_cover",
+      "filePageNumber": 1,
+      "pageRole": "cover",
+      "includeInSearch": false,
+      "includeInNumbering": false,
+      "detectedPrintedLabel": null,
+      "effectivePrintedLabel": null,
+      "numberingSource": "manual"
+    },
+    {
+      "pageId": "pag_fixture_preface",
+      "filePageNumber": 2,
+      "pageRole": "preface",
+      "includeInSearch": true,
+      "includeInNumbering": true,
+      "detectedPrintedLabel": "i",
+      "effectivePrintedLabel": "i",
+      "numberingSource": "anchor"
+    },
+    {
+      "pageId": "pag_fixture_body_001",
+      "filePageNumber": 3,
+      "pageRole": "body",
+      "includeInSearch": true,
+      "includeInNumbering": true,
+      "detectedPrintedLabel": "1",
+      "effectivePrintedLabel": "1",
+      "numberingSource": "anchor"
+    },
+    {
+      "pageId": "pag_fixture_body_002",
+      "filePageNumber": 4,
+      "pageRole": "body",
+      "includeInSearch": true,
+      "includeInNumbering": true,
+      "detectedPrintedLabel": null,
+      "effectivePrintedLabel": "2",
+      "numberingSource": "inferred"
+    }
+  ],
+  "warnings": []
+}

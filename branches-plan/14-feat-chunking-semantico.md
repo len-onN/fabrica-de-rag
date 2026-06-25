@@ -28,12 +28,14 @@ CODE, DATA, CONTRACT, TEST, PERF
 
 - Chunk recuperavel nao e contexto final.
 - Proveniencia e obrigatoria.
+- Algoritmo definido em `docs/algoritmos-rag-mvp.md` como `semantic_block_v1`.
+- Default `balanced`: target 700 tokens e overlap 80.
+- Default `fast`: target 450 tokens e overlap 40.
+- Tabelas e interpretacoes visuais citaveis viram chunks proprios quando couberem no budget.
 
 ## Falta definir
 
-- Tamanho inicial de chunk.
-- Overlap inicial por perfil.
-- Campos exatos de heading path.
+- Ajustes finos apos fixtures reais de PDF, sem mudar o contrato `semantic_block_v1`.
 
 ## Estrategia
 
@@ -54,4 +56,3 @@ CODE, DATA, CONTRACT, TEST, PERF
 ## Fechamento
 
 - Documento gera chunks rastreaveis.
-

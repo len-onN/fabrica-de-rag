@@ -79,6 +79,7 @@ AGENT      MCP, tools, skills, guardrails
 - Decisoes estruturais complexas devem ter branch `docs/*` antes da implementacao.
 - Gate SOLID/OCP-LSP-IoC: branches devem expandir comportamento por contratos, ports, adapters, policies, strategies ou schemas, garantir substituibilidade das implementacoes e ligar concretos por injecao/composicao, evitando mudanca lateral em fluxos ja estabilizados.
 - Seguranca do MVP definida em `docs/seguranca-permissoes-mvp.md`: sessao opaca, CSRF, CORS, Argon2id, matriz de permissoes, workspace scope, API keys futuras e guardrails MCP/API.
+- Algoritmos RAG do MVP definidos em `docs/algoritmos-rag-mvp.md`: numeracao por ancoras/segmentos, chunking `semantic_block_v1`, mock de embeddings, busca vetorial, context builder, citacoes e budgets iniciais.
 
 ## O que falta definir
 
@@ -86,7 +87,7 @@ Estas decisoes continuam abertas, mas agora tem branch dona:
 
 - modelo relacional, IDs e OpenAPI: `docs/modelo-dados-contratos-mvp`;
 - orquestracao de ingestao, retry/cancel e fila futura: `docs/arquitetura-ingestao-rag`;
-- provider/modelo de embeddings, LLM real vs adapter mockado e budgets: `docs/algoritmos-rag-mvp`;
+- provider real de embeddings e LLM, mantendo adapter mockado definido em `docs/algoritmos-rag-mvp`: `feat/embeddings-base` e `feat/resposta-rag-base`;
 - taxonomia de analytics, retencao, export/delete e logs: `docs/analytics-observabilidade-mvp`;
 - interpretacao de imagens/tabelas em PDFs, assets, elementos visuais e vision interpreter: `docs/interpretacao-imagens-tabelas-pdf`;
 - comando unico de verificacao local: `chore/workspace-fundacao` e branches base de cada stack.

@@ -27,11 +27,13 @@ CODE, CONTRACT, RUNTIME, TEST, PERF
 
 - Embedding deve ser versionado.
 - Custo/rede devem ficar isolados por adapter.
+- Contrato definido em `docs/algoritmos-rag-mvp.md` como `text_embedding_provider_v1`.
+- Testes e e2e usam `mock-text-embedding-v1`, deterministico, dimensao 16, metrica `cosine` e vector space `text_chunks_v1`.
 
 ## Falta definir
 
-- Parametros finos do adapter escolhido.
-- Limites de lote/timeout.
+- Provider real, se entrar nesta branch.
+- Parametros finos do adapter real escolhido.
 
 ## Estrategia
 

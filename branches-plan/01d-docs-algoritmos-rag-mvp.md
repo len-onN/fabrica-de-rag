@@ -1,6 +1,6 @@
 # docs/algoritmos-rag-mvp
 
-Status: candidata.
+Status: em fechamento.
 
 ## Objetivo
 
@@ -35,19 +35,20 @@ DOC, PERF, DATA, CONTRACT, TEST
 - Citacoes devem carregar pagina fisica e impressa.
 - Qdrant encontra ancoras; SQL enriquece resultado.
 - Algoritmos devem privilegiar legibilidade e testes de caso-limite.
+- Numeracao usa `page_numbering_anchor_segments_v1`.
+- Chunking usa `semantic_block_v1`.
+- Testes e e2e usam `mock-text-embedding-v1`, deterministico, dimensao 16 e metrica `cosine`.
+- Context builder usa `context_builder_v1`, com politicas `conservative` e `sequential`.
+- Resposta RAG retorna `insufficient_evidence` quando nao houver contexto confiavel e citavel.
+- Defaults iniciais: chunk `balanced` 700 tokens com overlap 80, laboratorio `topK=12`, API/MCP `topK=8`, budgets de contexto 6000/5000/4000 tokens para laboratorio/API/MCP.
+- Fixtures de contrato RAG e worker foram adicionadas em `tests/contracts/rag` e `tests/contracts/worker`.
 
 ## Falta definir
 
-- Estrutura exata de segmento de numeracao.
-- Tamanho inicial de chunk por perfil.
-- Politica de overlap.
-- Ordem final do contexto expandido.
-- Comportamento quando budget estoura.
-- Regras para abrir fonte original de uma citacao.
-- Contrato de embedding provider e LLM provider, incluindo modo mockado e modo real.
-- Filtros obrigatorios de recuperacao antes/depois do Qdrant.
-- Politica de ordenacao, deduplicacao e score minimo.
-- Metricas minimas de tempo, memoria, tokens, quantidade de chunks e payload.
+- Provider real de embedding e parametros concretos de dependencia, a fechar em `feat/embeddings-base`.
+- Provider real de LLM e prompt final, a fechar em `feat/resposta-rag-base`.
+- Taxonomia final de eventos e retencao, a fechar em `docs/analytics-observabilidade-mvp`.
+- Provider visual, privacy budget e fixtures visuais finais, a fechar em `docs/interpretacao-imagens-tabelas-pdf`.
 
 ## Detalhes que devem ficar explicitos
 
@@ -78,4 +79,4 @@ DOC, PERF, DATA, CONTRACT, TEST
 
 ## Fechamento
 
-- Branches de algoritmo implementam especificacoes claras e revisaveis.
+- Branches de algoritmo implementam as especificacoes de `docs/algoritmos-rag-mvp.md` e validam as fixtures versionadas.

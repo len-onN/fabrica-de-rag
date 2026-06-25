@@ -31,11 +31,13 @@ CODE, CONTRACT, TEST, SEC, OBS, PERF
 - Erros padronizados.
 - API keys usam segredo exibido uma vez, hash persistido, role `agent`, capabilities, expiracao e revogacao.
 - Browser pode usar sessao, mas clientes externos nao usam token passthrough de usuario humano.
+- Limites iniciais herdados de `docs/algoritmos-rag-mvp.md`: `topK=8`, maximo 12, budget default 5000 tokens e maximo 8000.
+- Respostas publicas usam citacoes `rag.citation.v1` e estado `insufficient_evidence` quando nao houver contexto confiavel.
 
 ## Falta definir
 
 - Formato final da resposta publica.
-- Limites numericos iniciais de busca/contexto, herdados de `docs/algoritmos-rag-mvp`.
+- Envelope final da resposta publica quando o endpoint real for implementado.
 
 ## Estrategia
 
