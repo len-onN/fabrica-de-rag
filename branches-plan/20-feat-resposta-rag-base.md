@@ -28,10 +28,13 @@ CODE, CONTRACT, TEST, OBS, PERF
 
 - LLM nao substitui fonte.
 - Testes usam mock por padrao.
+- Politica definida em `docs/algoritmos-rag-mvp.md` como `grounded_answer_policy_v1`.
+- Resposta afirmativa exige pelo menos uma citacao.
+- Sem contexto confiavel retorna `status=insufficient_evidence`.
 
 ## Falta definir
 
-- Politica de resposta quando nao houver evidencia.
+- Provider real e prompt final, se forem habilitados nesta branch.
 
 ## Estrategia
 

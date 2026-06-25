@@ -36,13 +36,15 @@ AGENT, CODE, CONTRACT, TEST, SEC, OBS
 - Identidade `agent` com capabilities explicitas.
 - Proibido token passthrough de usuario humano.
 - Tool call carrega workspace, correlation id, capability e limites.
+- Limites iniciais herdados de `docs/algoritmos-rag-mvp.md`: `topK=8`, maximo 12, budget default 4000 tokens e maximo 6000.
+- Tools de contexto usam `rag.citation.v1` e retornam `insufficient_evidence` quando aplicavel.
 
 ## Falta definir
 
 - Versionamento de tools.
 - Transporte inicial local/remoto.
 - Estrategia de compatibilidade entre schemas MCP e contratos REST.
-- Limites numericos finais por ferramenta, herdados de `docs/algoritmos-rag-mvp`.
+- Envelope final de erro por tool quando a implementacao real chegar.
 
 ## Estrategia
 

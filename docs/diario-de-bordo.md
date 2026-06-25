@@ -72,6 +72,18 @@ Para agentes e API futura, ficou decidido que API keys e MCP nao fazem token pas
 
 Foram adicionadas fixtures pequenas de contrato para bootstrap, login, `me`, matriz de permissoes e contexto de tool MCP. A implementacao concreta de Spring Security, migrations, UI e testes fica para `feat/auth-bootstrap-workspaces`; API keys reais ficam para `feat/api-rag-publica`; tool schemas completos ficam para `feat/mcp-tools-base`; budgets numericos e taxonomia final de eventos seguem para seus portoes donos.
 
+## 2026-06-24 - Algoritmos RAG do MVP
+
+Depois da aprovacao e merge remoto do PR #4, `develop` foi atualizado por fast-forward e a branch `docs/algoritmos-rag-mvp` foi aberta a partir da linha de integracao atualizada. O registro de bordo ainda apontava a branch de seguranca como em fechamento; a reconciliacao foi feita no proprio bordo, registrando seguranca como mesclada e algoritmos como portao atual.
+
+O portao de algoritmos fechou a primeira versao contratual das regras que as branches funcionais deverao implementar. A numeracao impressa passa a ser definida por `page_numbering_anchor_segments_v1`, com ancoras humanas, segmentos, estilos, paginas excluidas da contagem e conflitos que exigem revisao. O chunking inicial passa a ser `semantic_block_v1`, com blocos normalizados, heading path, token count estimado, overlap controlado, source locator obrigatorio e relacoes diretas para tabelas e interpretacoes visuais.
+
+Tambem ficaram definidos os contratos de embeddings e busca: testes e e2e usam `mock-text-embedding-v1`, deterministico, com dimensao 16 e metrica `cosine`; provider real entra depois por adapter. A busca vetorial usa Qdrant apenas como indice derivado, sempre filtrado por workspace, colecao, payload contract e vector space, com enriquecimento e revalidacao no SQL. O score nao corta resultados por padrao; baixa confianca vira sinal explicito para UI/API.
+
+O context builder foi separado da busca por `context_builder_v1`, com politicas `conservative` e `sequential`, budgets iniciais para laboratorio, API e MCP, deduplicacao, ordem deterministica e preservacao de citacoes. O contrato `rag.citation.v1` fixa documento, chunk, pagina fisica, pagina impressa, source locator, quote e fallback de preview. Para respostas, a politica `grounded_answer_policy_v1` determina que uma resposta afirmativa precisa de evidencia citavel; sem contexto confiavel, o sistema retorna `insufficient_evidence`.
+
+Foram adicionadas fixtures pequenas em `tests/contracts/rag` e `tests/contracts/worker`, cobrindo mapa de numeracao, chunking, embedding mockado, resposta de busca, montagem de contexto, citacao e resposta sem evidencia. As branches consumidoras foram atualizadas para apontar para a especificacao, e a decisao duradoura foi registrada na ADR-025. O proximo portao passa a ser `docs/analytics-observabilidade-mvp`, antes da especificacao final de interpretacao visual/tabelas e da fundacao de codigo.
+
 ## Modelo de entrada futura
 
 ```text

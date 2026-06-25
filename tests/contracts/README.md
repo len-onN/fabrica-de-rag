@@ -18,6 +18,7 @@ security/
 worker/
 ingestion/
 qdrant/
+rag/
 events/
 mcp/
 ```

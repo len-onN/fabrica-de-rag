@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-24 |
 | Fase | Portoes de planejamento do MVP |
-| Branch atual | `docs/seguranca-permissoes-mvp` |
+| Branch atual | `docs/algoritmos-rag-mvp` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Fechar auth local, sessao, roles, workspace scope, API/MCP e guardrails |
-| Status | PRs #1, #2 e #3 mesclados; branch `docs/seguranca-permissoes-mvp` aberta a partir de `develop` e portao de seguranca em fechamento |
-| Proximo marco | Abrir PR de `docs/seguranca-permissoes-mvp` para `develop` e seguir para `docs/algoritmos-rag-mvp` |
+| Objetivo atual | Fechar numeracao, chunking, embeddings, busca, contexto, citacoes e budgets |
+| Status | PRs #1, #2, #3 e #4 mesclados; `develop` atualizado; branch `docs/algoritmos-rag-mvp` aberta a partir de `develop` e portao de algoritmos em fechamento |
+| Proximo marco | Abrir PR de `docs/algoritmos-rag-mvp` para `develop` e seguir para `docs/analytics-observabilidade-mvp` |
 
 ## Sessao viva
 
@@ -57,11 +57,15 @@ O PR #2 de `docs/modelo-dados-contratos-mvp` foi mesclado em `develop`. Na seque
 
 Na branch `docs/seguranca-permissoes-mvp`, o portao de seguranca foi especificado: UI com sessao server-side opaca em cookie `HttpOnly`, CSRF para mutacoes de SPA, CORS same-origin por padrao, senha local com `Argon2id`, bootstrap unico do primeiro owner, matriz role x acao, workspace scope por recurso, API keys futuras com hash/capabilities, agentes MCP sem token passthrough e auditoria minima por eventos locais seguros. A decisao duradoura foi registrada na ADR-024.
 
+O PR #4 de `docs/seguranca-permissoes-mvp` foi aprovado e mesclado em `develop`. A linha local `develop` foi atualizada por fast-forward e a branch `docs/algoritmos-rag-mvp` foi aberta a partir dela.
+
+Na branch `docs/algoritmos-rag-mvp`, o portao de algoritmos especificou numeracao por ancoras/segmentos (`page_numbering_anchor_segments_v1`), chunking por blocos semanticos (`semantic_block_v1`), provider mockado de embeddings (`mock-text-embedding-v1`), busca vetorial com filtros obrigatorios, context builder versionado, contrato de citacoes `rag.citation.v1`, politica `insufficient_evidence` para resposta sem contexto confiavel e budgets iniciais para laboratorio, API e MCP. A decisao duradoura foi registrada na ADR-025 e fixtures pequenas foram adicionadas em `tests/contracts/rag` e `tests/contracts/worker`.
+
 Proximo passo concreto:
 
-- revisar links/fixtures da branch `docs/seguranca-permissoes-mvp`;
-- abrir PR da branch `docs/seguranca-permissoes-mvp` para `develop`;
-- seguir com os demais portoes, incluindo `docs/interpretacao-imagens-tabelas-pdf`, antes de `chore/workspace-fundacao`.
+- revisar links/fixtures da branch `docs/algoritmos-rag-mvp`;
+- abrir PR da branch `docs/algoritmos-rag-mvp` para `develop`;
+- seguir para `docs/analytics-observabilidade-mvp` e depois `docs/interpretacao-imagens-tabelas-pdf`, antes de `chore/workspace-fundacao`.
 
 ## Quadro de branches
 
@@ -71,8 +75,8 @@ Proximo passo concreto:
 | `docs/plano-tecnico-mvp` | Incorporada na branch atual | Fechar decisoes tecnicas minimas antes da primeira branch de codigo | Nao aplicavel | Escopo executado dentro de `planejamento/documentacao`. |
 | `docs/modelo-dados-contratos-mvp` | Mesclada | Fechar modelo relacional, IDs, REST, Pydantic, Qdrant, eventos e OpenAPI | #2 | Primeiro portao de planejamento. |
 | `docs/arquitetura-ingestao-rag` | Mesclada | Fechar state machine, pipeline, retry/cancel, idempotencia, storage e reindexacao | #3 | Evita improviso no fluxo de ingestao. |
-| `docs/seguranca-permissoes-mvp` | Em fechamento | Fechar auth local, roles, workspace scope, API/MCP e guardrails | Pendente | Deve anteceder `feat/auth-bootstrap-workspaces`. |
-| `docs/algoritmos-rag-mvp` | Candidata | Especificar numeracao, chunking, busca, contexto, citacoes e budgets | Pendente | Deve anteceder branches de algoritmo. |
+| `docs/seguranca-permissoes-mvp` | Mesclada | Fechar auth local, roles, workspace scope, API/MCP e guardrails | #4 | Deve anteceder `feat/auth-bootstrap-workspaces`. |
+| `docs/algoritmos-rag-mvp` | Em fechamento | Especificar numeracao, chunking, busca, contexto, citacoes e budgets | Pendente | Deve anteceder branches de algoritmo. |
 | `docs/analytics-observabilidade-mvp` | Candidata | Fechar eventos, retencao, export/delete, logs, metricas e privacidade | Pendente | Deve anteceder branches de analytics. |
 | `docs/interpretacao-imagens-tabelas-pdf` | Candidata | Fechar camada de imagens/tabelas em PDFs, assets, elementos e vision interpreter | Pendente | Deve anteceder worker visual/tabelas, chunking e citacoes. |
 | `chore/workspace-fundacao` | Candidata | Criar estrutura raiz, diretorios e convencoes do repositorio | Pendente | Depende do plano tecnico MVP. |
@@ -121,7 +125,8 @@ Proximo passo concreto:
 | Arquitetura de ingestao | Especificada | Implementar state machine, background job e storage nas branches de ingestao. |
 | Seguranca e permissoes | Especificada | Implementar sessao, CSRF, roles, matriz de permissoes, workspace scope e testes em `feat/auth-bootstrap-workspaces`; aplicar API key/MCP nas branches proprias. |
 | Estrategia de testes | Registrada inicialmente | Implementar base em `chore/workspace-fundacao`, Compose em `build/dev-runtime-compose` e smoke em `test/smoke-stack-local`. |
-| Algoritmos iniciais | Com branch dona | Especificar em `docs/algoritmos-rag-mvp` antes das branches de algoritmo. |
+| Algoritmos iniciais | Especificados | Implementar numeracao, chunking, embeddings, busca, contexto, citacoes e resposta nas branches funcionais usando `docs/algoritmos-rag-mvp.md`. |
+| Providers reais de embedding/LLM | Encaminhados | Manter mock deterministico em testes; escolher adapters reais nas branches `feat/embeddings-base` e `feat/resposta-rag-base` se houver configuracao. |
 | Interpretacao visual/tabelas em PDF | Com branch dona | Especificar em `docs/interpretacao-imagens-tabelas-pdf` antes de `feat/worker-pdf-visual-tables-base`. |
 | Colateralidades por branch | Explicitado | Aplicar checklist operacional e gate SOLID/OCP-LSP-IoC antes de cada branch. |
 | Trigger de implementacao agentica | Registrado | Usar `docs/trigger-implementacao-agentica.md` antes de qualquer retomada ou nova implementacao. |

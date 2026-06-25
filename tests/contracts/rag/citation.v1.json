@@ -1,0 +1,24 @@
+{
+  "contractVersion": "rag.citation.v1",
+  "citationId": "cit_fixture_table",
+  "documentId": "doc_fixture_pdf",
+  "chunkId": "chk_fixture_table",
+  "sourceElementId": "elm_fixture_table",
+  "assetId": null,
+  "sourceType": "pdf_upload",
+  "filePageNumber": 3,
+  "printedLabel": "1",
+  "sourceLabel": "PDF p. 3 / impresso p. 1",
+  "quote": "Pagina fisica 3 corresponde a pagina impressa 1.",
+  "contentKind": "table_text",
+  "previewAvailable": true,
+  "fallbackTextAvailable": true,
+  "sourceLocator": {
+    "sourceType": "pdf_upload",
+    "documentId": "doc_fixture_pdf",
+    "filePageNumber": 3,
+    "printedLabel": "1",
+    "bbox": [72, 300, 520, 420],
+    "readingOrder": 8
+  }
+}

@@ -30,12 +30,11 @@ CODE, DATA, CONTRACT, UX, TEST, PERF
 
 - Pagina fisica e pagina impressa sao conceitos distintos.
 - Citacoes devem carregar ambas quando aplicavel.
+- Algoritmo definido em `docs/algoritmos-rag-mvp.md` como `page_numbering_anchor_segments_v1`.
+- Segmentos usam ancoras, estilo, direcao de aplicacao e paginas excluidas da numeracao.
 
 ## Falta definir
 
-- Modelo exato de segmento de numeracao.
-- Casos-limite que entram nesta primeira branch.
-- Como representar pagina sem numeracao.
 - Fallback quando render de pagina nao estiver disponivel.
 
 ## Estrategia
@@ -52,6 +51,7 @@ CODE, DATA, CONTRACT, UX, TEST, PERF
 - Capa/prefacio.
 - Pagina sem numeracao.
 - Segmento quando incluido.
+- Conflito entre ancoras.
 
 ## Fechamento
 

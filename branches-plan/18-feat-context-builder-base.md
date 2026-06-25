@@ -30,13 +30,14 @@ CODE, CONTRACT, TEST, PERF
 - Context builder separado da busca.
 - Contexto final e diferente de chunk recuperavel.
 - Imagens/tabelas entram no contexto como texto derivado citavel, preservando source locator.
+- Builder definido em `docs/algoritmos-rag-mvp.md` como `context_builder_v1`.
+- Politicas iniciais: `conservative_neighbors_v1` e `sequential_neighbors_v1`.
+- Budget default: laboratorio 6000 tokens, API 5000, MCP 4000.
+- Tabelas tentam entrar como unidade; quando nao couberem, entram truncadas com flag e citacao preservada.
 
 ## Falta definir
 
-- Budget inicial.
-- Politica conservadora vs sequencial.
-- Formato final do pacote de contexto.
-- Politica de budget para elementos visuais/tabelas relacionados.
+- Ajuste fino de UI para exibir descartes e truncamentos.
 
 ## Estrategia
 

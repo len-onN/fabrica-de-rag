@@ -1,0 +1,56 @@
+{
+  "contractVersion": "worker.chunks.build.response.v1",
+  "requestId": "req_fixture_003",
+  "workspaceId": "wsp_fixture_alpha",
+  "documentId": "doc_fixture_pdf",
+  "chunkingStrategy": "semantic_block",
+  "chunkingVersion": "semantic_block_v1",
+  "chunks": [
+    {
+      "chunkId": "chk_fixture_intro",
+      "sequenceNumber": 1,
+      "contentKind": "text",
+      "content": "Pagina impressa e pagina fisica sao conceitos diferentes no documento fixture.",
+      "headingPath": ["Capitulo 1", "Introducao"],
+      "tokenCount": 12,
+      "sourceHash": "sha256:fixture-intro",
+      "sourceLocator": {
+        "sourceType": "pdf_upload",
+        "documentId": "doc_fixture_pdf",
+        "filePageNumber": 3,
+        "printedLabel": "1",
+        "bbox": [72, 144, 520, 260],
+        "readingOrder": 4
+      }
+    },
+    {
+      "chunkId": "chk_fixture_table",
+      "sequenceNumber": 2,
+      "contentKind": "table_text",
+      "content": "| Campo | Valor |\\n| Pagina fisica | 3 |\\n| Pagina impressa | 1 |",
+      "headingPath": ["Capitulo 1", "Tabela de paginas"],
+      "tokenCount": 18,
+      "sourceHash": "sha256:fixture-table",
+      "sourceLocator": {
+        "sourceType": "pdf_upload",
+        "documentId": "doc_fixture_pdf",
+        "filePageNumber": 3,
+        "printedLabel": "1",
+        "bbox": [72, 300, 520, 420],
+        "readingOrder": 8
+      }
+    }
+  ],
+  "relations": [
+    {
+      "fromChunkId": "chk_fixture_intro",
+      "toChunkId": "chk_fixture_table",
+      "relationType": "next"
+    }
+  ],
+  "metrics": {
+    "inputBlocks": 4,
+    "chunksCreated": 2,
+    "estimatedTokens": 30
+  }
+}

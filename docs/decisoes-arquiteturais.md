@@ -463,3 +463,25 @@ Autorizacao combina role por workspace com atributos do recurso, deny-by-default
 Motivo:
 
 Sessao opaca mantem o MVP local simples e revogavel, evita expor JWTs longos no browser e encaixa bem no Spring Security. CSRF e CORS explicitos reduzem risco da escolha por cookies. Separar usuarios humanos de agentes evita confused deputy, melhora auditoria e permite limitar ferramentas por workspace, capability, budget e schema sem abrir uma superficie administrativa prematura.
+
+## ADR-025: Algoritmos RAG versionados por policies substituiveis
+
+Status: aceito.
+
+Decisao:
+
+O MVP deve implementar numeracao, chunking, embeddings, busca, contexto, citacoes e resposta RAG como policies, strategies, providers e resolvers versionados. A linha inicial fica:
+
+- numeracao por `page_numbering_anchor_segments_v1`;
+- chunking por `semantic_block_v1`;
+- embeddings por `text_embedding_provider_v1`, com mock deterministico `mock-text-embedding-v1` em testes;
+- busca por `vector_search_v1`, com Qdrant como indice derivado e enriquecimento SQL;
+- contexto por `context_builder_v1`, com policies `conservative` e `sequential`;
+- citacoes por `rag.citation.v1`;
+- resposta por `grounded_answer_policy_v1`, sem resposta afirmativa quando faltar evidencia citavel.
+
+Providers reais de embedding e LLM entram por adapter configuravel, preservando mock deterministico para testes, e2e e desenvolvimento sem rede externa.
+
+Motivo:
+
+Algoritmos RAG tendem a mudar conforme documentos reais aparecem. Versionar as policies desde o inicio preserva reproducibilidade, permite comparar resultados, evita acoplamento a um provider especifico e impede que branches futuras mudem contratos de busca, contexto ou citacao sem migracao. Separar chunk recuperavel de contexto final mantem a busca simples e deixa o context builder controlar budget, vizinhos, tabelas, interpretacoes visuais e citacoes.

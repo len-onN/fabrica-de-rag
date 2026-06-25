@@ -30,10 +30,11 @@ CODE, UX, CONTRACT, DATA, TEST
 - Preview de pagina vem do worker/render ou fallback textual.
 - Elementos de imagem/tabela usam source locator da camada visual quando existir.
 - Abrir fonte original e criterio de fechamento do MVP.
+- Contrato inicial definido em `docs/algoritmos-rag-mvp.md` como `rag.citation.v1`.
+- `sourceLabel` usa `PDF p. X / impresso p. Y` quando pagina impressa existir; caso contrario usa `PDF p. X`.
 
 ## Falta definir
 
-- Formato final do source label.
 - UX de modal vs painel lateral.
 - Fallback quando render nao existir.
 - Como destacar bbox sem exigir crop granular.

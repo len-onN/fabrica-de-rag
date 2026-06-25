@@ -1,0 +1,62 @@
+{
+  "contractVersion": "rag.context_assemble.response.v1",
+  "workspaceId": "wsp_fixture_alpha",
+  "collectionId": "col_fixture_rag",
+  "policy": "sequential_neighbors_v1",
+  "tokenBudget": 6000,
+  "budgetHit": false,
+  "items": [
+    {
+      "contextItemId": "ctx_fixture_intro",
+      "chunkId": "chk_fixture_intro",
+      "rankSource": "anchor",
+      "contentKind": "text",
+      "content": "Pagina impressa e pagina fisica sao conceitos diferentes no documento fixture.",
+      "tokenCount": 12,
+      "truncated": false,
+      "citationId": "cit_fixture_intro"
+    },
+    {
+      "contextItemId": "ctx_fixture_table",
+      "chunkId": "chk_fixture_table",
+      "rankSource": "direct_relation",
+      "contentKind": "table_text",
+      "content": "| Campo | Valor |\\n| Pagina fisica | 3 |\\n| Pagina impressa | 1 |",
+      "tokenCount": 18,
+      "truncated": false,
+      "citationId": "cit_fixture_table"
+    }
+  ],
+  "discarded": [],
+  "citations": [
+    {
+      "contractVersion": "rag.citation.v1",
+      "citationId": "cit_fixture_intro",
+      "documentId": "doc_fixture_pdf",
+      "chunkId": "chk_fixture_intro",
+      "sourceElementId": null,
+      "assetId": null,
+      "sourceType": "pdf_upload",
+      "filePageNumber": 3,
+      "printedLabel": "1",
+      "sourceLabel": "PDF p. 3 / impresso p. 1",
+      "quote": "Pagina impressa e pagina fisica sao conceitos diferentes.",
+      "contentKind": "text",
+      "previewAvailable": true,
+      "fallbackTextAvailable": true,
+      "sourceLocator": {
+        "sourceType": "pdf_upload",
+        "documentId": "doc_fixture_pdf",
+        "filePageNumber": 3,
+        "printedLabel": "1",
+        "bbox": [72, 144, 520, 260],
+        "readingOrder": 4
+      }
+    }
+  ],
+  "metrics": {
+    "anchorChunks": 1,
+    "contextItems": 2,
+    "estimatedTokens": 30
+  }
+}

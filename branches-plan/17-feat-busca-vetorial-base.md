@@ -28,12 +28,14 @@ CODE, CONTRACT, DATA, TEST, SEC, PERF
 - Qdrant encontra ancoras.
 - SQL enriquece resultado.
 - Qdrant nao responde sozinho ao usuario.
+- Busca definida em `docs/algoritmos-rag-mvp.md` como `vector_search_v1`.
+- `topK` default: 12 no laboratorio, 8 na API/MCP.
+- Nao ha score minimo duro por padrao; resultados abaixo de confianca sao marcados com `lowConfidence`.
+- Filtros obrigatorios: workspace, colecao autorizada, payload contract e vector space no Qdrant; revalidacao SQL apos busca.
 
 ## Falta definir
 
-- Top-k inicial.
-- Score minimo.
-- Formato inicial de citacao no response.
+- Ajustes de score apos dados reais, preservando `lowConfidence` e sem reranking no MVP.
 
 ## Estrategia
 
@@ -51,4 +53,3 @@ CODE, CONTRACT, DATA, TEST, SEC, PERF
 ## Fechamento
 
 - API consegue recuperar ancoras.
-
