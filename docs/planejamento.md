@@ -26,7 +26,7 @@ As discussoes iniciais abaixo ja foram consolidadas ou encaminhadas para branche
 - A taxonomia final de analytics, retencao, export/delete e logs esta definida em `docs/analytics-observabilidade-mvp`.
 - O laboratorio de recuperacao entra no MVP funcional.
 - Usuarios, workspaces, memberships e roles basicas entram desde o modelo inicial.
-- Decisoes estruturais de modelo, ingestao, seguranca, algoritmos, analytics e interpretacao de imagens/tabelas em PDFs tem portoes `docs/*` antes do codigo.
+- Decisoes estruturais de modelo, ingestao, seguranca, algoritmos, analytics e interpretacao de imagens/tabelas em PDFs foram encaminhadas por portoes `docs/*` antes do codigo.
 - O desenvolvimento deve seguir o gate SOLID/OCP-LSP-IoC e o trigger de implementacao agentica.
 
 ## MVP vigente
@@ -119,9 +119,9 @@ Entregaveis:
 - Registro de bordo atualizado ao fim de cada branch.
 - Diario de bordo atualizado ao fim de cada etapa ou antes de pausas longas.
 
-## Proximas especificacoes
+## Portoes especificados antes do codigo
 
-Estas frentes ja tem direcao geral, mas precisam de especificacao detalhada nas branches donas:
+Estas frentes ja tem especificacao detalhada para orientar as branches de implementacao:
 
 - Modelo de dados documental: `docs/modelo-dados-contratos-mvp`.
 - Mapa de paginas, numeracao impressa, chunking, contexto e citacoes: `docs/algoritmos-rag-mvp`.

@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-25 |
 | Fase | Portoes de planejamento do MVP |
-| Branch atual | `docs/analytics-observabilidade-mvp` |
+| Branch atual | `docs/interpretacao-imagens-tabelas-pdf` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Fechar taxonomia de analytics local, observabilidade, retencao, export/delete, logs e dashboard minimo |
-| Status | PRs #1, #2, #3, #4 e #5 mesclados; `develop` atualizado por fast-forward; branch `docs/analytics-observabilidade-mvp` aberta a partir de `develop` |
-| Proximo marco | Fechar `docs/analytics-observabilidade-mvp`, abrir PR para `develop` e seguir para `docs/interpretacao-imagens-tabelas-pdf` |
+| Objetivo atual | Fechar contratos de imagens, diagramas e tabelas em PDFs, incluindo assets, source locator, vision interpreter, privacidade, budgets, chunks e citacoes |
+| Status | PRs #1, #2, #3, #4, #5 e #6 mesclados; `develop` atualizado por fast-forward; branch `docs/interpretacao-imagens-tabelas-pdf` aberta a partir de `develop` |
+| Proximo marco | Revisar e abrir PR de `docs/interpretacao-imagens-tabelas-pdf` para `develop`; depois seguir para `chore/workspace-fundacao` |
 
 ## Sessao viva
 
@@ -65,11 +65,15 @@ O PR #5 de `docs/algoritmos-rag-mvp` foi mesclado em `develop`. A linha local `d
 
 Na branch `docs/analytics-observabilidade-mvp`, o portao de analytics fechou o envelope `analytics.event.v1`, a taxonomia inicial de eventos, as origens `ui`, `api`, `worker`, `mcp` e `system`, as trilhas de observabilidade, campos proibidos, modos de historico local, retencao por classe, export JSONL/CSV com manifesto, delete por workspace, dashboard minimo e fixtures versionadas em `tests/contracts/events` e `tests/contracts/analytics`. A decisao duradoura foi registrada na ADR-026.
 
+O PR #6 de `docs/analytics-observabilidade-mvp` foi mesclado em `develop`. A linha local `develop` foi atualizada por fast-forward e a branch `docs/interpretacao-imagens-tabelas-pdf` foi aberta a partir dela.
+
+Na branch `docs/interpretacao-imagens-tabelas-pdf`, o portao visual/tabular fechou `pdf.source_locator.v1`, `pdf.document_element.v1`, `pdf.asset.v1`, `pdf.table_json.v1`, `pdf.table_markdown.v1`, `pdf.visual_interpretation.v1`, os contratos `worker.pdf.extract_elements.*.v1` e `worker.pdf.interpret_visual.*.v1`, a politica de provider remoto opt-in, mock deterministico para testes, budgets iniciais, cache por hash/policy, relacoes com chunking/context builder/citacoes e fixtures versionadas para worker, RAG e eventos.
+
 Proximo passo concreto:
 
-- revisar links/fixtures da branch `docs/analytics-observabilidade-mvp`;
-- abrir PR da branch `docs/analytics-observabilidade-mvp` para `develop`;
-- seguir para `docs/interpretacao-imagens-tabelas-pdf`, antes de `chore/workspace-fundacao`.
+- revisar links/fixtures da branch `docs/interpretacao-imagens-tabelas-pdf`;
+- abrir PR da branch `docs/interpretacao-imagens-tabelas-pdf` para `develop`;
+- apos o merge, seguir para `chore/workspace-fundacao`.
 
 ## Quadro de branches
 
@@ -81,8 +85,8 @@ Proximo passo concreto:
 | `docs/arquitetura-ingestao-rag` | Mesclada | Fechar state machine, pipeline, retry/cancel, idempotencia, storage e reindexacao | #3 | Evita improviso no fluxo de ingestao. |
 | `docs/seguranca-permissoes-mvp` | Mesclada | Fechar auth local, roles, workspace scope, API/MCP e guardrails | #4 | Deve anteceder `feat/auth-bootstrap-workspaces`. |
 | `docs/algoritmos-rag-mvp` | Mesclada | Especificar numeracao, chunking, busca, contexto, citacoes e budgets | #5 | Deve anteceder branches de algoritmo. |
-| `docs/analytics-observabilidade-mvp` | Em fechamento | Fechar eventos, retencao, export/delete, logs, metricas e privacidade | Pendente | Deve anteceder branches de analytics. |
-| `docs/interpretacao-imagens-tabelas-pdf` | Candidata | Fechar camada de imagens/tabelas em PDFs, assets, elementos e vision interpreter | Pendente | Deve anteceder worker visual/tabelas, chunking e citacoes. |
+| `docs/analytics-observabilidade-mvp` | Mesclada | Fechar eventos, retencao, export/delete, logs, metricas e privacidade | #6 | Deve anteceder branches de analytics. |
+| `docs/interpretacao-imagens-tabelas-pdf` | Em fechamento | Fechar camada de imagens/tabelas em PDFs, assets, elementos e vision interpreter | Pendente | Deve anteceder worker visual/tabelas, chunking e citacoes. |
 | `chore/workspace-fundacao` | Candidata | Criar estrutura raiz, diretorios e convencoes do repositorio | Pendente | Depende do plano tecnico MVP. |
 | `build/dev-runtime-compose` | Candidata | Criar compose local com Postgres, Qdrant e servicos preparados | Pendente | Depende da estrutura inicial. |
 | `chore/backend-spring-base` | Candidata | Criar base Spring Boot testavel | Pendente | Health, profiles, testes, Postgres e baseline de migrations. |
@@ -132,7 +136,7 @@ Proximo passo concreto:
 | Algoritmos iniciais | Especificados | Implementar numeracao, chunking, embeddings, busca, contexto, citacoes e resposta nas branches funcionais usando `docs/algoritmos-rag-mvp.md`. |
 | Analytics e observabilidade | Especificados | Implementar eventos locais, retencao, export/delete e dashboard usando `docs/analytics-observabilidade-mvp.md`. |
 | Providers reais de embedding/LLM | Encaminhados | Manter mock deterministico em testes; escolher adapters reais nas branches `feat/embeddings-base` e `feat/resposta-rag-base` se houver configuracao. |
-| Interpretacao visual/tabelas em PDF | Com branch dona | Especificar em `docs/interpretacao-imagens-tabelas-pdf` antes de `feat/worker-pdf-visual-tables-base`. |
+| Interpretacao visual/tabelas em PDF | Especificada | Implementar elementos/assets/tabelas/vision interpreter em `feat/worker-pdf-visual-tables-base` usando `docs/interpretacao-imagens-tabelas-pdf.md`. |
 | Colateralidades por branch | Explicitado | Aplicar checklist operacional e gate SOLID/OCP-LSP-IoC antes de cada branch. |
 | Trigger de implementacao agentica | Registrado | Usar `docs/trigger-implementacao-agentica.md` antes de qualquer retomada ou nova implementacao. |
 | Coesao documental | Revisada | Usar `docs/revisao-coesao-documental.md` como fotografia das decisoes vigentes antes dos proximos portoes. |

@@ -1,29 +1,233 @@
 {
   "contractVersion": "worker.pdf.extract_elements.response.v1",
-  "requestId": "req_fixture_002",
+  "requestId": "req_fixture_visual_001",
+  "workspaceId": "wsp_fixture_alpha",
   "documentId": "doc_fixture_pdf",
+  "runId": "run_fixture_pdf",
   "elements": [
     {
+      "contractVersion": "pdf.document_element.v1",
       "id": "elm_fixture_table",
       "elementType": "table",
       "filePageNumber": 3,
-      "bbox": [72, 144, 520, 360],
+      "bbox": [72, 144, 520, 260],
       "readingOrder": 18,
-      "text": "| Coluna A | Coluna B |",
+      "text": "| Campo | Valor |\\n| --- | --- |\\n| Pagina fisica | 3 |\\n| Pagina impressa | 1 |",
       "structuredContent": {
-        "kind": "table_markdown",
-        "rows": 2,
-        "columns": 2
+        "kind": "table_json_v1",
+        "rows": 3,
+        "columns": 2,
+        "headerRows": 1,
+        "markdown": "| Campo | Valor |\\n| --- | --- |\\n| Pagina fisica | 3 |\\n| Pagina impressa | 1 |",
+        "cells": [
+          {
+            "row": 0,
+            "column": 0,
+            "text": "Campo",
+            "rowspan": 1,
+            "colspan": 1,
+            "bbox": [72, 144, 220, 170]
+          },
+          {
+            "row": 0,
+            "column": 1,
+            "text": "Valor",
+            "rowspan": 1,
+            "colspan": 1,
+            "bbox": [220, 144, 520, 170]
+          }
+        ],
+        "qualityFlags": []
       },
-      "confidence": 0.82,
+      "confidence": 0.86,
       "extractionMethod": "table_detector_v1",
+      "relatedElementIds": [],
+      "warnings": [],
       "sourceLocator": {
         "sourceType": "pdf_upload",
+        "documentId": "doc_fixture_pdf",
         "filePageNumber": 3,
-        "bbox": [72, 144, 520, 360],
-        "readingOrder": 18
+        "printedLabel": "1",
+        "unit": "pdf_points_top_left",
+        "pageWidth": 612,
+        "pageHeight": 792,
+        "rotation": 0,
+        "bbox": [72, 144, 520, 260],
+        "readingOrder": 18,
+        "elementId": "elm_fixture_table"
+      }
+    },
+    {
+      "contractVersion": "pdf.document_element.v1",
+      "id": "elm_fixture_figure_caption",
+      "elementType": "caption",
+      "filePageNumber": 3,
+      "bbox": [72, 420, 520, 448],
+      "readingOrder": 20,
+      "text": "Figura 1. Fluxo simplificado de ingestao ate citacao.",
+      "structuredContent": {
+        "kind": "caption_text_v1",
+        "captionForElementIds": ["elm_fixture_figure"]
+      },
+      "confidence": 0.9,
+      "extractionMethod": "caption_detector_v1",
+      "relatedElementIds": ["elm_fixture_figure"],
+      "warnings": [],
+      "sourceLocator": {
+        "sourceType": "pdf_upload",
+        "documentId": "doc_fixture_pdf",
+        "filePageNumber": 3,
+        "printedLabel": "1",
+        "unit": "pdf_points_top_left",
+        "pageWidth": 612,
+        "pageHeight": 792,
+        "rotation": 0,
+        "bbox": [72, 420, 520, 448],
+        "readingOrder": 20,
+        "elementId": "elm_fixture_figure_caption"
+      }
+    },
+    {
+      "contractVersion": "pdf.document_element.v1",
+      "id": "elm_fixture_figure",
+      "elementType": "figure",
+      "filePageNumber": 3,
+      "assetId": "ast_fixture_figure_crop",
+      "bbox": [96, 292, 486, 410],
+      "readingOrder": 19,
+      "text": "Figura 1. Fluxo simplificado de ingestao ate citacao.",
+      "structuredContent": {
+        "kind": "visual_region_v1",
+        "visualType": "flow_diagram",
+        "detectedText": ["upload", "worker", "chunks", "citacao"],
+        "captionElementId": "elm_fixture_figure_caption",
+        "qualityFlags": []
+      },
+      "confidence": 0.78,
+      "extractionMethod": "visual_region_detector_v1",
+      "relatedElementIds": ["elm_fixture_figure_caption"],
+      "warnings": [],
+      "sourceLocator": {
+        "sourceType": "pdf_upload",
+        "documentId": "doc_fixture_pdf",
+        "filePageNumber": 3,
+        "printedLabel": "1",
+        "unit": "pdf_points_top_left",
+        "pageWidth": 612,
+        "pageHeight": 792,
+        "rotation": 0,
+        "bbox": [96, 292, 486, 410],
+        "readingOrder": 19,
+        "elementId": "elm_fixture_figure",
+        "assetId": "ast_fixture_figure_crop"
+      }
+    },
+    {
+      "contractVersion": "pdf.document_element.v1",
+      "id": "elm_fixture_image_no_caption",
+      "elementType": "image",
+      "filePageNumber": 3,
+      "assetId": "ast_fixture_image_no_caption_crop",
+      "bbox": [380, 480, 520, 620],
+      "readingOrder": 24,
+      "text": null,
+      "structuredContent": {
+        "kind": "visual_region_v1",
+        "visualType": "embedded_image",
+        "detectedText": [],
+        "captionElementId": null,
+        "qualityFlags": ["caption_not_found"]
+      },
+      "confidence": 0.74,
+      "extractionMethod": "visual_region_detector_v1",
+      "relatedElementIds": [],
+      "warnings": ["caption_not_found"],
+      "sourceLocator": {
+        "sourceType": "pdf_upload",
+        "documentId": "doc_fixture_pdf",
+        "filePageNumber": 3,
+        "printedLabel": "1",
+        "unit": "pdf_points_top_left",
+        "pageWidth": 612,
+        "pageHeight": 792,
+        "rotation": 0,
+        "bbox": [380, 480, 520, 620],
+        "readingOrder": 24,
+        "elementId": "elm_fixture_image_no_caption",
+        "assetId": "ast_fixture_image_no_caption_crop"
       }
     }
   ],
-  "assets": []
+  "assets": [
+    {
+      "contractVersion": "pdf.asset.v1",
+      "assetId": "ast_fixture_figure_crop",
+      "workspaceId": "wsp_fixture_alpha",
+      "documentId": "doc_fixture_pdf",
+      "filePageNumber": 3,
+      "assetType": "crop",
+      "storageUri": "storage://workspaces/wsp_fixture_alpha/documents/doc_fixture_pdf/runs/run_fixture_pdf/elements/elm_fixture_figure/asset.png",
+      "mimeType": "image/png",
+      "contentHash": "sha256:fixture-figure-crop",
+      "widthPx": 780,
+      "heightPx": 236,
+      "createdFrom": "page_render",
+      "retentionClass": "derived_cache",
+      "sourceLocator": {
+        "sourceType": "pdf_upload",
+        "documentId": "doc_fixture_pdf",
+        "filePageNumber": 3,
+        "printedLabel": "1",
+        "unit": "pdf_points_top_left",
+        "pageWidth": 612,
+        "pageHeight": 792,
+        "rotation": 0,
+        "bbox": [96, 292, 486, 410],
+        "readingOrder": 19,
+        "elementId": "elm_fixture_figure",
+        "assetId": "ast_fixture_figure_crop"
+      }
+    },
+    {
+      "contractVersion": "pdf.asset.v1",
+      "assetId": "ast_fixture_image_no_caption_crop",
+      "workspaceId": "wsp_fixture_alpha",
+      "documentId": "doc_fixture_pdf",
+      "filePageNumber": 3,
+      "assetType": "crop",
+      "storageUri": "storage://workspaces/wsp_fixture_alpha/documents/doc_fixture_pdf/runs/run_fixture_pdf/elements/elm_fixture_image_no_caption/asset.png",
+      "mimeType": "image/png",
+      "contentHash": "sha256:fixture-image-no-caption-crop",
+      "widthPx": 280,
+      "heightPx": 280,
+      "createdFrom": "page_render",
+      "retentionClass": "derived_cache",
+      "sourceLocator": {
+        "sourceType": "pdf_upload",
+        "documentId": "doc_fixture_pdf",
+        "filePageNumber": 3,
+        "printedLabel": "1",
+        "unit": "pdf_points_top_left",
+        "pageWidth": 612,
+        "pageHeight": 792,
+        "rotation": 0,
+        "bbox": [380, 480, 520, 620],
+        "readingOrder": 24,
+        "elementId": "elm_fixture_image_no_caption",
+        "assetId": "ast_fixture_image_no_caption_crop"
+      }
+    }
+  ],
+  "pageSummaries": [
+    {
+      "filePageNumber": 3,
+      "tablesCount": 1,
+      "figuresCount": 1,
+      "imagesCount": 1,
+      "captionsCount": 1,
+      "unknownCount": 0,
+      "warningsCount": 0
+    }
+  ],
+  "warnings": []
 }

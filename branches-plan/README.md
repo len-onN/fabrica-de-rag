@@ -81,15 +81,15 @@ AGENT      MCP, tools, skills, guardrails
 - Seguranca do MVP definida em `docs/seguranca-permissoes-mvp.md`: sessao opaca, CSRF, CORS, Argon2id, matriz de permissoes, workspace scope, API keys futuras e guardrails MCP/API.
 - Algoritmos RAG do MVP definidos em `docs/algoritmos-rag-mvp.md`: numeracao por ancoras/segmentos, chunking `semantic_block_v1`, mock de embeddings, busca vetorial, context builder, citacoes e budgets iniciais.
 - Analytics e observabilidade do MVP definidos em `docs/analytics-observabilidade-mvp.md`: envelope `analytics.event.v1`, taxonomia de eventos, privacidade, retencao, export/delete, run logs, auditoria minima e dashboard inicial.
+- Interpretacao de imagens/tabelas em PDFs definida em `docs/interpretacao-imagens-tabelas-pdf.md`: source locator, elementos, assets, tabelas, vision interpreter, privacidade, budgets, cache, chunks, contexto e citacoes.
 
 ## O que falta definir
 
 Estas decisoes continuam abertas, mas agora tem branch dona:
 
-- modelo relacional, IDs e OpenAPI: `docs/modelo-dados-contratos-mvp`;
-- orquestracao de ingestao, retry/cancel e fila futura: `docs/arquitetura-ingestao-rag`;
 - provider real de embeddings e LLM, mantendo adapter mockado definido em `docs/algoritmos-rag-mvp`: `feat/embeddings-base` e `feat/resposta-rag-base`;
-- interpretacao de imagens/tabelas em PDFs, assets, elementos visuais e vision interpreter: `docs/interpretacao-imagens-tabelas-pdf`;
+- provider real de LLM/VLM visual, se houver, mantendo adapter mockado definido em `docs/interpretacao-imagens-tabelas-pdf`: branch futura que escolher provider real;
+- bibliotecas concretas de extracao visual/tabelas no worker: `feat/worker-pdf-visual-tables-base`;
 - comando unico de verificacao local: `chore/workspace-fundacao` e branches base de cada stack.
 
 ## Sequencia de branches

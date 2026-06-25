@@ -1,0 +1,77 @@
+{
+  "contractVersion": "worker.pdf.interpret_visual.response.v1",
+  "requestId": "req_fixture_visual_002",
+  "workspaceId": "wsp_fixture_alpha",
+  "documentId": "doc_fixture_pdf",
+  "runId": "run_fixture_pdf",
+  "interpretations": [
+    {
+      "contractVersion": "pdf.visual_interpretation.v1",
+      "interpretationId": "vis_fixture_figure",
+      "elementId": "elm_fixture_figure",
+      "assetId": "ast_fixture_figure_crop",
+      "status": "completed",
+      "interpretationText": "Fluxo visual com quatro etapas: upload do PDF, processamento pelo worker, geracao de chunks e abertura de citacao.",
+      "structuredText": {
+        "kind": "visual_interpretation_v1",
+        "summary": "Diagrama de fluxo da ingestao ate a citacao.",
+        "detectedText": ["upload", "worker", "chunks", "citacao"],
+        "keyFacts": [
+          "O fluxo comeca no upload do PDF.",
+          "O worker processa o documento antes da geracao de chunks.",
+          "A citacao e apresentada como evidencia verificavel."
+        ],
+        "relationships": [
+          {
+            "type": "sequence",
+            "from": "upload",
+            "to": "worker"
+          },
+          {
+            "type": "sequence",
+            "from": "worker",
+            "to": "chunks"
+          },
+          {
+            "type": "sequence",
+            "from": "chunks",
+            "to": "citacao"
+          }
+        ],
+        "limitations": []
+      },
+      "provider": "mock-vision-interpreter",
+      "model": "mock-vision-interpreter-v1",
+      "promptVersion": "visual_interpreter_pdf_v1",
+      "inputHash": "sha256:fixture-figure-crop:visual_interpreter_pdf_v1",
+      "confidence": 0.81,
+      "usage": {
+        "inputTokensEstimate": 120,
+        "outputTokensEstimate": 52,
+        "cacheHit": false
+      },
+      "error": null,
+      "sourceLocator": {
+        "sourceType": "pdf_upload",
+        "documentId": "doc_fixture_pdf",
+        "filePageNumber": 3,
+        "printedLabel": "1",
+        "unit": "pdf_points_top_left",
+        "pageWidth": 612,
+        "pageHeight": 792,
+        "rotation": 0,
+        "bbox": [96, 292, 486, 410],
+        "readingOrder": 19,
+        "elementId": "elm_fixture_figure",
+        "assetId": "ast_fixture_figure_crop"
+      }
+    }
+  ],
+  "budget": {
+    "itemsRequested": 1,
+    "itemsProcessed": 1,
+    "itemsSkipped": 0,
+    "limitHit": false
+  },
+  "warnings": []
+}

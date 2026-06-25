@@ -32,6 +32,8 @@ CODE, UX, CONTRACT, DATA, TEST
 - Abrir fonte original e criterio de fechamento do MVP.
 - Contrato inicial definido em `docs/algoritmos-rag-mvp.md` como `rag.citation.v1`.
 - `sourceLabel` usa `PDF p. X / impresso p. Y` quando pagina impressa existir; caso contrario usa `PDF p. X`.
+- Bbox/source locator visual definidos em `docs/interpretacao-imagens-tabelas-pdf.md` como `pdf.source_locator.v1`.
+- Fixture `tests/contracts/rag/citation-visual.v1.json` cobre citacao de interpretacao visual.
 
 ## Falta definir
 
@@ -54,6 +56,7 @@ CODE, UX, CONTRACT, DATA, TEST
 - Pagina fisica e impressa aparecem quando existem.
 - Citacao de tabela/imagem mostra elemento/source locator correto.
 - Fallback textual funciona sem render.
+- Highlight de bbox usa coordenadas `pdf_points_top_left` normalizadas.
 
 ## Fechamento
 

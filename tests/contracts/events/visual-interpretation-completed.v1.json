@@ -1,0 +1,25 @@
+{
+  "eventVersion": "analytics.event.v1",
+  "eventName": "visual_interpretation_completed",
+  "origin": "worker",
+  "retentionClass": "analytics",
+  "workspaceId": "wsp_fixture_alpha",
+  "actor": {
+    "type": "system",
+    "id": null
+  },
+  "correlationId": "req_fixture_visual_002",
+  "occurredAt": "2026-06-25T15:00:00Z",
+  "resource": {
+    "type": "document_element",
+    "id": "elm_fixture_figure"
+  },
+  "properties": {
+    "provider": "mock-vision-interpreter",
+    "model": "mock-vision-interpreter-v1",
+    "promptVersion": "visual_interpreter_pdf_v1",
+    "durationMs": 42,
+    "confidenceBucket": "0_80_0_90",
+    "cacheHit": false
+  }
+}

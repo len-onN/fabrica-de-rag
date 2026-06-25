@@ -36,15 +36,17 @@ CODE, RUNTIME, DATA, CONTRACT, TEST, PERF
 - Worker Python concentra extracao pesada.
 - Interpretacao por LLM/VLM entra por provider configuravel e deve ter adapter mockado para testes.
 - Provider remoto exige configuracao explicita e respeito a privacidade/budget.
+- Contratos definidos em `docs/interpretacao-imagens-tabelas-pdf.md`: `pdf.source_locator.v1`, `pdf.document_element.v1`, `pdf.asset.v1`, `pdf.table_json.v1`, `pdf.table_markdown.v1`, `pdf.visual_interpretation.v1`, `worker.pdf.extract_elements.*.v1` e `worker.pdf.interpret_visual.*.v1`.
+- Tabelas usam JSON estruturado minimo + Markdown citavel.
+- Imagens/figuras usam asset/crop, legenda/texto proximo seguro e interpretacao visual derivada.
+- Provider remoto de visao fica opt-in; mock deterministico e obrigatorio.
+- Cache/reprocessamento usa hash de asset/source locator/provider/model/prompt/policy.
 
 ## Falta definir
 
 - Biblioteca inicial para deteccao/extracao de tabelas.
-- Representacao final da tabela simples.
-- Heuristica inicial para relacionar imagem/tabela a legenda e texto proximo.
-- Contrato inicial do vision interpreter e prompt versionado.
-- Politica de cache/reprocessamento para interpretacoes por hash de asset/modelo/prompt.
 - Limites de tempo/memoria por pagina.
+- Ajustes finos da heuristica de legenda/texto proximo a partir de fixtures reais.
 
 ## Estrategia
 
@@ -63,6 +65,8 @@ CODE, RUNTIME, DATA, CONTRACT, TEST, PERF
 - PDF sem imagens/tabelas retorna lista vazia sem erro.
 - Workspace scope e source locator sao preservados.
 - Limites de tempo/memoria sao observados.
+- Budget excedido gera `skipped`/`budget_limit_hit` sem perder elemento/asset.
+- Eventos visuais nao carregam imagem, crop, prompt completo ou texto integral.
 
 ## Fechamento
 

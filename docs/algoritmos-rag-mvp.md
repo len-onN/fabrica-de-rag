@@ -485,6 +485,7 @@ Estado sem evidencia:
 
 Regras:
 
+- O contrato detalhado de elementos, assets, tabelas, bbox, source locator e vision interpreter vive em `docs/interpretacao-imagens-tabelas-pdf.md`.
 - `document_elements` com `element_type=table` podem gerar chunks `table_text`;
 - `visual_interpretations` podem gerar chunks `visual_interpretation`;
 - uma imagem/tabela pode ser incluida no contexto por relacao direta com chunk ancora;
@@ -557,6 +558,7 @@ Fixtures adicionadas nesta branch:
 - `tests/contracts/rag/search-response.v1.json`;
 - `tests/contracts/rag/context-assemble.response.v1.json`;
 - `tests/contracts/rag/citation.v1.json`;
+- `tests/contracts/rag/citation-visual.v1.json`;
 - `tests/contracts/rag/ask-response-insufficient-evidence.v1.json`.
 
 Testes futuros por branch:

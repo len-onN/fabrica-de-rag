@@ -96,6 +96,18 @@ Tambem foram fechadas as politicas iniciais de retencao: analytics por 90 dias, 
 
 Foram adicionadas fixtures em `tests/contracts/events` e `tests/contracts/analytics`, cobrindo envelope de evento, busca, permissao negada, chamada MCP, dashboard summary, manifesto de export e politica de retencao. A decisao duradoura foi registrada na ADR-026, e as branches consumidoras de settings, analytics, API e MCP foram atualizadas para depender da especificacao nova.
 
+## 2026-06-25 - Interpretacao de imagens e tabelas em PDFs
+
+Depois do merge do PR #6, `develop` foi atualizado por fast-forward e a branch `docs/interpretacao-imagens-tabelas-pdf` foi aberta a partir da linha de integracao atualizada. O trigger agentico identificou a divergencia esperada entre o Git e o registro de bordo, que ainda apontava analytics como branch em fechamento; a reconciliacao foi feita no proprio bordo.
+
+O portao visual/tabular fechou a decisao de tratar imagens, diagramas e tabelas em PDFs como elementos estruturados e citaveis, nao como texto incidental. O contrato `pdf.source_locator.v1` passa a fixar pagina fisica 1-based, pagina impressa quando conhecida, bbox normalizada em `pdf_points_top_left`, dimensoes de pagina, rotacao e ordem de leitura. Isso evita que worker, chunking, contexto e preview usem sistemas de coordenadas diferentes.
+
+Tambem foram definidos os contratos `pdf.document_element.v1`, `pdf.asset.v1`, `pdf.table_json.v1`, `pdf.table_markdown.v1` e `pdf.visual_interpretation.v1`. Tabelas passam a preservar estrutura JSON minima e Markdown citavel; figuras e imagens preservam asset/crop, legenda, OCR interno quando houver e interpretacao textual derivada quando habilitada. A interpretacao visual entra por adapter substituivel, com `mock-vision-interpreter` obrigatorio para testes, smoke e e2e, e provider remoto desligado por padrao.
+
+A branch tambem fechou privacidade, budgets e cache: provider remoto so opera por configuracao explicita, recebe apenas crop/elemento necessario, nao recebe PDF inteiro, e nao grava binario, prompt completo ou texto integral em analytics/log. Interpretacoes podem ser reutilizadas por hash de asset/source locator/provider/model/prompt/policy, escopadas ao workspace no MVP. Limites iniciais cobrem quantidade de elementos, celulas de tabela, tamanho de crop, timeout e output por interpretacao.
+
+Foram adicionadas fixtures em `tests/contracts/worker`, `tests/contracts/rag` e `tests/contracts/events`, cobrindo extracao de elementos, tabela estruturada, figura com legenda, asset crop, interpretacao visual mockada, citacao visual e eventos `table_extracted` e `visual_interpretation_completed`. Os planos consumidores de worker, chunking, context builder e preview de citacao foram atualizados para depender desta especificacao.
+
 ## Modelo de entrada futura
 
 ```text

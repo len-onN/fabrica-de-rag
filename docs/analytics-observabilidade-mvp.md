@@ -492,6 +492,8 @@ Fixtures adicionadas ou esperadas:
 - `tests/contracts/events/retrieval-query-executed.v1.json`;
 - `tests/contracts/events/security-permission-denied.v1.json`;
 - `tests/contracts/events/mcp-tool-invoked.v1.json`;
+- `tests/contracts/events/table-extracted.v1.json`;
+- `tests/contracts/events/visual-interpretation-completed.v1.json`;
 - `tests/contracts/analytics/dashboard-summary.response.v1.json`;
 - `tests/contracts/analytics/export-manifest.v1.json`;
 - `tests/contracts/analytics/retention-policy.v1.json`.

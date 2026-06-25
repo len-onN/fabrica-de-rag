@@ -1,0 +1,30 @@
+{
+  "contractVersion": "rag.citation.v1",
+  "citationId": "cit_fixture_visual",
+  "documentId": "doc_fixture_pdf",
+  "chunkId": "chk_fixture_visual",
+  "sourceElementId": "elm_fixture_figure",
+  "assetId": "ast_fixture_figure_crop",
+  "sourceType": "pdf_upload",
+  "filePageNumber": 3,
+  "printedLabel": "1",
+  "sourceLabel": "PDF p. 3 / impresso p. 1",
+  "quote": "Fluxo visual com quatro etapas: upload do PDF, processamento pelo worker, geracao de chunks e abertura de citacao.",
+  "contentKind": "visual_interpretation",
+  "previewAvailable": true,
+  "fallbackTextAvailable": true,
+  "sourceLocator": {
+    "sourceType": "pdf_upload",
+    "documentId": "doc_fixture_pdf",
+    "filePageNumber": 3,
+    "printedLabel": "1",
+    "unit": "pdf_points_top_left",
+    "pageWidth": 612,
+    "pageHeight": 792,
+    "rotation": 0,
+    "bbox": [96, 292, 486, 410],
+    "readingOrder": 19,
+    "elementId": "elm_fixture_figure",
+    "assetId": "ast_fixture_figure_crop"
+  }
+}
