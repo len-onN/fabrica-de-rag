@@ -1,0 +1,48 @@
+# Sistema operacional e editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Segredos e ambiente local
+.env
+.env.*
+!.env.example
+*.local
+
+# Logs e saidas temporarias
+*.log
+logs/
+tmp/
+temp/
+
+# Node/Angular/MCP
+node_modules/
+dist/
+coverage/
+.angular/
+.npm/
+
+# Java/Spring
+target/
+.gradle/
+build/
+
+# Python/worker
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Docker/Compose local
+.docker/
+
+# Artefatos locais do produto
+storage/
+data/
+

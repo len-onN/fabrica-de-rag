@@ -1,0 +1,18 @@
+* text=auto
+
+*.md text
+*.json text
+*.ps1 text
+*.yml text
+*.yaml text
+*.properties text
+*.xml text
+*.toml text
+
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+
