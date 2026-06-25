@@ -10,6 +10,13 @@ Implementar configuracoes do workspace que afetam ingestao, analytics local, ace
 
 CODE, UX, CONTRACT, DATA, SEC, TEST
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Seguranca e permissoes](../docs/seguranca-permissoes-mvp.md), [Usuarios e acesso](../docs/usuarios-e-acesso.md), [Analytics e observabilidade](../docs/analytics-observabilidade-mvp.md), [Algoritmos RAG](../docs/algoritmos-rag-mvp.md), [Interpretacao de imagens e tabelas em PDFs](../docs/interpretacao-imagens-tabelas-pdf.md), [Design visual](../docs/design-visual.md).
+- Contratos/fixtures: [analytics](../tests/contracts/analytics), [eventos](../tests/contracts/events), [REST](../tests/contracts/rest).
+
 ## Escopo
 
 - Criar rota `/w/:workspaceId/settings`.

@@ -82,6 +82,7 @@ AGENT      MCP, tools, skills, guardrails
 - Algoritmos RAG do MVP definidos em `docs/algoritmos-rag-mvp.md`: numeracao por ancoras/segmentos, chunking `semantic_block_v1`, mock de embeddings, busca vetorial, context builder, citacoes e budgets iniciais.
 - Analytics e observabilidade do MVP definidos em `docs/analytics-observabilidade-mvp.md`: envelope `analytics.event.v1`, taxonomia de eventos, privacidade, retencao, export/delete, run logs, auditoria minima e dashboard inicial.
 - Interpretacao de imagens/tabelas em PDFs definida em `docs/interpretacao-imagens-tabelas-pdf.md`: source locator, elementos, assets, tabelas, vision interpreter, privacidade, budgets, cache, chunks, contexto e citacoes.
+- Planos futuros vinculam seus documentos de contexto na secao `Documentos relevantes`, separando documentos transversais, especificos e contratos/fixtures.
 
 ## O que falta definir
 
@@ -91,6 +92,15 @@ Estas decisoes continuam abertas, mas agora tem branch dona:
 - provider real de LLM/VLM visual, se houver, mantendo adapter mockado definido em `docs/interpretacao-imagens-tabelas-pdf`: branch futura que escolher provider real;
 - bibliotecas concretas de extracao visual/tabelas no worker: `feat/worker-pdf-visual-tables-base`;
 - comando unico de verificacao local: `chore/workspace-fundacao` e branches base de cada stack.
+
+## Documentos transversais por branch
+
+Toda branch futura deve carregar, alem dos documentos especificos do proprio plano:
+
+- [Registro de bordo](../docs/registro-de-bordo.md) e [Diario de bordo](../docs/diario-de-bordo.md), para estado vivo.
+- [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), para rito de retomada.
+- [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md) e [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md), para baseline tecnico, gates e ADRs.
+- O arquivo da branch em `branches-plan`, os documentos de dominio citados nele e os contratos/fixtures listados quando existirem.
 
 ## Sequencia de branches
 
@@ -105,6 +115,7 @@ Estas decisoes continuam abertas, mas agora tem branch dona:
 | 1.5 | `docs/analytics-observabilidade-mvp` | [01e-docs-analytics-observabilidade-mvp.md](01e-docs-analytics-observabilidade-mvp.md) |
 | 1.6 | `docs/interpretacao-imagens-tabelas-pdf` | [01f-docs-interpretacao-imagens-tabelas-pdf.md](01f-docs-interpretacao-imagens-tabelas-pdf.md) |
 | 2 | `chore/workspace-fundacao` | [02-chore-workspace-fundacao.md](02-chore-workspace-fundacao.md) |
+| 2.1 | `docs/vinculos-planos-branches` | [02a-docs-vinculos-planos-branches.md](02a-docs-vinculos-planos-branches.md) |
 | 3 | `build/dev-runtime-compose` | [03-build-dev-runtime-compose.md](03-build-dev-runtime-compose.md) |
 | 4 | `chore/backend-spring-base` | [04-chore-backend-spring-base.md](04-chore-backend-spring-base.md) |
 | 5 | `chore/frontend-angular-base` | [05-chore-frontend-angular-base.md](05-chore-frontend-angular-base.md) |
@@ -144,6 +155,7 @@ Antes de abrir uma branch:
 
 - atualizar o arquivo da branch;
 - mover decisoes de "falta definir" para "definido" quando resolvidas;
+- revisar a secao `Documentos relevantes` e incluir documentos, ADRs, contratos ou fixtures descobertos no refinamento da branch;
 - explicitar pontos de extensao, invariantes preservadas e contratos que nao podem quebrar;
 - explicitar substituibilidade esperada para adapters/providers/policies e onde ocorre IoC/DI;
 - registrar skills/fontes ativadas;

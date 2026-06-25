@@ -10,6 +10,13 @@ Adicionar render de paginas e OCR opcional basico ao worker para suportar mapa d
 
 CODE, RUNTIME, CONTRACT, DATA, UX, TEST, PERF
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Arquitetura de ingestao e RAG](../docs/arquitetura-ingestao-rag.md), [Interpretacao de imagens e tabelas em PDFs](../docs/interpretacao-imagens-tabelas-pdf.md), [Algoritmos RAG](../docs/algoritmos-rag-mvp.md), [feat/worker-pdf-inspect](12-feat-worker-pdf-inspect.md), [Design visual](../docs/design-visual.md).
+- Contratos/fixtures: [worker](../tests/contracts/worker), [PDF fixtures](../tests/fixtures/pdfs), [ingestao](../tests/contracts/ingestion).
+
 ## Escopo
 
 - Implementar endpoint interno `pdf/render-page`.

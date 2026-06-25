@@ -10,6 +10,13 @@ Criar dashboard local minimo de qualidade e falhas.
 
 CODE, UX, DATA, CONTRACT, TEST, OBS
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Analytics e observabilidade](../docs/analytics-observabilidade-mvp.md), [Analytics local de RAG](../docs/analytics-local-rag.md), [Design visual](../docs/design-visual.md), [MVP interface e API](../docs/mvp-interface-e-api.md), [feat/analytics-eventos-base](21-feat-analytics-eventos-base.md).
+- Contratos/fixtures: [dashboard analytics](../tests/contracts/analytics/dashboard-summary.response.v1.json), [eventos](../tests/contracts/events).
+
 ## Escopo
 
 - Agregar falhas, latencia, runs, consultas e feedback.

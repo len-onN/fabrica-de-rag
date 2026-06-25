@@ -10,6 +10,12 @@ Criar o primeiro teste de fumaca da stack local.
 
 TEST, RUNTIME, OBS
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [build/dev-runtime-compose](03-build-dev-runtime-compose.md), [chore/backend-spring-base](04-chore-backend-spring-base.md), [chore/frontend-angular-base](05-chore-frontend-angular-base.md), [chore/worker-python-base](06-chore-worker-python-base.md).
+
 ## Escopo
 
 - Criar script `scripts/test-smoke` ou equivalente PowerShell.
@@ -48,4 +54,3 @@ TEST, RUNTIME, OBS
 ## Fechamento
 
 - Ambiente local tem prova objetiva minima.
-

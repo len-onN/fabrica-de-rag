@@ -10,6 +10,13 @@ Permitir abrir a fonte original de uma citacao com preview de pagina, trecho, pa
 
 CODE, UX, CONTRACT, DATA, TEST
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Algoritmos RAG](../docs/algoritmos-rag-mvp.md), [Interpretacao de imagens e tabelas em PDFs](../docs/interpretacao-imagens-tabelas-pdf.md), [MVP interface e API](../docs/mvp-interface-e-api.md), [Design visual](../docs/design-visual.md), [Seguranca e permissoes](../docs/seguranca-permissoes-mvp.md), [feat/worker-pdf-render-ocr-base](12a-feat-worker-pdf-render-ocr-base.md).
+- Contratos/fixtures: [citacoes](../tests/contracts/rag/citation.v1.json), [citacao visual](../tests/contracts/rag/citation-visual.v1.json), [PDF fixtures](../tests/fixtures/pdfs).
+
 ## Escopo
 
 - Criar componente reutilizavel de citacao.

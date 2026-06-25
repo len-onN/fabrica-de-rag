@@ -10,6 +10,13 @@ Criar navegador de chunks para inspecao, filtros, vizinhos e feedback local basi
 
 CODE, UX, CONTRACT, DATA, TEST, OBS
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Algoritmos RAG](../docs/algoritmos-rag-mvp.md), [MVP interface e API](../docs/mvp-interface-e-api.md), [Design visual](../docs/design-visual.md), [Seguranca e permissoes](../docs/seguranca-permissoes-mvp.md), [feat/busca-vetorial-base](17-feat-busca-vetorial-base.md).
+- Contratos/fixtures: [RAG](../tests/contracts/rag), [REST](../tests/contracts/rest), [eventos](../tests/contracts/events).
+
 ## Escopo
 
 - Criar rota ou tab `/w/:workspaceId/collections/:collectionId/chunks`.

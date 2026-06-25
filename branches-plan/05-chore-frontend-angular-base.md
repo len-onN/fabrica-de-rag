@@ -10,6 +10,13 @@ Criar a base Angular executavel, testavel e alinhada ao design visual.
 
 CODE, UX, CONTRACT, TEST, RUNTIME
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Design visual](../docs/design-visual.md), [MVP interface e API](../docs/mvp-interface-e-api.md), [Seguranca e permissoes](../docs/seguranca-permissoes-mvp.md), [chore/workspace-fundacao](02-chore-workspace-fundacao.md).
+- Contratos/fixtures: [REST](../tests/contracts/rest).
+
 ## Escopo
 
 - Criar app Angular em `apps/web`.
@@ -55,4 +62,3 @@ CODE, UX, CONTRACT, TEST, RUNTIME
 ## Fechamento
 
 - Web app renderiza shell e pode receber a primeira tela real.
-

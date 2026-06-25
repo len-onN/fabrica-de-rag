@@ -10,6 +10,13 @@ Criar a base Spring Boot executavel, testavel e preparada para dominios modulare
 
 CODE, RUNTIME, DATA, CONTRACT, TEST, SEC, OBS
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Modelo de dados e contratos](../docs/modelo-dados-contratos-mvp.md), [Seguranca e permissoes](../docs/seguranca-permissoes-mvp.md), [Arquitetura de ingestao e RAG](../docs/arquitetura-ingestao-rag.md), [build/dev-runtime-compose](03-build-dev-runtime-compose.md).
+- Contratos/fixtures: [REST](../tests/contracts/rest), [eventos](../tests/contracts/events), [ingestao](../tests/contracts/ingestion).
+
 ## Escopo
 
 - Criar projeto Spring Boot em `apps/api`.

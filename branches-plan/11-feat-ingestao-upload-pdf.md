@@ -10,6 +10,13 @@ Implementar upload de PDF e criacao de run inicial de ingestao.
 
 CODE, DATA, CONTRACT, UX, TEST, SEC, OBS
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Modelo de dados e contratos](../docs/modelo-dados-contratos-mvp.md), [Arquitetura de ingestao e RAG](../docs/arquitetura-ingestao-rag.md), [Seguranca e permissoes](../docs/seguranca-permissoes-mvp.md), [Analytics e observabilidade](../docs/analytics-observabilidade-mvp.md), [MVP interface e API](../docs/mvp-interface-e-api.md).
+- Contratos/fixtures: [ingestao](../tests/contracts/ingestion), [eventos](../tests/contracts/events), [PDF fixtures](../tests/fixtures/pdfs).
+
 ## Escopo
 
 - Validar arquivo PDF.
