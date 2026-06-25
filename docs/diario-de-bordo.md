@@ -142,6 +142,18 @@ Durante a validacao real, o Docker Desktop estava parado e precisou ser iniciado
 
 Com isso, as dependencias locais do MVP estao reproduziveis. A proxima branch passa a ser `chore/backend-spring-base`, que podera usar o Postgres dev ja disponivel para criar a base Spring Boot, health endpoint, profiles e baseline de migrations.
 
+## 2026-06-25 - Backend Spring Boot Base
+
+Depois do merge do PR #8 referente ao Compose local, `develop` foi atualizado por fast-forward e a branch `chore/backend-spring-base` foi aberta a partir da linha de integração sincronizada. Esta etapa criou a base inicial do backend com Spring Boot.
+
+A configuração baseou-se na versão 3.4.1 do Spring Boot com Java 21, utilizando dependências fundamentais como Spring Web, Data JPA, PostgreSQL Driver, Flyway, Validation e Spring Boot Actuator. Além disso, adicionou-se a biblioteca `springdoc-openapi-starter-webmvc-ui` no `pom.xml` para garantir que a publicação dos contratos OpenAPI decididos na branch `docs/modelo-dados-contratos-mvp` seja automatizada e compatível.
+
+Foram criados os perfis (`profiles`) `dev`, `test` e `e2e` na estrutura `application.yml` em `apps/api/src/main/resources`. O perfil `dev` já está apontando para o PostgreSQL na porta `5432` providenciado pelo Docker Compose da branch anterior, facilitando o desenvolvimento e setup local. Foi também criada a migration inicial (`V1__baseline.sql`) para a extensão `uuid-ossp`.
+
+Para padronizar e isolar as falhas seguindo a decisão de respostas Problem Details (RFC 7807), implementamos o `GlobalExceptionHandler` sob o pacote `local.fabricarag.core.exception`. Ele capta erros como validações em rotas (`MethodArgumentNotValidException`) e as adapta devolvendo estruturas robustas (com `code`, `correlationId` e `fieldErrors`), que já foram validadas através da implementação do `DummyController` e seus respectivos testes em `DummyControllerTest`.
+
+Durante a construção desta base, a execução via Docker e nativamente com Java 21 foi validada com sucesso. As dependências do Spring Boot 3.4.1 foram ajustadas para garantir compatibilidade, e a comunicação com o banco de dados via perfil `dev` foi testada no Compose local. O próximo passo será revisar, commitar, mesclar esta branch em `develop` e iniciar a fundação web com `chore/frontend-angular-base`.
+
 ## Modelo de entrada futura
 
 ```text
