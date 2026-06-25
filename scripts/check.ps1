@@ -41,6 +41,9 @@ $requiredFiles = @(
     "apps/mcp/README.md",
     "infra/README.md",
     "infra/compose/README.md",
+    "infra/compose/compose.yml",
+    "infra/compose/compose.dev.yml",
+    "infra/compose/compose.e2e.yml",
     "scripts/README.md",
     "scripts/_common.ps1",
     "scripts/check.ps1",
@@ -70,7 +73,22 @@ if ($contractFiles.Count -eq 0) {
 
 Write-Info "Estrutura raiz verificada."
 Write-Info ("Contratos versionados encontrados: {0}" -f $contractFiles.Count)
-Write-Info "Placeholders operacionais disponiveis em scripts/."
+Write-Info "Validando Docker Compose."
+
+Assert-DockerComposeAvailable
+
+foreach ($profile in @("base", "dev", "e2e")) {
+    $composeArguments = New-DockerComposeBaseArguments -RepoRoot $repoRoot -Profile $profile
+    $configArguments = $composeArguments + @("config", "--quiet")
+
+    & docker @configArguments
+    if ($LASTEXITCODE -ne 0) {
+        throw ("Docker Compose config falhou para profile '{0}'." -f $profile)
+    }
+
+    Write-Info ("Docker Compose config valido para profile '{0}'." -f $profile)
+}
+
+Write-Info "Runtime Compose inicial disponivel em infra/compose."
 
 exit 0
-

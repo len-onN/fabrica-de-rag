@@ -130,6 +130,18 @@ Os planos de `03` a `27` receberam a secao `Documentos relevantes`, separando es
 
 As verificacoes executadas confirmaram que todos os planos futuros de `03` a `27` possuem a nova secao e que os links relativos em `branches-plan` apontam para alvos existentes. O fluxo recomendado continua: abrir primeiro o PR de `chore/workspace-fundacao`; depois retarget/rebase e abrir o PR de `docs/vinculos-planos-branches`; em seguida seguir para `build/dev-runtime-compose`.
 
+## 2026-06-25 - Runtime Compose local
+
+Depois do merge da fundacao e dos vinculos documentais, `develop` foi atualizado por fast-forward e a branch `build/dev-runtime-compose` foi aberta a partir da linha de integracao sincronizada. Essa etapa transformou a pasta `infra/compose`, ate entao reservada, no primeiro runtime local real do projeto.
+
+Foram criados os arquivos `compose.yml`, `compose.dev.yml` e `compose.e2e.yml`. O Compose base define Postgres `18.4` e Qdrant `1.18.2`, rede interna, volumes nomeados e health checks. O profile `dev` publica Postgres em `5432`, Qdrant HTTP em `6333` e Qdrant gRPC em `6334`, com override por variaveis de ambiente. O profile `e2e` usa projeto separado, nao publica portas e pode remover volumes com `compose-down.ps1 -Profile e2e -RemoveVolumes`.
+
+Os scripts `compose-up.ps1` e `compose-down.ps1` deixaram de ser placeholders e passaram a montar os argumentos do Docker Compose a partir do profile escolhido. O `compose-up` aguarda health checks por padrao, com opcao `-NoWait` para uso diagnostico. O `check.ps1` passou a validar `docker compose config` para `base`, `dev` e `e2e`, mantendo a verificacao da estrutura raiz e dos contratos versionados.
+
+Durante a validacao real, o Docker Desktop estava parado e precisou ser iniciado. O primeiro health check do Qdrant falhou porque a imagem oficial nao inclui `curl`; a correcao foi usar abertura TCP via `bash` em `6333`, que a propria imagem suporta. Depois disso, `compose-up.ps1 -Profile dev` subiu Postgres e Qdrant saudaveis, `pg_isready` confirmou o Postgres e `http://localhost:6333/healthz` respondeu pelo Qdrant. O profile `e2e` tambem subiu saudavel e foi encerrado removendo containers e volumes.
+
+Com isso, as dependencias locais do MVP estao reproduziveis. A proxima branch passa a ser `chore/backend-spring-base`, que podera usar o Postgres dev ja disponivel para criar a base Spring Boot, health endpoint, profiles e baseline de migrations.
+
 ## Modelo de entrada futura
 
 ```text

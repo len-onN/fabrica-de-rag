@@ -26,12 +26,12 @@ Atualizar:
 | Campo | Valor |
 | --- | --- |
 | Data do registro | 2026-06-25 |
-| Fase | Planejamento operacional de continuidade |
-| Branch atual | `docs/vinculos-planos-branches` |
+| Fase | Fundacao tecnica testavel |
+| Branch atual | `build/dev-runtime-compose` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Vincular planos de branches futuras aos documentos, ADRs, contratos e fixtures relevantes |
-| Status | PRs #1, #2, #3, #4, #5, #6 e #7 mesclados; `chore/workspace-fundacao` commitada e publicada; branch `docs/vinculos-planos-branches` em fechamento, empilhada sobre a fundacao |
-| Proximo marco | Abrir PR de `chore/workspace-fundacao`; depois retarget/rebase e abrir PR de `docs/vinculos-planos-branches`; em seguida seguir para `build/dev-runtime-compose` |
+| Objetivo atual | Criar Compose local inicial com Postgres e Qdrant, health checks, perfis dev/e2e e scripts operacionais |
+| Status | `build/dev-runtime-compose` em fechamento; Compose base/dev/e2e criado; Postgres e Qdrant saudaveis no profile dev; e2e validado e limpo |
+| Proximo marco | Revisar diff, commitar/publicar a branch e abrir PR para `develop`; depois iniciar `chore/backend-spring-base` |
 
 ## Sessao viva
 
@@ -75,13 +75,20 @@ Na branch `chore/workspace-fundacao`, foi criada apenas a fundacao raiz: `apps/a
 
 Na branch `docs/vinculos-planos-branches`, foi criado um plano proprio em `branches-plan/02a-docs-vinculos-planos-branches.md` e uma regra em `branches-plan/README.md` para que branches futuras listem documentos transversais, documentos especificos e contratos/fixtures relevantes. Os planos de `03` a `27` passaram a ter a secao `Documentos relevantes`, para que agentes futuros saibam o que carregar antes de implementar cada escopo.
 
+Depois do merge da fundacao e dos vinculos documentais, `develop` foi atualizado por fast-forward ate `1a761bb`. A branch `build/dev-runtime-compose` foi aberta a partir da linha de integracao sincronizada para criar o primeiro runtime local com Postgres e Qdrant.
+
+Na branch `build/dev-runtime-compose`, foram criados `infra/compose/compose.yml`, `compose.dev.yml` e `compose.e2e.yml`. O runtime inicial usa `postgres:18.4` e `qdrant/qdrant:v1.18.2`, sem `latest`, com rede `ragcreator`, volumes nomeados, health check de Postgres por `pg_isready` e health check de Qdrant por abertura TCP em `6333`, porque a imagem oficial nao inclui `curl`. Os scripts `compose-up.ps1` e `compose-down.ps1` deixaram de ser placeholders e passaram a operar profiles `base`, `dev` e `e2e`. O `check.ps1` agora valida `docker compose config` para os tres profiles.
+
+Skills/fontes ativadas nesta branch: documentacao local do projeto, `docs/plano-tecnico-mvp.md`, `docs/estrategia-de-testes.md`, `docs/padroes-de-projeto.md`, `docs/decisoes-arquiteturais.md` e plano especifico `branches-plan/03-build-dev-runtime-compose.md`. Nao houve skill externa especializada ativada.
+
+Verificacoes executadas: `git switch develop`, `git pull --ff-only`, `git switch -c build/dev-runtime-compose`, `.\scripts\check.ps1`, `.\scripts\compose-up.ps1 -Profile dev`, `docker exec ragcreator-dev-postgres-1 pg_isready -U ragcreator -d ragcreator`, `Invoke-RestMethod http://localhost:6333/healthz`, `.\scripts\compose-up.ps1 -Profile e2e` e `.\scripts\compose-down.ps1 -Profile e2e -RemoveVolumes`. O Docker Desktop estava parado no inicio da verificacao real e foi iniciado para validar os containers.
+
 Proximo passo concreto:
 
-- revisar diff da branch `docs/vinculos-planos-branches`;
-- commitar e publicar a branch documental;
-- abrir primeiro o PR de `chore/workspace-fundacao` para `develop`;
-- depois retarget/rebase e abrir PR de `docs/vinculos-planos-branches`;
-- apos os merges, seguir para `build/dev-runtime-compose`.
+- revisar diff da branch;
+- commitar e publicar `build/dev-runtime-compose`;
+- abrir PR para `develop`;
+- apos merge, iniciar `chore/backend-spring-base`.
 
 ## Quadro de branches
 
@@ -95,9 +102,9 @@ Proximo passo concreto:
 | `docs/algoritmos-rag-mvp` | Mesclada | Especificar numeracao, chunking, busca, contexto, citacoes e budgets | #5 | Deve anteceder branches de algoritmo. |
 | `docs/analytics-observabilidade-mvp` | Mesclada | Fechar eventos, retencao, export/delete, logs, metricas e privacidade | #6 | Deve anteceder branches de analytics. |
 | `docs/interpretacao-imagens-tabelas-pdf` | Mesclada | Fechar camada de imagens/tabelas em PDFs, assets, elementos e vision interpreter | #7 | Deve anteceder worker visual/tabelas, chunking e citacoes. |
-| `chore/workspace-fundacao` | Publicada | Criar estrutura raiz, diretorios e convencoes do repositorio | Pendente | Commit `f1ef425` publicado em `origin/chore/workspace-fundacao`; pronta para PR. |
-| `docs/vinculos-planos-branches` | Em fechamento | Vincular planos futuros a docs, ADRs, contratos e fixtures relevantes | Pendente | Branch empilhada sobre `chore/workspace-fundacao`. |
-| `build/dev-runtime-compose` | Candidata | Criar compose local com Postgres, Qdrant e servicos preparados | Pendente | Depende da estrutura inicial. |
+| `chore/workspace-fundacao` | Mesclada | Criar estrutura raiz, diretorios e convencoes do repositorio | Concluido | Mesclada em `develop`; estrutura inicial disponivel. |
+| `docs/vinculos-planos-branches` | Mesclada | Vincular planos futuros a docs, ADRs, contratos e fixtures relevantes | Concluido | Mesclada em `develop`; planos futuros carregam documentos relevantes. |
+| `build/dev-runtime-compose` | Em fechamento | Criar compose local com Postgres, Qdrant e servicos preparados | Pendente | Compose base/dev/e2e criado; dev e e2e validados com health checks. |
 | `chore/backend-spring-base` | Candidata | Criar base Spring Boot testavel | Pendente | Health, profiles, testes, Postgres e baseline de migrations. |
 | `chore/frontend-angular-base` | Candidata | Criar base Angular testavel | Pendente | Layout shell, roteamento, tema e testes. |
 | `chore/worker-python-base` | Candidata | Criar base Python worker testavel | Pendente | FastAPI/Pydantic, health, testes e container. |
@@ -134,15 +141,15 @@ Proximo passo concreto:
 
 | Tema | Status | Proxima acao |
 | --- | --- | --- |
-| Estrutura de repositorio/pacotes | Criada inicialmente | Abrir PR de `chore/workspace-fundacao`; a proxima expansao entra em `build/dev-runtime-compose`. |
-| Vinculos de contexto por branch | Criados inicialmente | Manter a secao `Documentos relevantes` atualizada quando uma branch futura ganhar novo contrato, ADR ou fixture. |
+| Estrutura de repositorio/pacotes | Mesclada inicialmente | A proxima expansao de apps reais entra nas branches base de cada stack. |
+| Vinculos de contexto por branch | Mesclados inicialmente | Manter a secao `Documentos relevantes` atualizada quando uma branch futura ganhar novo contrato, ADR ou fixture. |
 | Migracoes de banco | Definida inicialmente | Usar Flyway e aplicar convencoes na primeira branch backend. |
 | Modelo documental inicial | Especificado | Implementar em migrations nas branches de backend/documentos. |
 | Contrato Spring -> Python worker | Especificado | Implementar adapters HTTP internos nas branches de worker/ingestao. |
 | Contrato Qdrant | Payload, reindexacao e idempotencia especificados | Implementar adapter Qdrant e testes de filtro/idempotencia nas branches de indexacao. Imagem inicial: `qdrant/qdrant:v1.18.2`. |
 | Arquitetura de ingestao | Especificada | Implementar state machine, background job e storage nas branches de ingestao. |
 | Seguranca e permissoes | Especificada | Implementar sessao, CSRF, roles, matriz de permissoes, workspace scope e testes em `feat/auth-bootstrap-workspaces`; aplicar API key/MCP nas branches proprias. |
-| Estrategia de testes | Base operacional criada | `check.ps1` verifica a fundacao; placeholders retornam `2`; Compose entra em `build/dev-runtime-compose` e smoke em `test/smoke-stack-local`. |
+| Estrategia de testes | Base operacional e Compose criados | `check.ps1` verifica estrutura e Compose config; smoke real entra em `test/smoke-stack-local`. |
 | Algoritmos iniciais | Especificados | Implementar numeracao, chunking, embeddings, busca, contexto, citacoes e resposta nas branches funcionais usando `docs/algoritmos-rag-mvp.md`. |
 | Analytics e observabilidade | Especificados | Implementar eventos locais, retencao, export/delete e dashboard usando `docs/analytics-observabilidade-mvp.md`. |
 | Providers reais de embedding/LLM | Encaminhados | Manter mock deterministico em testes; escolher adapters reais nas branches `feat/embeddings-base` e `feat/resposta-rag-base` se houver configuracao. |

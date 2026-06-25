@@ -1,6 +1,6 @@
 # build/dev-runtime-compose
 
-Status: candidata.
+Status: em fechamento.
 
 ## Objetivo
 
@@ -37,11 +37,15 @@ RUNTIME, DATA, OBS, TEST
 - Imagem inicial do Postgres: `postgres:18.4`.
 - Imagem inicial do Qdrant: `qdrant/qdrant:v1.18.2`.
 - Arquivos Compose versionados nao usam `latest`.
+- Volumes de desenvolvimento usam volumes nomeados persistentes do projeto Compose.
+- O ambiente e2e usa projeto Compose separado e volumes removiveis por `compose-down.ps1 -Profile e2e -RemoveVolumes`.
+- Rede padrao: `ragcreator`.
+- Portas de desenvolvimento: Postgres `5432`, Qdrant HTTP `6333` e Qdrant gRPC `6334`, com override por variaveis `RAG_POSTGRES_PORT`, `RAG_QDRANT_HTTP_PORT` e `RAG_QDRANT_GRPC_PORT`.
+- `scripts/compose-up.ps1` e `scripts/compose-down.ps1` sao a interface operacional inicial do Compose.
 
 ## Falta definir
 
-- Politica de volumes dev vs e2e.
-- Nome de rede e portas padrao.
+- Nada bloqueante para esta branch; servicos de `api`, `web`, `worker` e `mcp` entram nas branches base de cada app.
 
 ## Estrategia
 
@@ -49,6 +53,7 @@ RUNTIME, DATA, OBS, TEST
 2. Validar `docker compose config`.
 3. Adicionar health checks.
 4. Documentar comandos de up/down/logs.
+5. Ligar os scripts PowerShell ao Compose real.
 
 ## Testabilidade
 
@@ -56,7 +61,17 @@ RUNTIME, DATA, OBS, TEST
 - Postgres responde.
 - Qdrant responde.
 - Health checks definidos antes de depender de smoke/e2e.
+- `compose-up.ps1 -Profile dev` sobe Postgres e Qdrant com health checks saudaveis.
+- `compose-up.ps1 -Profile e2e` sobe stack isolada; `compose-down.ps1 -Profile e2e -RemoveVolumes` limpa containers e volumes.
+
+## Gates aplicaveis
+
+- OCP: Compose cria servicos de infraestrutura reutilizaveis, sem criar apps reais fora das branches donas.
+- LSP: scripts deixam de ser placeholders mantendo semantica previsivel de exit code e mensagens claras.
+- IoC/DI: nao ha codigo de dominio; concretos de infraestrutura entram por arquivos Compose versionados.
+- Compatibilidade: `scripts/check.ps1` continua validando a fundacao e passa a validar os arquivos Compose.
 
 ## Fechamento
 
 - Dependencias locais sobem de forma previsivel.
+- Proxima branch pode criar a base Spring Boot usando Postgres dev ja disponivel.
