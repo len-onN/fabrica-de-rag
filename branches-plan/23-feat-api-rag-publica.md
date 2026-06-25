@@ -10,6 +10,13 @@ Publicar API HTTP de consulta RAG.
 
 CODE, CONTRACT, TEST, SEC, OBS, PERF
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [MVP interface e API](../docs/mvp-interface-e-api.md), [Seguranca e permissoes](../docs/seguranca-permissoes-mvp.md), [Algoritmos RAG](../docs/algoritmos-rag-mvp.md), [Analytics e observabilidade](../docs/analytics-observabilidade-mvp.md), [Modelo de dados e contratos](../docs/modelo-dados-contratos-mvp.md), [feat/resposta-rag-base](20-feat-resposta-rag-base.md).
+- Contratos/fixtures: [RAG](../tests/contracts/rag), [REST](../tests/contracts/rest), [eventos](../tests/contracts/events), [seguranca](../tests/contracts/security).
+
 ## Escopo
 
 - Criar endpoint autenticado.

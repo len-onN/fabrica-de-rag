@@ -10,6 +10,13 @@ Gerar resposta RAG com grounding e citacoes, usando provider real ou adapter moc
 
 CODE, CONTRACT, TEST, OBS, PERF
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Algoritmos RAG](../docs/algoritmos-rag-mvp.md), [Analytics e observabilidade](../docs/analytics-observabilidade-mvp.md), [MVP interface e API](../docs/mvp-interface-e-api.md), [feat/context-builder-base](18-feat-context-builder-base.md), [feat/laboratorio-recuperacao](19-feat-laboratorio-recuperacao.md).
+- Contratos/fixtures: [resposta RAG](../tests/contracts/rag/ask-response-insufficient-evidence.v1.json), [citacoes](../tests/contracts/rag/citation.v1.json), [eventos](../tests/contracts/events).
+
 ## Escopo
 
 - Criar adapter de LLM ou mock.

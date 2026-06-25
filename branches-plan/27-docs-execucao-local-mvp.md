@@ -10,6 +10,12 @@ Documentar execucao local do MVP.
 
 DOC, RUNTIME, TEST
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Git e commits](../docs/git-e-commits.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [README](../README.md), [build/dev-runtime-compose](03-build-dev-runtime-compose.md), [test/smoke-stack-local](07-test-smoke-stack-local.md), [test/e2e-mvp-ingestao-recuperacao](25-test-e2e-mvp-ingestao-recuperacao.md), [docs/trigger-implementacao-agentica.md](../docs/trigger-implementacao-agentica.md).
+
 ## Escopo
 
 - Documentar setup.
@@ -49,4 +55,3 @@ DOC, RUNTIME, TEST
 ## Fechamento
 
 - README/documentacao permite executar e testar localmente.
-

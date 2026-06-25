@@ -10,6 +10,13 @@ Criar dashboard inicial do workspace com dados reais e estados vazios.
 
 CODE, UX, CONTRACT, TEST, SEC
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [MVP interface e API](../docs/mvp-interface-e-api.md), [Design visual](../docs/design-visual.md), [Usuarios e acesso](../docs/usuarios-e-acesso.md), [Seguranca e permissoes](../docs/seguranca-permissoes-mvp.md), [feat/auth-bootstrap-workspaces](08-feat-auth-bootstrap-workspaces.md).
+- Contratos/fixtures: [REST](../tests/contracts/rest), [eventos](../tests/contracts/events).
+
 ## Escopo
 
 - Criar rota de dashboard.
@@ -50,4 +57,3 @@ CODE, UX, CONTRACT, TEST, SEC
 ## Fechamento
 
 - Usuario entra no workspace e ve uma tela inicial real.
-

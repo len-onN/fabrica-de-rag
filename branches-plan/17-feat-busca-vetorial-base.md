@@ -10,6 +10,13 @@ Buscar chunks por pergunta usando embeddings e Qdrant.
 
 CODE, CONTRACT, DATA, TEST, SEC, PERF
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Algoritmos RAG](../docs/algoritmos-rag-mvp.md), [Modelo de dados e contratos](../docs/modelo-dados-contratos-mvp.md), [Seguranca e permissoes](../docs/seguranca-permissoes-mvp.md), [Conectores vector store](../docs/conectores-vector-store.md), [feat/qdrant-indexacao](16-feat-qdrant-indexacao.md).
+- Contratos/fixtures: [busca RAG](../tests/contracts/rag/search-response.v1.json), [Qdrant payload](../tests/contracts/qdrant/chunk-payload.v1.json), [eventos de recuperacao](../tests/contracts/events/retrieval-query-executed.v1.json).
+
 ## Escopo
 
 - Gerar embedding da pergunta.

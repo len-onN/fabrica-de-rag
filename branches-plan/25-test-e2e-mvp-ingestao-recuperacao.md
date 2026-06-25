@@ -10,6 +10,13 @@ Criar e2e do fluxo principal do MVP.
 
 TEST, RUNTIME, UX, DATA, CONTRACT, OBS
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [MVP interface e API](../docs/mvp-interface-e-api.md), [Cobertura do MVP pelo plano de branches](../docs/cobertura-mvp-branches.md), [build/dev-runtime-compose](03-build-dev-runtime-compose.md), [test/smoke-stack-local](07-test-smoke-stack-local.md), [feat/ingestao-pipeline-indexacao](16a-feat-ingestao-pipeline-indexacao.md), [feat/laboratorio-recuperacao](19-feat-laboratorio-recuperacao.md).
+- Contratos/fixtures: [contracts](../tests/contracts), [fixtures](../tests/fixtures), [e2e](../tests/e2e).
+
 ## Escopo
 
 - Subir stack via compose e2e.

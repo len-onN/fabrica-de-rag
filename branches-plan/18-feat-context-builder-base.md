@@ -10,6 +10,13 @@ Montar contexto expandido por vizinhos, com budget e citacoes.
 
 CODE, CONTRACT, TEST, PERF
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Algoritmos RAG](../docs/algoritmos-rag-mvp.md), [Interpretacao de imagens e tabelas em PDFs](../docs/interpretacao-imagens-tabelas-pdf.md), [Modelo de dados e contratos](../docs/modelo-dados-contratos-mvp.md), [feat/busca-vetorial-base](17-feat-busca-vetorial-base.md), [feat/chunking-semantico](14-feat-chunking-semantico.md).
+- Contratos/fixtures: [context builder](../tests/contracts/rag/context-assemble.response.v1.json), [citacoes](../tests/contracts/rag/citation.v1.json), [citacao visual](../tests/contracts/rag/citation-visual.v1.json).
+
 ## Escopo
 
 - Receber chunks ancoras.

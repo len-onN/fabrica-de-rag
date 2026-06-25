@@ -10,6 +10,13 @@ Orquestrar a ingestao completa ate chunks, embeddings e indexacao Qdrant, usando
 
 CODE, RUNTIME, DATA, CONTRACT, OBS, TEST, PERF
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Arquitetura de ingestao e RAG](../docs/arquitetura-ingestao-rag.md), [Modelo de dados e contratos](../docs/modelo-dados-contratos-mvp.md), [Algoritmos RAG](../docs/algoritmos-rag-mvp.md), [Analytics e observabilidade](../docs/analytics-observabilidade-mvp.md), [Interpretacao de imagens e tabelas em PDFs](../docs/interpretacao-imagens-tabelas-pdf.md), [feat/qdrant-indexacao](16-feat-qdrant-indexacao.md).
+- Contratos/fixtures: [ingestao](../tests/contracts/ingestion), [eventos](../tests/contracts/events), [worker](../tests/contracts/worker), [Qdrant](../tests/contracts/qdrant).
+
 ## Escopo
 
 - Encadear inspect, revisao de paginas, extracao/OCR, chunking, embeddings e indexacao.

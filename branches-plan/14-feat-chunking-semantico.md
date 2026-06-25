@@ -10,6 +10,13 @@ Criar chunking inicial com proveniencia e persistencia.
 
 CODE, DATA, CONTRACT, TEST, PERF
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Algoritmos RAG](../docs/algoritmos-rag-mvp.md), [Modelo de dados e contratos](../docs/modelo-dados-contratos-mvp.md), [Arquitetura de ingestao e RAG](../docs/arquitetura-ingestao-rag.md), [Interpretacao de imagens e tabelas em PDFs](../docs/interpretacao-imagens-tabelas-pdf.md), [feat/paginas-numeracao](13-feat-paginas-numeracao.md).
+- Contratos/fixtures: [worker chunking](../tests/contracts/worker/chunks-build.response.v1.json), [citacoes RAG](../tests/contracts/rag), [PDF fixtures](../tests/fixtures/pdfs).
+
 ## Escopo
 
 - Definir algoritmo inicial.

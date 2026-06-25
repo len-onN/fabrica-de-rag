@@ -10,6 +10,13 @@ Implementar a base da camada de interpretacao de imagens e tabelas em PDFs, usan
 
 CODE, RUNTIME, DATA, CONTRACT, TEST, PERF
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Interpretacao de imagens e tabelas em PDFs](../docs/interpretacao-imagens-tabelas-pdf.md), [Modelo de dados e contratos](../docs/modelo-dados-contratos-mvp.md), [Arquitetura de ingestao e RAG](../docs/arquitetura-ingestao-rag.md), [Analytics e observabilidade](../docs/analytics-observabilidade-mvp.md), [Algoritmos RAG](../docs/algoritmos-rag-mvp.md), [feat/worker-pdf-render-ocr-base](12a-feat-worker-pdf-render-ocr-base.md).
+- Contratos/fixtures: [worker visual/tabelas](../tests/contracts/worker), [citacao visual](../tests/contracts/rag/citation-visual.v1.json), [eventos visuais](../tests/contracts/events).
+
 ## Escopo
 
 - Detectar elementos visuais e tabelas em paginas de PDF.

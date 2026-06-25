@@ -120,6 +120,16 @@ Foi criada a primeira interface operacional em PowerShell. `scripts/check.ps1` v
 
 As verificacoes executadas foram `.\scripts\check.ps1`, que passou e encontrou 38 contratos versionados, e uma chamada controlada dos placeholders em processo separado, confirmando que todos retornam `2` com mensagem clara. O proximo passo, apos merge desta branch, passa a ser `build/dev-runtime-compose`, criando o Compose local inicial com Postgres e Qdrant.
 
+## 2026-06-25 - Vinculos dos planos futuros
+
+Depois da publicacao de `chore/workspace-fundacao`, foi criada a branch `docs/vinculos-planos-branches` como uma branch documental empilhada sobre a fundacao. A motivacao foi reduzir atrito para as proximas sessoes: cada plano futuro deve dizer explicitamente quais documentos, ADRs, contratos e fixtures precisam ser carregados antes de implementar.
+
+Foi criado o arquivo `branches-plan/02a-docs-vinculos-planos-branches.md`, registrando o escopo desta manutencao documental. O `branches-plan/README.md` passou a listar documentos transversais por branch e a regra de revisar a secao `Documentos relevantes` antes de abrir uma branch.
+
+Os planos de `03` a `27` receberam a secao `Documentos relevantes`, separando estado vivo, base operacional, documentos especificos e contratos/fixtures quando aplicavel. O trabalho nao reabriu decisoes arquiteturais dos portoes ja fechados; ele apenas transformou a documentacao existente em mapa de contexto para implementacoes futuras.
+
+As verificacoes executadas confirmaram que todos os planos futuros de `03` a `27` possuem a nova secao e que os links relativos em `branches-plan` apontam para alvos existentes. O fluxo recomendado continua: abrir primeiro o PR de `chore/workspace-fundacao`; depois retarget/rebase e abrir o PR de `docs/vinculos-planos-branches`; em seguida seguir para `build/dev-runtime-compose`.
+
 ## Modelo de entrada futura
 
 ```text

@@ -10,6 +10,12 @@ Criar runtime local reproduzivel com Docker Compose.
 
 RUNTIME, DATA, OBS, TEST
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Plano de branches](../docs/plano-de-branches.md), [Escopos detalhados](../docs/escopos-detalhados-branches.md), [chore/workspace-fundacao](02-chore-workspace-fundacao.md).
+
 ## Escopo
 
 - Criar `infra/compose/compose.yml`.

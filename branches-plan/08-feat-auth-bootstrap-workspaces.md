@@ -10,6 +10,13 @@ Criar a primeira fatia vertical real: bootstrap local, usuario/admin, workspace 
 
 CODE, DATA, CONTRACT, UX, TEST, SEC, OBS
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Seguranca e permissoes](../docs/seguranca-permissoes-mvp.md), [Usuarios e acesso](../docs/usuarios-e-acesso.md), [Modelo de dados e contratos](../docs/modelo-dados-contratos-mvp.md), [MVP interface e API](../docs/mvp-interface-e-api.md), [Analytics e observabilidade](../docs/analytics-observabilidade-mvp.md), [Design visual](../docs/design-visual.md).
+- Contratos/fixtures: [REST auth/bootstrap](../tests/contracts/rest), [matriz de permissoes](../tests/contracts/security/permission-matrix.v1.json), [eventos](../tests/contracts/events).
+
 ## Escopo
 
 - Criar tabelas de usuarios, workspaces e memberships.

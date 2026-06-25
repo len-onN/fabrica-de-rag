@@ -10,6 +10,13 @@ Implementar contrato inicial de embeddings definido no planejamento.
 
 CODE, CONTRACT, RUNTIME, TEST, PERF
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Algoritmos RAG](../docs/algoritmos-rag-mvp.md), [Modelo de dados e contratos](../docs/modelo-dados-contratos-mvp.md), [Conectores vector store](../docs/conectores-vector-store.md), [feat/chunking-semantico](14-feat-chunking-semantico.md).
+- Contratos/fixtures: [worker embeddings](../tests/contracts/worker/embeddings-text.response.v1.json), [Qdrant payload](../tests/contracts/qdrant/chunk-payload.v1.json).
+
 ## Escopo
 
 - Implementar provider/modelo inicial ou adapter mockado definido em `docs/algoritmos-rag-mvp`.

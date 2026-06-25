@@ -10,6 +10,13 @@ Criar a operacao observavel de runs de ingestao: status, etapas, cancelamento, r
 
 CODE, DATA, CONTRACT, UX, OBS, TEST
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Arquitetura de ingestao e RAG](../docs/arquitetura-ingestao-rag.md), [Analytics e observabilidade](../docs/analytics-observabilidade-mvp.md), [Seguranca e permissoes](../docs/seguranca-permissoes-mvp.md), [Modelo de dados e contratos](../docs/modelo-dados-contratos-mvp.md), [Design visual](../docs/design-visual.md).
+- Contratos/fixtures: [ingestao](../tests/contracts/ingestion), [eventos](../tests/contracts/events).
+
 ## Escopo
 
 - Criar rota `/w/:workspaceId/ingest-runs/:runId`.

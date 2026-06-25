@@ -10,6 +10,13 @@ Criar a base Python worker executavel, testavel e pronta para contratos internos
 
 CODE, RUNTIME, CONTRACT, TEST, PERF, OBS
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Modelo de dados e contratos](../docs/modelo-dados-contratos-mvp.md), [Arquitetura de ingestao e RAG](../docs/arquitetura-ingestao-rag.md), [Interpretacao de imagens e tabelas em PDFs](../docs/interpretacao-imagens-tabelas-pdf.md), [build/dev-runtime-compose](03-build-dev-runtime-compose.md).
+- Contratos/fixtures: [worker](../tests/contracts/worker), [PDF fixtures](../tests/fixtures/pdfs).
+
 ## Escopo
 
 - Criar `apps/worker`.
@@ -55,4 +62,3 @@ CODE, RUNTIME, CONTRACT, TEST, PERF, OBS
 ## Fechamento
 
 - Worker pode ser chamado pela API.
-

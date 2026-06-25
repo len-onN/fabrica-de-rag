@@ -10,6 +10,13 @@ Integrar o worker Python para inspecao basica de PDF.
 
 CODE, RUNTIME, CONTRACT, DATA, TEST, OBS, PERF
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Modelo de dados e contratos](../docs/modelo-dados-contratos-mvp.md), [Arquitetura de ingestao e RAG](../docs/arquitetura-ingestao-rag.md), [chore/worker-python-base](06-chore-worker-python-base.md), [feat/ingestao-upload-pdf](11-feat-ingestao-upload-pdf.md).
+- Contratos/fixtures: [worker pdf inspect](../tests/contracts/worker), [ingestao](../tests/contracts/ingestion), [PDF fixtures](../tests/fixtures/pdfs).
+
 ## Escopo
 
 - Criar endpoint interno `pdf/inspect`.

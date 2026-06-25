@@ -10,6 +10,13 @@ Criar primeiras ferramentas MCP para agentes.
 
 AGENT, CODE, CONTRACT, TEST, SEC, OBS
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Skills e boas praticas para agentes](../docs/skills-e-boas-praticas-para-agentes.md), [Seguranca e permissoes](../docs/seguranca-permissoes-mvp.md), [Algoritmos RAG](../docs/algoritmos-rag-mvp.md), [Analytics e observabilidade](../docs/analytics-observabilidade-mvp.md), [MVP interface e API](../docs/mvp-interface-e-api.md), [feat/api-rag-publica](23-feat-api-rag-publica.md).
+- Contratos/fixtures: [MCP](../tests/contracts/mcp), [RAG](../tests/contracts/rag), [eventos MCP](../tests/contracts/events/mcp-tool-invoked.v1.json), [seguranca](../tests/contracts/security).
+
 ## Escopo
 
 - Implementar `search_chunks`.

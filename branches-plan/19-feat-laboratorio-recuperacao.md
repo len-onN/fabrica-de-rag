@@ -10,6 +10,13 @@ Criar laboratorio de recuperacao com pergunta, chunks, contexto e citacoes.
 
 CODE, UX, CONTRACT, TEST, OBS
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [MVP interface e API](../docs/mvp-interface-e-api.md), [Algoritmos RAG](../docs/algoritmos-rag-mvp.md), [Analytics e observabilidade](../docs/analytics-observabilidade-mvp.md), [Design visual](../docs/design-visual.md), [Seguranca e permissoes](../docs/seguranca-permissoes-mvp.md), [feat/context-builder-base](18-feat-context-builder-base.md).
+- Contratos/fixtures: [RAG](../tests/contracts/rag), [eventos](../tests/contracts/events).
+
 ## Escopo
 
 - Tela de pergunta.

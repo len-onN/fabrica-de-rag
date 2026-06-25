@@ -10,6 +10,13 @@ Criar taxonomia e armazenamento local de eventos.
 
 CODE, DATA, CONTRACT, TEST, OBS, SEC
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Analytics e observabilidade](../docs/analytics-observabilidade-mvp.md), [Analytics local de RAG](../docs/analytics-local-rag.md), [Seguranca e permissoes](../docs/seguranca-permissoes-mvp.md), [Modelo de dados e contratos](../docs/modelo-dados-contratos-mvp.md).
+- Contratos/fixtures: [eventos](../tests/contracts/events), [analytics](../tests/contracts/analytics).
+
 ## Escopo
 
 - Definir schema versionado de evento.

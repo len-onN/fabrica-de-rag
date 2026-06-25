@@ -10,6 +10,13 @@ Implementar mapa de paginas e numeracao impressa por ancoras.
 
 CODE, DATA, CONTRACT, UX, TEST, PERF
 
+## Documentos relevantes
+
+- Estado vivo: [Registro de bordo](../docs/registro-de-bordo.md), [Diario de bordo](../docs/diario-de-bordo.md).
+- Base operacional: [Trigger de implementacao agentica](../docs/trigger-implementacao-agentica.md), [Plano tecnico do MVP](../docs/plano-tecnico-mvp.md), [Padroes de projeto](../docs/padroes-de-projeto.md), [Estrategia de testes](../docs/estrategia-de-testes.md), [Decisoes de arquitetura](../docs/decisoes-arquiteturais.md).
+- Especificos: [Algoritmos RAG](../docs/algoritmos-rag-mvp.md), [Modelo de dados e contratos](../docs/modelo-dados-contratos-mvp.md), [Arquitetura de ingestao e RAG](../docs/arquitetura-ingestao-rag.md), [Interpretacao de imagens e tabelas em PDFs](../docs/interpretacao-imagens-tabelas-pdf.md), [Design visual](../docs/design-visual.md).
+- Contratos/fixtures: [mapa de numeracao](../tests/contracts/rag/page-numbering-map.v1.json), [worker](../tests/contracts/worker), [PDF fixtures](../tests/fixtures/pdfs).
+
 ## Escopo
 
 - Criar tabelas de paginas.
