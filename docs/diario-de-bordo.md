@@ -108,6 +108,18 @@ A branch tambem fechou privacidade, budgets e cache: provider remoto so opera po
 
 Foram adicionadas fixtures em `tests/contracts/worker`, `tests/contracts/rag` e `tests/contracts/events`, cobrindo extracao de elementos, tabela estruturada, figura com legenda, asset crop, interpretacao visual mockada, citacao visual e eventos `table_extracted` e `visual_interpretation_completed`. Os planos consumidores de worker, chunking, context builder e preview de citacao foram atualizados para depender desta especificacao.
 
+## 2026-06-25 - Fundacao do workspace
+
+Depois do merge do PR #7, `develop` foi atualizado por fast-forward e a branch `chore/workspace-fundacao` foi aberta a partir da linha de integracao atualizada. Essa etapa marca a passagem dos portoes de planejamento para a fundacao tecnica testavel.
+
+A branch criou o esqueleto do monorepo com `apps/api`, `apps/web`, `apps/worker`, `apps/mcp`, `infra/compose`, `scripts`, `tests/e2e` e `tests/fixtures`, preservando os contratos ja existentes em `tests/contracts`. Tambem foram adicionadas convencoes raiz: `.editorconfig`, `.gitattributes`, `.gitignore`, `.node-version`, `.java-version` e `.python-version`, alinhadas ao baseline tecnico do MVP.
+
+Cada area nova recebeu um README curto explicando responsabilidade e branch dona da implementacao real. A decisao foi manter esta branch propositalmente leve: ela nao cria Spring, Angular, Python, MCP ou Compose real, para evitar misturar scaffold de stacks diferentes antes das branches planejadas.
+
+Foi criada a primeira interface operacional em PowerShell. `scripts/check.ps1` valida a estrutura raiz e a existencia dos contratos versionados. Os demais scripts (`test-unit`, `test-integration`, `test-smoke`, `test-e2e`, `compose-up` e `compose-down`) sao placeholders intencionais: retornam exit code `2` e explicam qual branch futura implementara o comportamento real.
+
+As verificacoes executadas foram `.\scripts\check.ps1`, que passou e encontrou 38 contratos versionados, e uma chamada controlada dos placeholders em processo separado, confirmando que todos retornam `2` com mensagem clara. O proximo passo, apos merge desta branch, passa a ser `build/dev-runtime-compose`, criando o Compose local inicial com Postgres e Qdrant.
+
 ## Modelo de entrada futura
 
 ```text

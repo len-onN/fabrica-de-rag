@@ -26,12 +26,12 @@ Atualizar:
 | Campo | Valor |
 | --- | --- |
 | Data do registro | 2026-06-25 |
-| Fase | Portoes de planejamento do MVP |
-| Branch atual | `docs/interpretacao-imagens-tabelas-pdf` |
+| Fase | Fundacao tecnica testavel |
+| Branch atual | `chore/workspace-fundacao` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Fechar contratos de imagens, diagramas e tabelas em PDFs, incluindo assets, source locator, vision interpreter, privacidade, budgets, chunks e citacoes |
-| Status | PRs #1, #2, #3, #4, #5 e #6 mesclados; `develop` atualizado por fast-forward; branch `docs/interpretacao-imagens-tabelas-pdf` aberta a partir de `develop` |
-| Proximo marco | Revisar e abrir PR de `docs/interpretacao-imagens-tabelas-pdf` para `develop`; depois seguir para `chore/workspace-fundacao` |
+| Objetivo atual | Criar estrutura raiz do monorepo, convencoes iniciais e scripts operacionais placeholders |
+| Status | PRs #1, #2, #3, #4, #5, #6 e #7 mesclados; `develop` atualizado por fast-forward; branch `chore/workspace-fundacao` em fechamento |
+| Proximo marco | Abrir PR de `chore/workspace-fundacao` para `develop`; depois seguir para `build/dev-runtime-compose` |
 
 ## Sessao viva
 
@@ -69,11 +69,15 @@ O PR #6 de `docs/analytics-observabilidade-mvp` foi mesclado em `develop`. A lin
 
 Na branch `docs/interpretacao-imagens-tabelas-pdf`, o portao visual/tabular fechou `pdf.source_locator.v1`, `pdf.document_element.v1`, `pdf.asset.v1`, `pdf.table_json.v1`, `pdf.table_markdown.v1`, `pdf.visual_interpretation.v1`, os contratos `worker.pdf.extract_elements.*.v1` e `worker.pdf.interpret_visual.*.v1`, a politica de provider remoto opt-in, mock deterministico para testes, budgets iniciais, cache por hash/policy, relacoes com chunking/context builder/citacoes e fixtures versionadas para worker, RAG e eventos.
 
+O PR #7 de `docs/interpretacao-imagens-tabelas-pdf` foi mesclado em `develop`. A linha local `develop` foi atualizada por fast-forward e a branch `chore/workspace-fundacao` foi aberta a partir dela.
+
+Na branch `chore/workspace-fundacao`, foi criada apenas a fundacao raiz: `apps/api`, `apps/web`, `apps/worker`, `apps/mcp`, `infra/compose`, `scripts`, `tests/e2e` e `tests/fixtures`, preservando `tests/contracts` ja versionado. A branch tambem criou convencoes raiz, READMEs operacionais e scripts PowerShell como interface inicial. Scripts que dependem de stacks ainda inexistentes falham com mensagem clara e exit code `2`, em vez de passar silenciosamente.
+
 Proximo passo concreto:
 
-- revisar links/fixtures da branch `docs/interpretacao-imagens-tabelas-pdf`;
-- abrir PR da branch `docs/interpretacao-imagens-tabelas-pdf` para `develop`;
-- apos o merge, seguir para `chore/workspace-fundacao`.
+- revisar diff da branch `chore/workspace-fundacao`;
+- abrir PR para `develop`;
+- apos o merge, seguir para `build/dev-runtime-compose`.
 
 ## Quadro de branches
 
@@ -86,8 +90,8 @@ Proximo passo concreto:
 | `docs/seguranca-permissoes-mvp` | Mesclada | Fechar auth local, roles, workspace scope, API/MCP e guardrails | #4 | Deve anteceder `feat/auth-bootstrap-workspaces`. |
 | `docs/algoritmos-rag-mvp` | Mesclada | Especificar numeracao, chunking, busca, contexto, citacoes e budgets | #5 | Deve anteceder branches de algoritmo. |
 | `docs/analytics-observabilidade-mvp` | Mesclada | Fechar eventos, retencao, export/delete, logs, metricas e privacidade | #6 | Deve anteceder branches de analytics. |
-| `docs/interpretacao-imagens-tabelas-pdf` | Em fechamento | Fechar camada de imagens/tabelas em PDFs, assets, elementos e vision interpreter | Pendente | Deve anteceder worker visual/tabelas, chunking e citacoes. |
-| `chore/workspace-fundacao` | Candidata | Criar estrutura raiz, diretorios e convencoes do repositorio | Pendente | Depende do plano tecnico MVP. |
+| `docs/interpretacao-imagens-tabelas-pdf` | Mesclada | Fechar camada de imagens/tabelas em PDFs, assets, elementos e vision interpreter | #7 | Deve anteceder worker visual/tabelas, chunking e citacoes. |
+| `chore/workspace-fundacao` | Em fechamento | Criar estrutura raiz, diretorios e convencoes do repositorio | Pendente | Estrutura e scripts verificados; pronta para PR. |
 | `build/dev-runtime-compose` | Candidata | Criar compose local com Postgres, Qdrant e servicos preparados | Pendente | Depende da estrutura inicial. |
 | `chore/backend-spring-base` | Candidata | Criar base Spring Boot testavel | Pendente | Health, profiles, testes, Postgres e baseline de migrations. |
 | `chore/frontend-angular-base` | Candidata | Criar base Angular testavel | Pendente | Layout shell, roteamento, tema e testes. |
@@ -125,14 +129,14 @@ Proximo passo concreto:
 
 | Tema | Status | Proxima acao |
 | --- | --- | --- |
-| Estrutura de repositorio/pacotes | Definida inicialmente | Criar `apps/api`, `apps/web`, `apps/worker`, `apps/mcp`, `infra/compose`, `tests`, `scripts` em `chore/workspace-fundacao`. |
+| Estrutura de repositorio/pacotes | Criada inicialmente | Abrir PR de `chore/workspace-fundacao`; a proxima expansao entra em `build/dev-runtime-compose`. |
 | Migracoes de banco | Definida inicialmente | Usar Flyway e aplicar convencoes na primeira branch backend. |
 | Modelo documental inicial | Especificado | Implementar em migrations nas branches de backend/documentos. |
 | Contrato Spring -> Python worker | Especificado | Implementar adapters HTTP internos nas branches de worker/ingestao. |
 | Contrato Qdrant | Payload, reindexacao e idempotencia especificados | Implementar adapter Qdrant e testes de filtro/idempotencia nas branches de indexacao. Imagem inicial: `qdrant/qdrant:v1.18.2`. |
 | Arquitetura de ingestao | Especificada | Implementar state machine, background job e storage nas branches de ingestao. |
 | Seguranca e permissoes | Especificada | Implementar sessao, CSRF, roles, matriz de permissoes, workspace scope e testes em `feat/auth-bootstrap-workspaces`; aplicar API key/MCP nas branches proprias. |
-| Estrategia de testes | Registrada inicialmente | Implementar base em `chore/workspace-fundacao`, Compose em `build/dev-runtime-compose` e smoke em `test/smoke-stack-local`. |
+| Estrategia de testes | Base operacional criada | `check.ps1` verifica a fundacao; placeholders retornam `2`; Compose entra em `build/dev-runtime-compose` e smoke em `test/smoke-stack-local`. |
 | Algoritmos iniciais | Especificados | Implementar numeracao, chunking, embeddings, busca, contexto, citacoes e resposta nas branches funcionais usando `docs/algoritmos-rag-mvp.md`. |
 | Analytics e observabilidade | Especificados | Implementar eventos locais, retencao, export/delete e dashboard usando `docs/analytics-observabilidade-mvp.md`. |
 | Providers reais de embedding/LLM | Encaminhados | Manter mock deterministico em testes; escolher adapters reais nas branches `feat/embeddings-base` e `feat/resposta-rag-base` se houver configuracao. |

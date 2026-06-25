@@ -8,7 +8,7 @@ https://github.com/len-onN/fabrica-de-rag
 
 ## Estado atual
 
-Este repositorio esta na fase de concepcao e planejamento tecnico do MVP. A camada operacional, o plano de branches, a estrategia de testes, o baseline tecnico inicial e a cobertura do MVP ja estao registrados; o marco atual e fechar o portao de interpretacao de imagens/tabelas em PDFs antes de iniciar `chore/workspace-fundacao`.
+Este repositorio esta saindo dos portoes de planejamento do MVP e entrando na fundacao tecnica testavel. A camada operacional, o plano de branches, a estrategia de testes, o baseline tecnico inicial e os contratos do MVP ja estao registrados; o marco atual e `chore/workspace-fundacao`, responsavel por criar a estrutura raiz do monorepo e a primeira interface operacional local.
 
 ## Trigger de implementacao agentica
 
@@ -61,6 +61,33 @@ Se o Git bloquear a checagem por `dubious ownership`, o agente nao deve contorna
 - [Conectores de bancos vetoriais](docs/conectores-vector-store.md)
 - [Analytics local de RAG](docs/analytics-local-rag.md)
 - [Planejamento](docs/planejamento.md)
+
+## Estrutura inicial
+
+```text
+.
++-- apps
+|   +-- api
+|   +-- mcp
+|   +-- web
+|   +-- worker
++-- docs
++-- infra
+|   +-- compose
++-- scripts
++-- tests
+    +-- contracts
+    +-- e2e
+    +-- fixtures
+```
+
+Comando de verificacao da fundacao:
+
+```powershell
+.\scripts\check.ps1
+```
+
+Os demais scripts em `scripts` ainda sao placeholders intencionais e retornam codigo `2` ate as branches donas criarem as stacks, o Compose, o smoke e o e2e reais.
 
 ## Stacks escolhidas ate aqui
 
