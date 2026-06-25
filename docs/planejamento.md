@@ -23,7 +23,7 @@ As discussoes iniciais abaixo ja foram consolidadas ou encaminhadas para branche
 - O MCP nasce como runtime TypeScript/Node 24 em `apps/mcp`, adaptador fino sobre contratos do backend.
 - Qdrant interno e o vector store inicial; pgvector fica como possibilidade futura.
 - Conectores externos de vector store ficam fora do MVP funcional, mas o modelo deve preparar bindings futuros.
-- A taxonomia final de analytics, retencao, export/delete e logs sera fechada em `docs/analytics-observabilidade-mvp`.
+- A taxonomia final de analytics, retencao, export/delete e logs esta definida em `docs/analytics-observabilidade-mvp`.
 - O laboratorio de recuperacao entra no MVP funcional.
 - Usuarios, workspaces, memberships e roles basicas entram desde o modelo inicial.
 - Decisoes estruturais de modelo, ingestao, seguranca, algoritmos, analytics e interpretacao de imagens/tabelas em PDFs tem portoes `docs/*` antes do codigo.

@@ -68,7 +68,7 @@ Resultado:
 - cria `users`, `auth_identities`, `workspaces` e `workspace_memberships`;
 - role inicial: `owner`;
 - cria sessao autenticada para o primeiro usuario;
-- registra evento `security.bootstrap_completed`;
+- registra evento `security_bootstrap_completed`;
 - chamadas posteriores retornam `409 bootstrap_already_completed`.
 
 ### Login
@@ -411,26 +411,27 @@ Eventos obrigatorios:
 
 | Evento | Quando |
 | --- | --- |
-| `security.bootstrap_completed` | Primeiro ambiente local criado. |
-| `security.login_succeeded` | Login valido. |
-| `security.login_failed` | Login invalido, sem revelar existencia de email. |
-| `security.logout_succeeded` | Sessao revogada. |
-| `security.permission_denied` | Request autenticada negada por permissao. |
-| `security.csrf_rejected` | Mutacao recusada por CSRF. |
-| `security.api_key_created` | API key criada. |
-| `security.api_key_revoked` | API key revogada. |
-| `security.agent_tool_denied` | Tool MCP/API negada por capability, limite ou workspace. |
-| `workspace.settings_updated` | Configuracao sensivel alterada. |
-| `workspace.analytics_deleted` | Historico local limpo. |
-| `document.archived` | Documento removido da experiencia ativa. |
+| `security_bootstrap_completed` | Primeiro ambiente local criado. |
+| `security_login_succeeded` | Login valido. |
+| `security_login_failed` | Login invalido, sem revelar existencia de email. |
+| `security_logout_succeeded` | Sessao revogada. |
+| `security_permission_denied` | Request autenticada negada por permissao. |
+| `security_csrf_rejected` | Mutacao recusada por CSRF. |
+| `security_api_key_created` | API key criada. |
+| `security_api_key_revoked` | API key revogada. |
+| `security_agent_tool_denied` | Tool MCP/API negada por capability, limite ou workspace. |
+| `workspace_settings_updated` | Configuracao sensivel alterada. |
+| `workspace_analytics_deleted` | Historico local limpo. |
+| `document_archived` | Documento removido da experiencia ativa. |
 
 Campos minimos:
 
 ```json
 {
   "eventVersion": "analytics.event.v1",
-  "eventName": "security.permission_denied",
+  "eventName": "security_permission_denied",
   "origin": "api",
+  "retentionClass": "audit_minimum",
   "workspaceId": "wsp_fixture_alpha",
   "actor": {
     "type": "user",

@@ -8,6 +8,8 @@ No MVP, os eventos ficam na instalacao local ou self-hosted. Eles nao sao enviad
 
 Isso torna o analytics util mesmo sem deploy em nuvem ou base ampla de usuarios: ele vira uma ferramenta de estudo, auditoria e melhoria da propria base de conhecimento.
 
+A especificacao operacional fechada para implementacao vive em [Analytics e Observabilidade do MVP](analytics-observabilidade-mvp.md). Este documento permanece como visao de produto; a taxonomia canonica, retencao, export/delete, campos proibidos e contratos de dashboard devem seguir o portao `docs/analytics-observabilidade-mvp`.
+
 ## Decisao de escopo
 
 MVP:

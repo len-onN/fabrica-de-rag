@@ -40,7 +40,7 @@ DOC, DATA, CONTRACT, SEC, TEST, PERF
 - REST usa JSON `camelCase`, enums `snake_case`, paginacao por cursor e erro em Problem Details com `code`, `correlationId` e `fieldErrors`.
 - Worker usa contratos Pydantic versionados por endpoint, com `contractVersion`, `requestId`, `workspaceId` e erro estruturado.
 - Payload Qdrant minimo e versionado como `qdrant.chunk.v1`, com point id deterministico e filtros obrigatorios por workspace/collection.
-- Eventos locais usam envelope `analytics.event.v1`, origem `ui|api|worker|mcp`, correlation id e propriedades sem dados sensiveis.
+- Eventos locais usam envelope `analytics.event.v1`, origem `ui|api|worker|mcp`, `retentionClass`, correlation id e propriedades sem dados sensiveis.
 - OpenAPI 3.1 e o formato alvo; `tests/contracts` e exemplos JSON sao fonte regressiva inicial ate a biblioteca compativel com Spring Boot 4.1 ser validada no scaffold.
 
 ## Falta definir

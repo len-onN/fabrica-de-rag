@@ -29,17 +29,21 @@ CODE, DATA, CONTRACT, TEST, OBS, SEC
 - Analytics e local.
 - Eventos devem ser escopados por workspace.
 - Sem telemetria remota no MVP.
+- Implementar a taxonomia aprovada em `docs/analytics-observabilidade-mvp.md`.
+- Envelope canonico: `analytics.event.v1`.
+- Eventos carregam `eventName`, `origin`, `retentionClass`, `workspaceId`, ator, correlation id, recurso e `properties`.
+- Retencao inicial por classe: analytics 90 dias, historico 30 dias, run log 30 dias e auditoria minima 365 dias.
+- Export/delete seguem os contratos `analytics.export.manifest.v1` e `analytics.retention-policy.v1`.
 
 ## Falta definir
 
-- Taxonomia inicial final.
-- Retencao padrao.
-- Campos que nunca podem conter conteudo sensivel.
-- Formato final JSON/CSV de export.
+- Migrations e indices concretos.
+- Estrategia de job local de retencao.
+- Forma inicial de endpoint interno para escrita de eventos por fluxo.
 
 ## Estrategia
 
-1. Definir contrato de evento.
+1. Implementar contrato de evento definido em `docs/analytics-observabilidade-mvp.md`.
 2. Criar persistencia.
 3. Implementar retencao, export/delete quando aplicavel.
 4. Emitir eventos nos fluxos ja existentes.

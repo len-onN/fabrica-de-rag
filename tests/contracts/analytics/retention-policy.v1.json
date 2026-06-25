@@ -1,0 +1,46 @@
+{
+  "contractVersion": "analytics.retention-policy.v1",
+  "workspaceId": "wsp_fixture_alpha",
+  "historyMode": "metadata_only",
+  "classes": [
+    {
+      "retentionClass": "analytics",
+      "defaultDays": 90,
+      "allowedDays": [
+        7,
+        30,
+        90,
+        180,
+        365
+      ]
+    },
+    {
+      "retentionClass": "history",
+      "defaultDays": 30,
+      "allowedDays": [
+        7,
+        30,
+        90,
+        180
+      ]
+    },
+    {
+      "retentionClass": "run_log",
+      "defaultDays": 30,
+      "allowedDays": [
+        7,
+        30,
+        90
+      ]
+    },
+    {
+      "retentionClass": "audit_minimum",
+      "defaultDays": 365,
+      "allowedDays": [
+        90,
+        180,
+        365
+      ]
+    }
+  ]
+}

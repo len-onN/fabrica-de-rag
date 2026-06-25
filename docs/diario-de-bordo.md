@@ -84,6 +84,18 @@ O context builder foi separado da busca por `context_builder_v1`, com politicas 
 
 Foram adicionadas fixtures pequenas em `tests/contracts/rag` e `tests/contracts/worker`, cobrindo mapa de numeracao, chunking, embedding mockado, resposta de busca, montagem de contexto, citacao e resposta sem evidencia. As branches consumidoras foram atualizadas para apontar para a especificacao, e a decisao duradoura foi registrada na ADR-025. O proximo portao passa a ser `docs/analytics-observabilidade-mvp`, antes da especificacao final de interpretacao visual/tabelas e da fundacao de codigo.
 
+## 2026-06-25 - Analytics e observabilidade do MVP
+
+Depois do merge do PR #5, `develop` foi atualizado por fast-forward e a branch `docs/analytics-observabilidade-mvp` foi aberta a partir da linha de integracao atualizada. O trigger agentico identificou que o registro de bordo ainda mostrava `docs/algoritmos-rag-mvp` em fechamento; a reconciliacao foi feita no proprio bordo, marcando algoritmos como mesclada e analytics como branch ativa.
+
+O portao de analytics fechou a decisao de tratar observabilidade como contrato local versionado, nao como logs ad hoc espalhados pelas features. O envelope canonico passa a ser `analytics.event.v1`, com `eventName` em `snake_case`, origem, classe de retencao, workspace, ator, correlation id, recurso e propriedades pequenas. Tambem ficou definida a separacao entre analytics event, historico local opcional, run log, auditoria minima e log tecnico.
+
+A decisao principal de privacidade foi manter `metadata_only` como padrao. Perguntas, respostas e fontes completas so entram em historico local quando o workspace habilitar `local_history`; mesmo assim, eventos guardam referencias e metricas, nao conteudo bruto. Foram listados campos proibidos, incluindo segredo, token, API key, connection string, PDF bruto, embedding vector, prompt completo e texto integral de documento por padrao.
+
+Tambem foram fechadas as politicas iniciais de retencao: analytics por 90 dias, historico por 30 dias, run log por 30 dias e auditoria minima por 365 dias. Exportacao usara JSONL/CSV com manifesto versionado, e delete de analytics removera eventos produto/historico por workspace sem apagar auditoria minima ainda dentro da retencao. O dashboard MVP foi definido como operacional, cobrindo runs, falhas, latencia, busca, contexto, resposta, feedback, visual/tabelas, API e MCP.
+
+Foram adicionadas fixtures em `tests/contracts/events` e `tests/contracts/analytics`, cobrindo envelope de evento, busca, permissao negada, chamada MCP, dashboard summary, manifesto de export e politica de retencao. A decisao duradoura foi registrada na ADR-026, e as branches consumidoras de settings, analytics, API e MCP foram atualizadas para depender da especificacao nova.
+
 ## Modelo de entrada futura
 
 ```text

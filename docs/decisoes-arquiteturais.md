@@ -485,3 +485,34 @@ Providers reais de embedding e LLM entram por adapter configuravel, preservando 
 Motivo:
 
 Algoritmos RAG tendem a mudar conforme documentos reais aparecem. Versionar as policies desde o inicio preserva reproducibilidade, permite comparar resultados, evita acoplamento a um provider especifico e impede que branches futuras mudem contratos de busca, contexto ou citacao sem migracao. Separar chunk recuperavel de contexto final mantem a busca simples e deixa o context builder controlar budget, vizinhos, tabelas, interpretacoes visuais e citacoes.
+
+## ADR-026: Analytics local versionado com privacidade por padrao
+
+Status: aceito.
+
+Decisao:
+
+O MVP deve registrar analytics e observabilidade como dados locais, escopados por workspace, usando o envelope `analytics.event.v1`. O `eventName` canonico usa `snake_case`, todo evento persistido carrega `workspaceId`, `origin`, `actor`, `correlationId`, `resource`, `retentionClass` e `properties` pequenas, seguras e versionadas.
+
+As trilhas ficam separadas:
+
+- analytics events alimentam metricas e dashboard local;
+- historico de pergunta/resposta so existe quando o workspace habilitar `local_history`;
+- run logs diagnosticam etapas e erros de ingestao;
+- auditoria minima registra acoes sensiveis ate existir audit trail dedicada;
+- logs tecnicos continuam fora do contrato de analytics.
+
+Retencao inicial:
+
+- `analytics`: 90 dias;
+- `history`: 30 dias;
+- `run_log`: 30 dias;
+- `audit_minimum`: 365 dias, nunca menor que 90 dias no MVP.
+
+Exportacao usa JSONL/CSV com manifesto `analytics.export.manifest.v1`. Delete de analytics remove eventos produto e historico do workspace, mas preserva auditoria minima e o evento de exclusao ate a retencao propria.
+
+Telemetria remota fica fora do MVP. Se entrar no futuro, deve ser opt-in, desligada por padrao, substituivel por `EventSink` e mais restritiva que o sink local quanto a conteudo.
+
+Motivo:
+
+Analytics local e parte do valor do produto: ajuda o usuario a entender qualidade de ingestao, recuperacao, contexto, respostas, feedback e uso por agentes. Sem um contrato de evento cedo, cada branch tenderia a registrar dados ad hoc, com risco de vazar conteudo sensivel ou misturar workspaces. Separar eventos, historico, run logs e auditoria minima preserva utilidade operacional sem transformar analytics em rastreamento de pessoas. A retencao por classe e o export/delete com manifesto tornam o comportamento previsivel para settings, dashboard, API e MCP.

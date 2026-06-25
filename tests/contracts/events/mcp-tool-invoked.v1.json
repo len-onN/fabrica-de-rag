@@ -1,0 +1,26 @@
+{
+  "eventVersion": "analytics.event.v1",
+  "eventName": "mcp_tool_invoked",
+  "origin": "mcp",
+  "retentionClass": "analytics",
+  "workspaceId": "wsp_fixture_alpha",
+  "actor": {
+    "type": "agent",
+    "id": "svc_fixture_agent"
+  },
+  "correlationId": "req_fixture_mcp_001",
+  "occurredAt": "2026-06-25T12:15:00Z",
+  "resource": {
+    "type": "mcp_tool",
+    "id": "search_chunks"
+  },
+  "properties": {
+    "toolName": "search_chunks",
+    "capability": "rag.search",
+    "success": true,
+    "durationMs": 96,
+    "durationBucket": "lt_100_ms",
+    "resultCount": 5,
+    "budgetHit": false
+  }
+}

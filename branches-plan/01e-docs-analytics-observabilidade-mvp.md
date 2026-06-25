@@ -1,6 +1,6 @@
 # docs/analytics-observabilidade-mvp
 
-Status: candidata.
+Status: em fechamento.
 
 ## Objetivo
 
@@ -32,28 +32,31 @@ DOC, OBS, DATA, CONTRACT, SEC, TEST
 - Sem telemetria remota no MVP.
 - Eventos devem ser escopados por workspace.
 - Conteudo sensivel nao deve ser registrado por padrao.
+- Envelope canonico `analytics.event.v1` com `eventName` em `snake_case`, `origin`, `retentionClass`, `workspaceId`, ator, correlation id, recurso e propriedades seguras.
+- Origens canonicas: `ui`, `api`, `worker`, `mcp` e `system`; eventos MCP so sao emitidos quando `feat/mcp-tools-base` existir.
+- Trilhas separadas: analytics event, historico local opcional, run log, auditoria minima e log tecnico.
+- Retencao padrao: analytics 90 dias, historico 30 dias, run log 30 dias e auditoria minima 365 dias.
+- Exportacao usa JSONL/CSV com manifesto `analytics.export.manifest.v1`.
+- Dashboard MVP usa contrato `analytics.dashboard.summary.v1`.
+- Fixtures foram adicionadas em `tests/contracts/events` e `tests/contracts/analytics`.
 
 ## Falta definir
 
-- Taxonomia final dos eventos MVP.
-- Retencao padrao.
-- Campos permitidos/proibidos.
-- Formato de export JSON/CSV.
-- Relacao entre logs de job e eventos de analytics.
-- Envelope versionado de evento, origem, correlation id e identidade.
-- Politica de agregacao do dashboard minimo.
-- Estrategia de delete/export por workspace sem misturar auditoria operacional obrigatoria.
-- Limites de cardinalidade e payload para eventos de UI/API/worker/MCP.
+- Migrations, endpoints e agregadores concretos, a fechar em `feat/analytics-eventos-base` e `feat/analytics-dashboard-base`.
+- UI real de configuracao de historico/retencao, a fechar em `feat/workspace-settings-mvp`.
+- Propriedades finais de eventos visuais/tabelas, a fechar em `docs/interpretacao-imagens-tabelas-pdf`.
+- Eventos MCP reais, a fechar em `feat/mcp-tools-base`.
+- Rate limiting e eventos finais de API key, a fechar em `feat/api-rag-publica`.
 
 ## Detalhes que devem ficar explicitos
 
-- Event envelope: `event_type`, `schema_version`, `occurred_at`, `workspace_id`, origem, ator, correlation id, recurso e payload.
-- Lista de eventos do MVP por fluxo: bootstrap, workspace, colecao, ingestao, pagina, visual/tables, chunk, busca, contexto, resposta, feedback e API; MCP deve ter schema preparado, mas so emitira eventos quando `feat/mcp-tools-base` entrar.
+- Event envelope: `eventVersion`, `eventName`, `origin`, `retentionClass`, `occurredAt`, `workspaceId`, ator, correlation id, recurso e `properties`.
+- Lista de eventos do MVP por fluxo: bootstrap, workspace, colecao, ingestao, pagina, visual/tables, chunking, embedding, indexacao, busca, contexto, resposta, feedback, API e MCP; MCP deve ter schema preparado, mas so emitira eventos quando `feat/mcp-tools-base` entrar.
 - Campos proibidos: conteudo integral de documento, embedding, prompt completo, resposta completa quando historico estiver desligado, segredo, chave, token e credencial.
-- Retencao: padrao local, configuracao por workspace, limpeza por periodo e comportamento em export/delete.
-- Export: formato JSON/CSV, escopo por workspace, filtros e mascaramento de campos sensiveis.
+- Retencao: classes `analytics`, `history`, `run_log` e `audit_minimum`, configuracao por workspace, limpeza por periodo e comportamento em export/delete.
+- Export: JSONL/CSV com manifesto, escopo por workspace, filtros, contagens e mascaramento de campos sensiveis.
 - Logs de job vs eventos: logs diagnosticam run/step; eventos alimentam analytics/agregacao; auditoria registra acoes sensiveis.
-- Dashboard minimo: runs, falhas por etapa, latencia, consultas, chunks recuperados, feedback e limites MCP.
+- Dashboard minimo: runs, falhas por etapa, latencia, consultas, chunks recuperados, contexto, resposta, feedback, visual/tabelas e limites MCP.
 - Observabilidade tecnica: correlation id entre UI/API/worker/MCP, erro seguro para usuario e detalhe tecnico em log controlado.
 - Pontos OCP/LSP/IoC: novo evento por schema versionado, novo agregador, novo painel, nova origem e futura telemetria remota opt-in sem alterar evento local base; sinks/agregadores devem ser substituiveis sem vazar campos proibidos ou misturar workspaces.
 

@@ -1,0 +1,26 @@
+{
+  "eventVersion": "analytics.event.v1",
+  "eventName": "workspace_analytics_settings_updated",
+  "origin": "api",
+  "retentionClass": "audit_minimum",
+  "workspaceId": "wsp_fixture_alpha",
+  "actor": {
+    "type": "user",
+    "id": "usr_fixture_owner"
+  },
+  "correlationId": "req_fixture_analytics_settings_001",
+  "occurredAt": "2026-06-25T12:00:00Z",
+  "resource": {
+    "type": "workspace",
+    "id": "wsp_fixture_alpha"
+  },
+  "properties": {
+    "historyMode": "metadata_only",
+    "retentionDays": 90,
+    "changedByRole": "owner",
+    "changedSections": [
+      "history_mode",
+      "retention"
+    ]
+  }
+}

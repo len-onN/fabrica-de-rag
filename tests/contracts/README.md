@@ -20,5 +20,6 @@ ingestion/
 qdrant/
 rag/
 events/
+analytics/
 mcp/
 ```
