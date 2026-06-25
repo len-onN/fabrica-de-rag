@@ -2,6 +2,7 @@
   "eventVersion": "analytics.event.v1",
   "eventName": "ingest_stage_completed",
   "origin": "worker",
+  "retentionClass": "analytics",
   "workspaceId": "wsp_fixture_alpha",
   "actor": {
     "type": "system",

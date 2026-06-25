@@ -33,11 +33,13 @@ CODE, CONTRACT, TEST, SEC, OBS, PERF
 - Browser pode usar sessao, mas clientes externos nao usam token passthrough de usuario humano.
 - Limites iniciais herdados de `docs/algoritmos-rag-mvp.md`: `topK=8`, maximo 12, budget default 5000 tokens e maximo 8000.
 - Respostas publicas usam citacoes `rag.citation.v1` e estado `insufficient_evidence` quando nao houver contexto confiavel.
+- Eventos de API seguem `docs/analytics-observabilidade-mvp.md`: `api_rag_query_executed` e `api_rate_limit_hit`.
 
 ## Falta definir
 
 - Formato final da resposta publica.
 - Envelope final da resposta publica quando o endpoint real for implementado.
+- Rate limiting concreto e buckets finais de limite.
 
 ## Estrategia
 

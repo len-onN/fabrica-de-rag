@@ -38,6 +38,7 @@ AGENT, CODE, CONTRACT, TEST, SEC, OBS
 - Tool call carrega workspace, correlation id, capability e limites.
 - Limites iniciais herdados de `docs/algoritmos-rag-mvp.md`: `topK=8`, maximo 12, budget default 4000 tokens e maximo 6000.
 - Tools de contexto usam `rag.citation.v1` e retornam `insufficient_evidence` quando aplicavel.
+- Eventos MCP seguem `docs/analytics-observabilidade-mvp.md`: `mcp_tool_invoked`, `mcp_tool_failed`, `mcp_context_budget_exceeded` e `mcp_agent_loop_detected`.
 
 ## Falta definir
 
@@ -45,6 +46,7 @@ AGENT, CODE, CONTRACT, TEST, SEC, OBS
 - Transporte inicial local/remoto.
 - Estrategia de compatibilidade entre schemas MCP e contratos REST.
 - Envelope final de erro por tool quando a implementacao real chegar.
+- Janelas e limites concretos para deteccao simples de loop.
 
 ## Estrategia
 

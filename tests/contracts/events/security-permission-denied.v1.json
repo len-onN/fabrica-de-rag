@@ -1,0 +1,23 @@
+{
+  "eventVersion": "analytics.event.v1",
+  "eventName": "security_permission_denied",
+  "origin": "api",
+  "retentionClass": "audit_minimum",
+  "workspaceId": "wsp_fixture_alpha",
+  "actor": {
+    "type": "user",
+    "id": "usr_fixture_viewer"
+  },
+  "correlationId": "req_fixture_security_001",
+  "occurredAt": "2026-06-25T12:10:00Z",
+  "resource": {
+    "type": "collection",
+    "id": "col_fixture_rag"
+  },
+  "properties": {
+    "permission": "collection.delete",
+    "decision": "deny",
+    "reason": "role_not_allowed",
+    "routeId": "delete_collection"
+  }
+}

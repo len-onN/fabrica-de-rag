@@ -32,12 +32,14 @@ CODE, UX, CONTRACT, DATA, SEC, TEST
 - Workspace e fronteira de configuracao.
 - Analytics local deve ser configuravel.
 - Chaves de API ficam para fase planejada.
+- Analytics usa modos `metadata_only`, `local_history` e `analytics_off`.
+- Retencao configuravel por classe segue `docs/analytics-observabilidade-mvp.md`.
+- Alteracao de settings gera `workspace_analytics_settings_updated`.
 
 ## Falta definir
 
-- Valores padrao finais.
-- Permissao minima para alterar configuracoes.
 - Formato dos exemplos de API local.
+- Layout final dos controles de retencao e historico.
 
 ## Estrategia
 

@@ -8,7 +8,7 @@ https://github.com/len-onN/fabrica-de-rag
 
 ## Estado atual
 
-Este repositorio esta na fase de concepcao e planejamento tecnico do MVP. A camada operacional, o plano de branches, a estrategia de testes, o baseline tecnico inicial e a cobertura do MVP ja estao registrados; o proximo marco e fechar os portoes de planejamento, incluindo interpretacao de imagens/tabelas em PDFs, antes de iniciar `chore/workspace-fundacao`.
+Este repositorio esta na fase de concepcao e planejamento tecnico do MVP. A camada operacional, o plano de branches, a estrategia de testes, o baseline tecnico inicial e a cobertura do MVP ja estao registrados; o marco atual e fechar os portoes de analytics/observabilidade e interpretacao de imagens/tabelas em PDFs antes de iniciar `chore/workspace-fundacao`.
 
 ## Trigger de implementacao agentica
 
@@ -37,6 +37,7 @@ Se o Git bloquear a checagem por `dubious ownership`, o agente nao deve contorna
 - [Arquitetura de ingestao e RAG](docs/arquitetura-ingestao-rag.md)
 - [Seguranca e permissoes do MVP](docs/seguranca-permissoes-mvp.md)
 - [Algoritmos RAG do MVP](docs/algoritmos-rag-mvp.md)
+- [Analytics e Observabilidade do MVP](docs/analytics-observabilidade-mvp.md)
 - [Design visual](docs/design-visual.md)
 - [Estrategia de base de conhecimento](docs/base-de-conhecimento.md)
 - [Padroes de projeto e desenvolvimento](docs/padroes-de-projeto.md)

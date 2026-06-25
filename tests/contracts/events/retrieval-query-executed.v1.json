@@ -1,0 +1,31 @@
+{
+  "eventVersion": "analytics.event.v1",
+  "eventName": "retrieval_query_executed",
+  "origin": "api",
+  "retentionClass": "analytics",
+  "workspaceId": "wsp_fixture_alpha",
+  "actor": {
+    "type": "user",
+    "id": "usr_fixture_owner"
+  },
+  "correlationId": "req_fixture_retrieval_001",
+  "occurredAt": "2026-06-25T12:05:00Z",
+  "resource": {
+    "type": "collection",
+    "id": "col_fixture_rag"
+  },
+  "properties": {
+    "collectionId": "col_fixture_rag",
+    "queryMode": "metadata_only",
+    "topK": 12,
+    "retrievedChunksCount": 8,
+    "lowConfidence": false,
+    "durationMs": 184,
+    "durationBucket": "100_250_ms",
+    "filtersApplied": [
+      "workspace",
+      "collection",
+      "payload_contract"
+    ]
+  }
+}

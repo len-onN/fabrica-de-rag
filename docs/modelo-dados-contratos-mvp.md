@@ -470,6 +470,7 @@ O MVP usa Qdrant interno. O modelo ja permite conexoes externas futuras, mas UI 
 - `event_name`
 - `event_version`
 - `origin`: `ui`, `api`, `worker`, `mcp`
+- `retention_class`: `analytics`, `history`, `audit_minimum`
 - `actor_type`: `user`, `service_account`, `system`
 - `actor_public_id null`
 - `session_id null`
@@ -699,6 +700,7 @@ Envelope:
   "eventVersion": "analytics.event.v1",
   "eventName": "ingest_stage_completed",
   "origin": "worker",
+  "retentionClass": "analytics",
   "workspaceId": "wsp_fixture_alpha",
   "actor": {
     "type": "system",

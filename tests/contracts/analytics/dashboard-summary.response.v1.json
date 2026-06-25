@@ -1,0 +1,52 @@
+{
+  "contractVersion": "analytics.dashboard.summary.v1",
+  "workspaceId": "wsp_fixture_alpha",
+  "range": {
+    "preset": "7d",
+    "from": "2026-06-18T00:00:00Z",
+    "to": "2026-06-25T23:59:59Z"
+  },
+  "filters": {
+    "collectionId": "col_fixture_rag",
+    "origins": [
+      "api",
+      "worker",
+      "mcp"
+    ]
+  },
+  "ingestion": {
+    "runsStarted": 4,
+    "runsCompleted": 3,
+    "runsFailed": 1,
+    "runsWaitingForReview": 0,
+    "medianDurationMs": 1850
+  },
+  "retrieval": {
+    "queriesCount": 12,
+    "lowConfidenceCount": 2,
+    "noResultsCount": 1,
+    "averageRetrievedChunks": 7.5,
+    "contextBudgetHitCount": 1
+  },
+  "answers": {
+    "generatedCount": 8,
+    "insufficientEvidenceCount": 2,
+    "averageCitations": 3.25,
+    "usefulFeedbackCount": 5,
+    "notUsefulFeedbackCount": 1
+  },
+  "apiAndMcp": {
+    "apiCallsCount": 6,
+    "mcpToolCallsCount": 4,
+    "limitHitCount": 1,
+    "agentLoopDetectedCount": 0
+  },
+  "topFailures": [
+    {
+      "stageName": "extract_text",
+      "errorCode": "pdf_text_extraction_failed",
+      "count": 1
+    }
+  ],
+  "empty": false
+}
