@@ -8,7 +8,7 @@ https://github.com/len-onN/fabrica-de-rag
 
 ## Estado atual
 
-Este repositorio esta saindo dos portoes de planejamento do MVP e entrando na fundacao tecnica testavel. A camada operacional, o plano de branches, a estrategia de testes, o baseline tecnico inicial e os contratos do MVP ja estao registrados; o marco atual e `chore/workspace-fundacao`, responsavel por criar a estrutura raiz do monorepo e a primeira interface operacional local.
+Este repositorio esta na fundacao tecnica testavel. A camada operacional, o plano de branches, a estrategia de testes, o baseline tecnico inicial, os contratos do MVP e a estrutura raiz do monorepo ja estao registrados; o marco atual e `build/dev-runtime-compose`, responsavel por criar o runtime local inicial com Postgres e Qdrant.
 
 ## Trigger de implementacao agentica
 
@@ -29,10 +29,10 @@ Se o Git bloquear a checagem por `dubious ownership`, o agente nao deve contorna
 
 ## Documentacao
 
-- [Proposta principal](docs/proposta-principal.md)
-- [Proposito e casos de uso](docs/proposito-e-casos-de-uso.md)
-- [Features planejadas](docs/features.md)
-- [MVP: interface e API](docs/mvp-interface-e-api.md)
+- [Proposta principal](docs/document-cemetery/proposta-principal.md)
+- [Proposito e casos de uso](docs/document-cemetery/proposito-e-casos-de-uso.md)
+- [Features planejadas](docs/document-cemetery/features.md)
+- [MVP: interface e API](docs/document-cemetery/mvp-interface-e-api.md)
 - [Modelo de dados e contratos do MVP](docs/modelo-dados-contratos-mvp.md)
 - [Arquitetura de ingestao e RAG](docs/arquitetura-ingestao-rag.md)
 - [Seguranca e permissoes do MVP](docs/seguranca-permissoes-mvp.md)
@@ -60,7 +60,7 @@ Se o Git bloquear a checagem por `dubious ownership`, o agente nao deve contorna
 - [Decisoes de arquitetura](docs/decisoes-arquiteturais.md)
 - [Conectores de bancos vetoriais](docs/conectores-vector-store.md)
 - [Analytics local de RAG](docs/analytics-local-rag.md)
-- [Planejamento](docs/planejamento.md)
+- [Planejamento](docs/document-cemetery/planejamento.md)
 
 ## Estrutura inicial
 
@@ -74,6 +74,9 @@ Se o Git bloquear a checagem por `dubious ownership`, o agente nao deve contorna
 +-- docs
 +-- infra
 |   +-- compose
+|       +-- compose.yml
+|       +-- compose.dev.yml
+|       +-- compose.e2e.yml
 +-- scripts
 +-- tests
     +-- contracts
@@ -81,13 +84,19 @@ Se o Git bloquear a checagem por `dubious ownership`, o agente nao deve contorna
     +-- fixtures
 ```
 
-Comando de verificacao da fundacao:
+Comandos atuais:
 
 ```powershell
 .\scripts\check.ps1
+.\scripts\compose-up.ps1 -Profile dev
+.\scripts\compose-down.ps1 -Profile dev
+.\scripts\compose-up.ps1 -Profile e2e
+.\scripts\compose-down.ps1 -Profile e2e -RemoveVolumes
 ```
 
-Os demais scripts em `scripts` ainda sao placeholders intencionais e retornam codigo `2` ate as branches donas criarem as stacks, o Compose, o smoke e o e2e reais.
+`check.ps1` valida a estrutura raiz, contratos versionados e `docker compose config` para os perfis `base`, `dev` e `e2e`. O perfil `dev` publica Postgres em `5432`, Qdrant HTTP em `6333` e Qdrant gRPC em `6334`, com override por variaveis `RAG_POSTGRES_PORT`, `RAG_QDRANT_HTTP_PORT` e `RAG_QDRANT_GRPC_PORT`.
+
+Os scripts de testes ainda sao placeholders intencionais e retornam codigo `2` ate as branches donas criarem as suites, o smoke e o e2e reais.
 
 ## Stacks escolhidas ate aqui
 

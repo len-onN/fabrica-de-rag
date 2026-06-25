@@ -1,0 +1,20 @@
+name: ${RAG_COMPOSE_PROJECT:-ragcreator-e2e}
+
+services:
+  postgres:
+    restart: "no"
+    environment:
+      POSTGRES_DB: ${RAG_E2E_POSTGRES_DB:-ragcreator_e2e}
+      POSTGRES_USER: ${RAG_E2E_POSTGRES_USER:-ragcreator_e2e}
+      POSTGRES_PASSWORD: ${RAG_E2E_POSTGRES_PASSWORD:-ragcreator_e2e_password}
+    volumes:
+      - postgres_e2e_data:/var/lib/postgresql/data
+
+  qdrant:
+    restart: "no"
+    volumes:
+      - qdrant_e2e_data:/qdrant/storage
+
+volumes:
+  postgres_e2e_data:
+  qdrant_e2e_data:

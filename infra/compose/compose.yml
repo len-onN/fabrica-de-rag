@@ -1,0 +1,43 @@
+name: ${RAG_COMPOSE_PROJECT:-ragcreator}
+
+services:
+  postgres:
+    image: postgres:18.4
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${RAG_POSTGRES_DB:-ragcreator}
+      POSTGRES_USER: ${RAG_POSTGRES_USER:-ragcreator}
+      POSTGRES_PASSWORD: ${RAG_POSTGRES_PASSWORD:-ragcreator_dev_password}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ragcreator
+
+  qdrant:
+    image: qdrant/qdrant:v1.18.2
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "bash -ec 'cat < /dev/null > /dev/tcp/127.0.0.1/6333'"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks:
+      - ragcreator
+
+networks:
+  ragcreator:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  qdrant_data:

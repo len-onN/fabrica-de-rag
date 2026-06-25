@@ -4,7 +4,6 @@ Infraestrutura local do projeto.
 
 | Pasta | Responsabilidade |
 | --- | --- |
-| `compose` | Arquivos Docker Compose base, dev, smoke e e2e quando as apps existirem. |
+| `compose` | Arquivos Docker Compose base, dev e e2e para dependencias locais e, futuramente, apps. |
 
-A branch `build/dev-runtime-compose` cria o primeiro Compose real.
-
+O primeiro runtime real sobe Postgres `18.4` e Qdrant `1.18.2` por Docker Compose.
