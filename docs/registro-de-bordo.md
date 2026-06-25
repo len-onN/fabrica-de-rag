@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-25 |
 | Fase | Fundacao tecnica testavel |
-| Branch atual | `build/dev-runtime-compose` |
+| Branch atual | `chore/backend-spring-base` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Criar Compose local inicial com Postgres e Qdrant, health checks, perfis dev/e2e e scripts operacionais |
-| Status | `build/dev-runtime-compose` em fechamento; Compose base/dev/e2e criado; Postgres e Qdrant saudaveis no profile dev; e2e validado e limpo |
-| Proximo marco | Revisar diff, commitar/publicar a branch e abrir PR para `develop`; depois iniciar `chore/backend-spring-base` |
+| Objetivo atual | Criar a base Spring Boot executavel, testavel e preparada para dominios modulares. |
+| Status | `chore/backend-spring-base` concluída; Spring Boot gerado com Java 21, dependências corrigidas, OpenAPI, perfis (dev, test, e2e), Flyway baseline e testes validados. |
+| Proximo marco | Revisar diff, commitar/publicar a branch e abrir PR para `develop`; depois iniciar `chore/frontend-angular-base`. |
 
 ## Sessao viva
 
@@ -104,8 +104,8 @@ Proximo passo concreto:
 | `docs/interpretacao-imagens-tabelas-pdf` | Mesclada | Fechar camada de imagens/tabelas em PDFs, assets, elementos e vision interpreter | #7 | Deve anteceder worker visual/tabelas, chunking e citacoes. |
 | `chore/workspace-fundacao` | Mesclada | Criar estrutura raiz, diretorios e convencoes do repositorio | Concluido | Mesclada em `develop`; estrutura inicial disponivel. |
 | `docs/vinculos-planos-branches` | Mesclada | Vincular planos futuros a docs, ADRs, contratos e fixtures relevantes | Concluido | Mesclada em `develop`; planos futuros carregam documentos relevantes. |
-| `build/dev-runtime-compose` | Em fechamento | Criar compose local com Postgres, Qdrant e servicos preparados | Pendente | Compose base/dev/e2e criado; dev e e2e validados com health checks. |
-| `chore/backend-spring-base` | Candidata | Criar base Spring Boot testavel | Pendente | Health, profiles, testes, Postgres e baseline de migrations. |
+| `build/dev-runtime-compose` | Mesclada | Criar compose local com Postgres, Qdrant e servicos preparados | #8 | Compose base/dev/e2e criado; dev e e2e validados com health checks. |
+| `chore/backend-spring-base` | Concluída | Criar base Spring Boot testavel | Pendente | Base validada com Java 21 e Compose local. |
 | `chore/frontend-angular-base` | Candidata | Criar base Angular testavel | Pendente | Layout shell, roteamento, tema e testes. |
 | `chore/worker-python-base` | Candidata | Criar base Python worker testavel | Pendente | FastAPI/Pydantic, health, testes e container. |
 | `test/smoke-stack-local` | Candidata | Validar a stack local com testes de fumaca | Pendente | Confirma que os servicos sobem e respondem. |
