@@ -1,0 +1,70 @@
+:root {
+  color-scheme: light dark;
+
+  /* Neutrals & Surfaces - Light (Default) */
+  --color-bg: #F8F7FB;
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #F1EEF8;
+  --color-border: #D8D0E6;
+  --color-border-strong: #B9A9D4;
+
+  /* Text - Light */
+  --color-text: #1E1A27;
+  --color-text-muted: #665D73;
+
+  /* Primary (Violet) */
+  --color-primary: #6D3FD1;
+  --color-primary-hover: #5B2DBA;
+  --color-primary-soft: #E8DFFF;
+
+  /* Success (Green) */
+  --color-success: #2F8F63;
+  --color-success-soft: #E4F7EC;
+
+  /* Warnings & Errors */
+  --color-warning: #B7791F;
+  --color-danger: #B42318;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Neutrals & Surfaces - Dark */
+    --color-bg: #100E17;
+    --color-surface: #171320;
+    --color-surface-muted: #211A2D;
+    --color-border: #342747;
+    --color-border-strong: #4A3863;
+
+    /* Text - Dark */
+    --color-text: #F5F1FA;
+    --color-text-muted: #B8AEC7;
+
+    /* Primary (Violet) */
+    --color-primary: #A78BFA;
+    --color-primary-hover: #BFAAFF;
+    --color-primary-soft: #2B2140;
+
+    /* Success (Green) */
+    --color-success: #74D99F;
+    --color-success-soft: #173524;
+
+    /* Warnings & Errors */
+    --color-warning: #F2B84B;
+    --color-danger: #FF7A7A;
+  }
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}

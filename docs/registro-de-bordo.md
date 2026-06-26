@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-25 |
 | Fase | Fundacao tecnica testavel |
-| Branch atual | `chore/backend-spring-base` |
+| Branch atual | `chore/frontend-angular-base` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Criar a base Spring Boot executavel, testavel e preparada para dominios modulares. |
-| Status | `chore/backend-spring-base` concluída; Spring Boot gerado com Java 21, dependências corrigidas, OpenAPI, perfis (dev, test, e2e), Flyway baseline e testes validados. |
-| Proximo marco | Revisar diff, commitar/publicar a branch e abrir PR para `develop`; depois iniciar `chore/frontend-angular-base`. |
+| Objetivo atual | Criar a base Angular executavel, testavel e alinhada ao design visual. |
+| Status | `chore/frontend-angular-base` concluída; Angular 22 gerado com Node 24.15.0, CDK instalado, rotas e estilos globais implementados no ShellComponent, testes validados. |
+| Proximo marco | Revisar diff, commitar/publicar a branch e abrir PR para `develop`; depois iniciar `chore/worker-python-base`. |
 
 ## Sessao viva
 
@@ -105,8 +105,8 @@ Proximo passo concreto:
 | `chore/workspace-fundacao` | Mesclada | Criar estrutura raiz, diretorios e convencoes do repositorio | Concluido | Mesclada em `develop`; estrutura inicial disponivel. |
 | `docs/vinculos-planos-branches` | Mesclada | Vincular planos futuros a docs, ADRs, contratos e fixtures relevantes | Concluido | Mesclada em `develop`; planos futuros carregam documentos relevantes. |
 | `build/dev-runtime-compose` | Mesclada | Criar compose local com Postgres, Qdrant e servicos preparados | #8 | Compose base/dev/e2e criado; dev e e2e validados com health checks. |
-| `chore/backend-spring-base` | Concluída | Criar base Spring Boot testavel | Pendente | Base validada com Java 21 e Compose local. |
-| `chore/frontend-angular-base` | Candidata | Criar base Angular testavel | Pendente | Layout shell, roteamento, tema e testes. |
+| `chore/backend-spring-base` | Mesclada | Criar base Spring Boot testavel | #9 | Base validada com Java 21 e Compose local. |
+| `chore/frontend-angular-base` | Concluída | Criar base Angular testavel | Pendente | Layout shell, roteamento, tema e testes. |
 | `chore/worker-python-base` | Candidata | Criar base Python worker testavel | Pendente | FastAPI/Pydantic, health, testes e container. |
 | `test/smoke-stack-local` | Candidata | Validar a stack local com testes de fumaca | Pendente | Confirma que os servicos sobem e respondem. |
 | `feat/auth-bootstrap-workspaces` | Candidata | Implementar usuario local, workspace padrao e roles basicas | Pendente | Exige modelo inicial de autorizacao. |

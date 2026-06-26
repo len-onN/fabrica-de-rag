@@ -154,6 +154,18 @@ Para padronizar e isolar as falhas seguindo a decisão de respostas Problem Deta
 
 Durante a construção desta base, a execução via Docker e nativamente com Java 21 foi validada com sucesso. As dependências do Spring Boot 3.4.1 foram ajustadas para garantir compatibilidade, e a comunicação com o banco de dados via perfil `dev` foi testada no Compose local. O próximo passo será revisar, commitar, mesclar esta branch em `develop` e iniciar a fundação web com `chore/frontend-angular-base`.
 
+## 2026-06-25 - Frontend Angular Base
+
+Depois do merge da branch do backend na linha `develop`, a branch `chore/frontend-angular-base` foi aberta para criar a fundação do aplicativo Web. O desafio inicial foi o alinhamento de versão: a CLI do Angular 22 exigia no mínimo o Node `v24.15.0`. Após a atualização no ambiente, o setup foi executado limpo, diretamente na pasta `apps/web` através do comando `npx @angular/cli@latest new web`.
+
+Foi instalada a biblioteca de componentes `@angular/cdk`, alinhada com as diretrizes do `docs/padroes-de-projeto.md` que indica uso de acessibilidade padronizada sem acoplar visualmente o código a uma biblioteca terceira completa como Material Design. Os estilos globais foram configurados em `styles.css` trazendo a adoção da paleta *Violet Lab* via variáveis e suporte out-of-the-box para alternância clara e escura utilizando `prefers-color-scheme`.
+
+Uma estrutura base foi criada dentro de `src/app`: a pasta `core/` agora abriga o novo utilitário global `HttpService` com tratamento base de erros; a pasta `shared/` abrigará componentes reutilizáveis base e `features/` iniciou a abrigar as áreas funcionais, nascendo com o módulo central `ShellComponent`.
+
+O `ShellComponent` funciona como a roupagem e invólucro do sistema, projetado com CSS grid e flexbox com painel lateral e main content, e que agora é diretamente servido via configuração de lazy loading local do `app.routes.ts`. As validações automáticas utilizando o novo runner de testes padrão (Vitest) rodaram e compilaram essa nova hierarquia de injeções nativamente. 
+
+O próximo passo é realizar commit do código, abrir pull request para a branch `develop` e focar no backend em Python a seguir (`chore/worker-python-base`).
+
 ## Modelo de entrada futura
 
 ```text
