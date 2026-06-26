@@ -38,12 +38,13 @@ CODE, UX, CONTRACT, TEST, RUNTIME
 - Standalone components.
 - Signals para estado local/derivado.
 - UI densa e utilitaria, sem landing page.
+- Versao Angular: 22 (requer Node 24).
+- Biblioteca de UI: Custom + `@angular/cdk` + `lucide-angular`.
+- Runner final de unit/component tests: Vitest (via Angular CLI).
 
 ## Falta definir
 
-- Versao Angular.
-- Biblioteca de UI ou componentes proprios.
-- Runner final de unit/component tests.
+- Nada pendente para o escopo inicial.
 
 ## Estrategia
 
@@ -62,3 +63,12 @@ CODE, UX, CONTRACT, TEST, RUNTIME
 ## Fechamento
 
 - Web app renderiza shell e pode receber a primeira tela real.
+
+### Testes executados
+- Build `ng build` para garantir sanidade.
+- `ng test` executado e garantindo renderizacao do `ShellComponent` (vitest/jsdom passou com sucesso).
+- Validação das injeções de rota (`<router-outlet>`) e HTTP Service.
+
+### Riscos remanescentes e mudancas laterais
+- Angular 22 demandou uso de `--legacy-peer-deps` na instalacao do `lucide-angular`, pois a biblioteca aponta peer-dependencies limitadas ao Angular 21, mas o SVG wrapper é totalmente compativel funcionalmente. Risco minimo de quebra visual que sera mitigado com testes E2E/smoke futuros.
+- Mudança na versao global do Node requerida para futuros desenvolvedores (Node >= 24).
