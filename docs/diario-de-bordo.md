@@ -166,6 +166,18 @@ O `ShellComponent` funciona como a roupagem e invólucro do sistema, projetado c
 
 O próximo passo é realizar commit do código, abrir pull request para a branch `develop` e focar no backend em Python a seguir (`chore/worker-python-base`).
 
+## 2026-06-25 - Backend Python Worker Base
+
+Depois do merge da branch do frontend na linha `develop`, a branch `chore/worker-python-base` foi aberta para criar a fundação do worker em Python. O worker atuará processando arquivos, chunks e interações sob demanda orquestradas pelo backend em Spring Boot.
+
+A base foi estruturada utilizando a versão 3.13 do Python, adotando a ferramenta `uv` como orquestradora de dependências e ambientes de desenvolvimento por ser extremamente veloz. Na raiz de `apps/worker`, o arquivo `pyproject.toml` definiu pacotes chaves da stack técnica: `fastapi`, `pydantic` e `uvicorn` para a API, além de dependências de desenvolvimento organizadas via `dependency-groups` (incluindo `pytest` e `ruff`).
+
+Dentro de `src/rag_worker/`, a fábrica do aplicativo foi criada implementando `FastAPI`, juntamente com os tratamentos padronizados de resposta. As entidades Pydantic (como `WorkerErrorResponse` e estruturas que carregam propriedades obrigatórias como `contractVersion` e `workspaceId`) foram estritamente alinhadas às diretrizes traçadas previamente pelo portão de planejamento de contratos (`docs/modelo-dados-contratos-mvp`). Além disso, foram criados endpoints de inspeção de estado (liveness/health checks) implementados e com rotas cobertas por testes através do pacote `pytest`. 
+
+A análise estática e formatações rigorosas com `ruff` executaram sem erros (com os pequenos acertos feitos via pipeline de `--fix`). Por fim, validamos o empacotamento com o comando `docker build` de uma imagem multi-stage limpa que incorpora as dependências gerando um ambiente leve.
+
+Com testes e lints aprovados, a base do worker atende à estabilidade esperada pelo MVP. O próximo passo, após mesclar essa branch em `develop`, será executar os testes da stack de desenvolvimento consolidada (smoke stack) atestando que todas as bases de software orquestradas (Postgres, Qdrant, Spring Boot, Node, Python) iniciam sincronizadas antes de passarmos às primeiras funcionalidades (autenticação e coleções).
+
 ## Modelo de entrada futura
 
 ```text

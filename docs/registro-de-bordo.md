@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-25 |
 | Fase | Fundacao tecnica testavel |
-| Branch atual | `chore/frontend-angular-base` |
+| Branch atual | `chore/worker-python-base` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Criar a base Angular executavel, testavel e alinhada ao design visual. |
-| Status | `chore/frontend-angular-base` concluída; Angular 22 gerado com Node 24.15.0, CDK instalado, rotas e estilos globais implementados no ShellComponent, testes validados. |
-| Proximo marco | Revisar diff, commitar/publicar a branch e abrir PR para `develop`; depois iniciar `chore/worker-python-base`. |
+| Objetivo atual | Criar a base Python worker executável, testável e pronta para contratos internos. |
+| Status | `chore/worker-python-base` em andamento; estrutura Python 3.13 criada com FastAPI, Pydantic e uv, testes validados e aguardando validação do container Docker. |
+| Proximo marco | Validar container Docker, atualizar walkthrough e abrir PR para `develop`; depois iniciar `test/smoke-stack-local`. |
 
 ## Sessao viva
 
@@ -107,7 +107,7 @@ Proximo passo concreto:
 | `build/dev-runtime-compose` | Mesclada | Criar compose local com Postgres, Qdrant e servicos preparados | #8 | Compose base/dev/e2e criado; dev e e2e validados com health checks. |
 | `chore/backend-spring-base` | Mesclada | Criar base Spring Boot testavel | #9 | Base validada com Java 21 e Compose local. |
 | `chore/frontend-angular-base` | Concluída | Criar base Angular testavel | Pendente | Layout shell, roteamento, tema e testes. |
-| `chore/worker-python-base` | Candidata | Criar base Python worker testavel | Pendente | FastAPI/Pydantic, health, testes e container. |
+| `chore/worker-python-base` | Em andamento | Criar base Python worker testavel | Pendente | FastAPI/Pydantic, health, testes e container. |
 | `test/smoke-stack-local` | Candidata | Validar a stack local com testes de fumaca | Pendente | Confirma que os servicos sobem e respondem. |
 | `feat/auth-bootstrap-workspaces` | Candidata | Implementar usuario local, workspace padrao e roles basicas | Pendente | Exige modelo inicial de autorizacao. |
 | `feat/workspace-dashboard-minimo` | Candidata | Criar dashboard inicial com estado vazio e dados autenticados | Pendente | Primeira tela real conectada ao backend. |
