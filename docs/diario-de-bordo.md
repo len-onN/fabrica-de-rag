@@ -178,6 +178,14 @@ A análise estática e formatações rigorosas com `ruff` executaram sem erros (
 
 Com testes e lints aprovados, a base do worker atende à estabilidade esperada pelo MVP. O próximo passo, após mesclar essa branch em `develop`, será executar os testes da stack de desenvolvimento consolidada (smoke stack) atestando que todas as bases de software orquestradas (Postgres, Qdrant, Spring Boot, Node, Python) iniciam sincronizadas antes de passarmos às primeiras funcionalidades (autenticação e coleções).
 
+## 2026-06-26 - Smoke Test da Stack Local
+
+Depois do merge das branches fundamentais (`chore/backend-spring-base`, `chore/frontend-angular-base` e `chore/worker-python-base`), a branch `test/smoke-stack-local` foi iniciada. O objetivo desta branch era estabelecer o primeiro teste automatizado capaz de validar que as dependências de infraestrutura locais sobem corretamente e estão saudáveis.
+
+A implementação consistiu em substituir o placeholder original do `scripts/test-smoke.ps1` por um fluxo de script em PowerShell. O fluxo invoca o script `compose-up.ps1` com o profile `dev` e, em seguida, executa chamadas reais para confirmar se os serviços vitais estão vivos. Ele valida explicitamente o Qdrant (via endpoint HTTP local `6333/healthz`) e o PostgreSQL (que já fica garantido pela validação embutida de health checks do `docker-compose`). Adicionalmente, o script foi projetado para não falhar caso a API, o Worker e a UI Angular não estejam em execução no momento (devido ao fato de ainda estarem sendo operadas via CLI nas suas respectivas pastas ou aguardando eventual empacotamento no Compose), apenas registrando seu status se estiverem ativos, atendendo assim à cláusula de testar tais serviços apenas "quando existirem".
+
+A execução manual provou que o sistema de infraestrutura orquestrada da fábrica está apto a ser rodado com um comando simples e confiável (`.\scripts\test-smoke.ps1`), subindo instâncias saudáveis e validando respostas antes do encerramento com sucesso (exit code 0). O próximo passo, após merge na `develop`, é entrar no fluxo de produto construindo o bootstrap de workspace e a autenticação em `feat/auth-bootstrap-workspaces`.
+
 ## Modelo de entrada futura
 
 ```text

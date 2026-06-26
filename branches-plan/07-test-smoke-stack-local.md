@@ -1,6 +1,6 @@
 # test/smoke-stack-local
 
-Status: candidata.
+Status: implementada e validada.
 
 ## Objetivo
 
@@ -33,11 +33,12 @@ TEST, RUNTIME, OBS
 
 - Smoke deve ser rapido.
 - Falha de servico deve falhar o script.
+- Formato final dos scripts multiplataforma: por enquanto centralizado no PowerShell (`test-smoke.ps1`) para o ambiente atual.
+- Tempo maximo aceitavel para subida local: usando o padrao do compose up (`--wait` timeout 120s e requests de health local com 2s timeout).
 
 ## Falta definir
 
-- Formato final dos scripts multiplataforma.
-- Tempo maximo aceitavel para subida local.
+- (Nada. Resolvido nesta branch)
 
 ## Estrategia
 

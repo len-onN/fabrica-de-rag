@@ -25,13 +25,13 @@ Atualizar:
 
 | Campo | Valor |
 | --- | --- |
-| Data do registro | 2026-06-25 |
+| Data do registro | 2026-06-26 |
 | Fase | Fundacao tecnica testavel |
-| Branch atual | `chore/worker-python-base` |
+| Branch atual | `test/smoke-stack-local` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Criar a base Python worker executável, testável e pronta para contratos internos. |
-| Status | `chore/worker-python-base` em andamento; estrutura Python 3.13 criada com FastAPI, Pydantic e uv, testes validados e aguardando validação do container Docker. |
-| Proximo marco | Validar container Docker, atualizar walkthrough e abrir PR para `develop`; depois iniciar `test/smoke-stack-local`. |
+| Objetivo atual | Criar o primeiro teste de fumaca da stack local. |
+| Status | `test/smoke-stack-local` concluida; script `test-smoke.ps1` executado e validado garantindo ambiente. |
+| Proximo marco | Abrir PR para `develop`; depois iniciar `feat/auth-bootstrap-workspaces`. |
 
 ## Sessao viva
 
@@ -107,8 +107,8 @@ Proximo passo concreto:
 | `build/dev-runtime-compose` | Mesclada | Criar compose local com Postgres, Qdrant e servicos preparados | #8 | Compose base/dev/e2e criado; dev e e2e validados com health checks. |
 | `chore/backend-spring-base` | Mesclada | Criar base Spring Boot testavel | #9 | Base validada com Java 21 e Compose local. |
 | `chore/frontend-angular-base` | Concluída | Criar base Angular testavel | Pendente | Layout shell, roteamento, tema e testes. |
-| `chore/worker-python-base` | Em andamento | Criar base Python worker testavel | Pendente | FastAPI/Pydantic, health, testes e container. |
-| `test/smoke-stack-local` | Candidata | Validar a stack local com testes de fumaca | Pendente | Confirma que os servicos sobem e respondem. |
+| `chore/worker-python-base` | Mesclada | Criar base Python worker testavel | #13 | FastAPI/Pydantic, health, testes e container validados. |
+| `test/smoke-stack-local` | Concluída | Validar a stack local com testes de fumaca | Pendente | Confirma que os servicos sobem e respondem via `test-smoke.ps1`. |
 | `feat/auth-bootstrap-workspaces` | Candidata | Implementar usuario local, workspace padrao e roles basicas | Pendente | Exige modelo inicial de autorizacao. |
 | `feat/workspace-dashboard-minimo` | Candidata | Criar dashboard inicial com estado vazio e dados autenticados | Pendente | Primeira tela real conectada ao backend. |
 | `feat/workspace-settings-mvp` | Candidata | Criar configuracoes do workspace para ingestao, analytics, acesso e API | Pendente | Fecha rota `/settings` do MVP. |
