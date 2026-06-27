@@ -30,6 +30,10 @@ export class AuthService {
   private authState = new BehaviorSubject<AuthMeResponse | null>(null);
   authState$ = this.authState.asObservable();
 
+  get activeWorkspaceId(): string | null {
+    return this.authState.value?.activeWorkspaceId || null;
+  }
+
   bootstrap(request: BootstrapRequest): Observable<any> {
     return this.http.post(`${this.apiUrl}/bootstrap`, request);
   }

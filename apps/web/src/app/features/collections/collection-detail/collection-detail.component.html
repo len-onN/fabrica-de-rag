@@ -1,0 +1,59 @@
+<div class="page-container" *ngIf="!loading && collection">
+  <div class="page-header">
+    <div class="title-section">
+      <a routerLink="/collections" class="back-link">← Coleções</a>
+      <div class="title-row">
+        <h1>{{ collection.name }}</h1>
+        <span class="badge" [class.badge-success]="collection.status === 'ready'" [class.badge-neutral]="collection.status === 'empty'">
+          {{ collection.status }}
+        </span>
+      </div>
+      <p class="subtitle">{{ collection.description || 'Sem descrição' }}</p>
+    </div>
+  </div>
+
+  <div class="tabs-container">
+    <div class="tabs-nav">
+      <button 
+        *ngFor="let tab of tabs" 
+        class="tab-btn" 
+        [class.active]="activeTab === tab.id"
+        (click)="setTab(tab.id)">
+        {{ tab.label }}
+      </button>
+    </div>
+
+    <div class="tab-content">
+      <!-- Aba Documentos -->
+      <div *ngIf="activeTab === 'documents'" class="content-section">
+        <div class="section-header">
+          <h2>Documentos</h2>
+          <button class="btn btn-primary" disabled title="Upload será ativado na próxima versão.">Adicionar Documento</button>
+        </div>
+        
+        <div class="empty-state">
+          <p>Nenhum documento adicionado ainda.</p>
+          <p class="hint">O upload de PDFs estará disponível em breve.</p>
+        </div>
+      </div>
+
+      <!-- Abas não implementadas -->
+      <div *ngIf="activeTab !== 'documents'" class="content-section">
+        <div class="empty-state construction-state">
+          <span class="icon">🚧</span>
+          <h3>Aba em Construção</h3>
+          <p>A funcionalidade de {{ getActiveTabLabel() }} será habilitada nas próximas etapas do MVP.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="page-container loading-state">
+  <p>Carregando coleção...</p>
+</div>
+
+<div *ngIf="error" class="page-container error-state">
+  <p>{{ error }}</p>
+  <a routerLink="/collections" class="btn btn-primary">Voltar para coleções</a>
+</div>

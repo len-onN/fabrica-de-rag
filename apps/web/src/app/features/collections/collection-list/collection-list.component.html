@@ -1,0 +1,42 @@
+<div class="page-container">
+  <div class="page-header">
+    <div class="title-section">
+      <h1>Coleções</h1>
+      <p class="subtitle">Gerencie suas coleções de documentos.</p>
+    </div>
+    <div class="actions-section">
+      <a routerLink="new" class="btn btn-primary">Nova Coleção</a>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <p>Carregando coleções...</p>
+  </div>
+
+  <div *ngIf="error" class="error-state">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="!loading && !error && collections.length === 0" class="empty-state">
+    <p>Nenhuma coleção encontrada.</p>
+    <a routerLink="new" class="btn btn-outline">Criar sua primeira coleção</a>
+  </div>
+
+  <div *ngIf="!loading && collections.length > 0" class="card-grid">
+    <div *ngFor="let col of collections" class="card">
+      <div class="card-header">
+        <h3 class="card-title">
+          <a [routerLink]="['/collections', col.id]">{{ col.name }}</a>
+        </h3>
+        <span class="badge" [class.badge-success]="col.status === 'ready'" [class.badge-neutral]="col.status === 'empty'">{{ col.status }}</span>
+      </div>
+      <div class="card-body">
+        <p class="card-desc">{{ col.description || 'Sem descrição' }}</p>
+        <div class="card-meta">
+          <span><i class="icon">📄</i> {{ col.documentCount }} docs</span>
+          <span><i class="icon">🧩</i> {{ col.chunkCount }} chunks</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
