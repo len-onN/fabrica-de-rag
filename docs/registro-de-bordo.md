@@ -25,13 +25,13 @@ Atualizar:
 
 | Campo | Valor |
 | --- | --- |
-| Data do registro | 2026-06-26 |
-| Fase | Fundacao tecnica testavel |
-| Branch atual | `test/smoke-stack-local` |
+| Data do registro | 2026-06-27 |
+| Fase | Funcionalidades do MVP (MVP Features) |
+| Branch atual | `feat/auth-bootstrap-workspaces` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Criar o primeiro teste de fumaca da stack local. |
-| Status | `test/smoke-stack-local` concluida; script `test-smoke.ps1` executado e validado garantindo ambiente. |
-| Proximo marco | Abrir PR para `develop`; depois iniciar `feat/auth-bootstrap-workspaces`. |
+| Objetivo atual | Implementar usuario local, workspace padrao e roles basicas. |
+| Status | `feat/auth-bootstrap-workspaces` concluída; backend API e frontend views implementados com cookie opaco. |
+| Proximo marco | Abrir PR para `develop`; depois iniciar `feat/workspace-dashboard-minimo`. |
 
 ## Sessao viva
 
@@ -83,12 +83,13 @@ Skills/fontes ativadas nesta branch: documentacao local do projeto, `docs/plano-
 
 Verificacoes executadas: `git switch develop`, `git pull --ff-only`, `git switch -c build/dev-runtime-compose`, `.\scripts\check.ps1`, `.\scripts\compose-up.ps1 -Profile dev`, `docker exec ragcreator-dev-postgres-1 pg_isready -U ragcreator -d ragcreator`, `Invoke-RestMethod http://localhost:6333/healthz`, `.\scripts\compose-up.ps1 -Profile e2e` e `.\scripts\compose-down.ps1 -Profile e2e -RemoveVolumes`. O Docker Desktop estava parado no inicio da verificacao real e foi iniciado para validar os containers.
 
+Na branch `feat/auth-bootstrap-workspaces`, foi implementada a fundação vertical do sistema: criação das migrações do banco (usuários, workspaces, sessoes), domínio e filtros de segurança no Spring Boot (`OpaqueSessionFilter` e `SecurityConfig`) usando tokens em cookie e hashing Argon2id. No frontend Angular, foi implementado o `AuthLayoutComponent` isolado e os componentes de login e bootstrap. Adicionalmente, consolidou-se um novo documento `docs/pos-mvp.md` contendo o roadmap futuro (OAuth, telemetria, storage distribuído).
+
 Proximo passo concreto:
 
-- revisar diff da branch;
-- commitar e publicar `build/dev-runtime-compose`;
+- commitar e publicar `feat/auth-bootstrap-workspaces`;
 - abrir PR para `develop`;
-- apos merge, iniciar `chore/backend-spring-base`.
+- apos merge, iniciar `feat/workspace-dashboard-minimo`.
 
 ## Quadro de branches
 
@@ -109,7 +110,7 @@ Proximo passo concreto:
 | `chore/frontend-angular-base` | Concluída | Criar base Angular testavel | Pendente | Layout shell, roteamento, tema e testes. |
 | `chore/worker-python-base` | Mesclada | Criar base Python worker testavel | #13 | FastAPI/Pydantic, health, testes e container validados. |
 | `test/smoke-stack-local` | Concluída | Validar a stack local com testes de fumaca | Pendente | Confirma que os servicos sobem e respondem via `test-smoke.ps1`. |
-| `feat/auth-bootstrap-workspaces` | Candidata | Implementar usuario local, workspace padrao e roles basicas | Pendente | Exige modelo inicial de autorizacao. |
+| `feat/auth-bootstrap-workspaces` | Concluída | Implementar usuario local, workspace padrao e roles basicas | Pendente | Bootstrap e auth via cookie opaco finalizados. |
 | `feat/workspace-dashboard-minimo` | Candidata | Criar dashboard inicial com estado vazio e dados autenticados | Pendente | Primeira tela real conectada ao backend. |
 | `feat/workspace-settings-mvp` | Candidata | Criar configuracoes do workspace para ingestao, analytics, acesso e API | Pendente | Fecha rota `/settings` do MVP. |
 | `feat/colecoes-documentos-core` | Candidata | Criar entidades centrais de colecoes, documentos e metadados | Pendente | Exige schema relacional inicial. |
