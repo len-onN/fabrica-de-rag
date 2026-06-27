@@ -195,7 +195,15 @@ No lado do backend, foi criado um `WorkspaceController` responsavel pela rota `G
 No lado do frontend Angular, implementou-se o `WorkspaceService` para consultar a API. Criou-se o componente `DashboardComponent` renderizando uma grid de 3 metricas (Colecoes, Documentos, Processamentos) e um destaque de "Empty State" incitando a criacao da primeira colecao. Alem disso, o componente matriz `ShellComponent` foi atualizado para injetar a reatividade do `AuthService` via signals (`toSignal(auth.authState$)`), de forma que o menu lateral passou a renderizar visualmente o nome real do Workspace ao inves de conteudos estaticos, conectando o ciclo completo: login -> auth guard -> dados no shell -> dados na pagina filha.
 
 A validacao por compilacao (`mvnw compile` e `npm run build`) ocorreu de forma positiva sem erros de sintaxe ou lint. O proximo passo operacional esperado e abrir o pull request para `develop` e iniciar a branch subsequente: `feat/colecoes-documentos-core` ou `feat/workspace-settings-mvp`.
+## 2026-06-27 - Workspace Settings MVP
 
+Depois do merge da branch anterior, a branch `feat/workspace-settings-mvp` foi aberta para implementar a tela de configurações do workspace. Essa tela centraliza a gestão de preferências gerais, ingestão de dados, retenção analítica, níveis de acesso e informações de API, cobrindo requisitos essenciais definidos nos portões de planejamento.
+
+No backend, foi adicionada a migration `V3__workspace_settings.sql` injetando as colunas `slug`, `owner_user_id`, `settings` (`jsonb`) e `deleted_at`. O domínio `Workspace` foi estendido para mapear o campo JSON dinâmico de configurações (`@JdbcTypeCode(SqlTypes.JSON)`). Foram criados os DTOs e os endpoints `GET` e `PATCH` para `/api/v1/workspaces/{workspaceId}/settings` no `WorkspaceController`, protegidos adequadamente pelas permissões `workspace.read` e `workspace.update`.
+
+No frontend Angular, o `WorkspaceService` foi expandido. Foi desenvolvida a rota `/settings` com o `WorkspaceSettingsComponent` contendo 5 abas (Geral, Ingestão, Analytics, Acesso e API). A aba de Acesso manteve foco *read-only* mostrando o nível de permissão (role) atual, delegando a gestão completa de membros (convites e edição) para fase pós-MVP, fato devidamente registrado no `docs/pos-mvp.md`. O menu lateral (`ShellComponent`) foi integrado para acesso direto à rota.
+
+A compilação local garantiu que os contratos e novas funções estavam saudáveis. O próximo passo será revisar, comitar, mesclar esta branch em `develop` e iniciar a funcionalidade central de coleções (`feat/colecoes-documentos-core`).
 ## Modelo de entrada futura
 
 ```text

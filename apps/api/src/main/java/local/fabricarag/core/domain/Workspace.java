@@ -1,6 +1,8 @@
 package local.fabricarag.core.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -20,6 +22,19 @@ public class Workspace {
 
     @Column(nullable = false)
     private String purpose;
+
+    @Column(name = "slug", unique = true)
+    private String slug;
+
+    @Column(name = "owner_user_id")
+    private UUID ownerUserId;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb", nullable = false)
+    private String settings = "{}";
+
+    @Column(name = "deleted_at")
+    private OffsetDateTime deletedAt;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
@@ -57,4 +72,16 @@ public class Workspace {
     
     public OffsetDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(OffsetDateTime updatedAt) { this.updatedAt = updatedAt; }
+    
+    public String getSlug() { return slug; }
+    public void setSlug(String slug) { this.slug = slug; }
+    
+    public UUID getOwnerUserId() { return ownerUserId; }
+    public void setOwnerUserId(UUID ownerUserId) { this.ownerUserId = ownerUserId; }
+    
+    public String getSettings() { return settings; }
+    public void setSettings(String settings) { this.settings = settings; }
+    
+    public OffsetDateTime getDeletedAt() { return deletedAt; }
+    public void setDeletedAt(OffsetDateTime deletedAt) { this.deletedAt = deletedAt; }
 }

@@ -5,6 +5,7 @@ Este documento centraliza as funcionalidades, conectores e ideias arquiteturais 
 Sempre que novas sugestões brilhantes (mas não bloqueantes para a versão 1.0) surgirem, elas devem ser centralizadas aqui.
 
 ## 1. Identidade, Segurança e Acesso
+- **Gestão Completa de Membros de Workspace**: Criar tabelas interativas na interface para convidar, listar, remover e alterar papéis (Owner, Admin, Curator, Viewer) de todos os membros de um workspace (No MVP, a aba de acesso exibe apenas o papel atual do usuário logado em modo leitura).
 - **Autenticação OAuth2 / OIDC**: Integração com provedores externos de identidade (Google, Facebook, Microsoft/Azure AD, GitHub) para login corporativo e social, reduzindo o atrito do login puramente local.
 - **Convites e Recuperação de Senha**: Implementar o disparo de e-mails via SMTP/Serviço Externo para envio de convites de participação em *Workspaces* e links de "Esqueci minha senha". (No MVP, resets são operacionais via banco e não há convites dinâmicos).
 - **MFA (Autenticação Multifator)**: Suporte a TOTP/Tokens (Google Authenticator, Authy) para segurança adicional nas contas dos usuários.

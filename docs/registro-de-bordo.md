@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-27 |
 | Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/workspace-dashboard-minimo` |
+| Branch atual | `feat/workspace-settings-mvp` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Criar dashboard inicial do workspace com dados reais e estados vazios. |
-| Status | Concluida. Endpoint criado na API com contadores (retornando fixo 0) e UI do dashboard Angular e Sidebar integrados com o AuthService. |
-| Proximo marco | Abrir PR para `develop`; depois iniciar `feat/workspace-settings-mvp` ou `feat/colecoes-documentos-core`. |
+| Objetivo atual | Criar configuracoes do workspace (Ingestao, Analytics, Acesso e API). |
+| Status | Concluída. Modelos, endpoints e UI de configurações implementados e compilados. |
+| Proximo marco | Abrir PR para `develop`; depois iniciar `feat/colecoes-documentos-core`. |
 
 ## Sessao viva
 
@@ -87,9 +87,9 @@ Na branch `feat/auth-bootstrap-workspaces`, foi implementada a fundação vertic
 
 Proximo passo concreto:
 
-- commitar e publicar `feat/workspace-dashboard-minimo`;
+- commitar e publicar `feat/workspace-settings-mvp`;
 - abrir PR para `develop`;
-- apos merge, iniciar `feat/workspace-settings-mvp` ou `feat/colecoes-documentos-core`.
+- apos merge, iniciar `feat/colecoes-documentos-core`.
 
 ## Quadro de branches
 
@@ -112,7 +112,7 @@ Proximo passo concreto:
 | `test/smoke-stack-local` | Concluída | Validar a stack local com testes de fumaca | Pendente | Confirma que os servicos sobem e respondem via `test-smoke.ps1`. |
 | `feat/auth-bootstrap-workspaces` | Mesclada | Implementar usuario local, workspace padrao e roles basicas | Concluido | Bootstrap e auth via cookie opaco finalizados. |
 | `feat/workspace-dashboard-minimo` | Concluída | Criar dashboard inicial com estado vazio e dados autenticados | Pendente | Rota de dashboard e sidebar integradas no Shell. |
-| `feat/workspace-settings-mvp` | Candidata | Criar configuracoes do workspace para ingestao, analytics, acesso e API | Pendente | Fecha rota `/settings` do MVP. |
+| `feat/workspace-settings-mvp` | Concluída | Criar configuracoes do workspace para ingestao, analytics, acesso e API | Pendente | Fecha rota `/settings` do MVP. |
 | `feat/colecoes-documentos-core` | Candidata | Criar entidades centrais de colecoes, documentos e metadados | Pendente | Exige schema relacional inicial. |
 | `feat/ingestao-upload-pdf` | Candidata | Implementar upload e run inicial de ingestao de PDF | Pendente | Exige storage local e contratos de job. |
 | `feat/ingestao-runs-operacao` | Candidata | Criar status, etapas, cancelamento, retry e logs de runs | Pendente | Fecha operacao visivel de ingestao. |
