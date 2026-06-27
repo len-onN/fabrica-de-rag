@@ -17,7 +17,8 @@ export const routes: Routes = [
     loadComponent: () => import('./features/shell/shell.component').then(m => m.ShellComponent),
     canActivate: [authGuard],
     children: [
-      // Feature routes will be mapped here
+      { path: 'dashboard', loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent) },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
   { path: '**', redirectTo: '' }

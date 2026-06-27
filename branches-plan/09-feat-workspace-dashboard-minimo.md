@@ -35,11 +35,12 @@ CODE, UX, CONTRACT, TEST, SEC
 
 - Dashboard e ferramenta operacional, nao landing page.
 - Dados sempre escopados por workspace.
+- Conteudo dos cards: 3 metricas (Colecoes, Documentos, Processamentos) zeradas no MVP com empty state.
+- Sidebar: Integrada no ShellComponent mostrando o workspace atual consumido do AuthService.
 
 ## Falta definir
 
-- Conteudo exato dos cards/paineis iniciais.
-- Se havera sidebar persistente ja nesta branch.
+- (Nenhuma pendencia tecnica impeditiva)
 
 ## Estrategia
 

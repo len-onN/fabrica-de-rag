@@ -186,6 +186,16 @@ A implementação consistiu em substituir o placeholder original do `scripts/tes
 
 A execução manual provou que o sistema de infraestrutura orquestrada da fábrica está apto a ser rodado com um comando simples e confiável (`.\scripts\test-smoke.ps1`), subindo instâncias saudáveis e validando respostas antes do encerramento com sucesso (exit code 0). O próximo passo, após merge na `develop`, é entrar no fluxo de produto construindo o bootstrap de workspace e a autenticação em `feat/auth-bootstrap-workspaces`.
 
+## 2026-06-27 - Workspace Dashboard Minimo
+
+Depois do merge da branch anterior (`feat/auth-bootstrap-workspaces`) na linha `develop`, a branch `feat/workspace-dashboard-minimo` foi aberta para criar a interface inicial que os usuarios visualizam apos a autenticacao. O objetivo central era ter uma pagina raiz conectada a API do workspace, mesmo que os dados reais de colecoes e documentos ainda nao existissem no banco de dados, estabelecendo assim a fundacao da navegacao e visualizacao de estado vazio (empty state).
+
+No lado do backend, foi criado um `WorkspaceController` responsavel pela rota `GET /api/v1/workspaces/{workspaceId}/dashboard`, que devolve o contrato `DashboardSummaryResponse`. Aproveitando a base de seguranca ja criada, injetou-se o `@PreAuthorize` com o `authorizationPolicy.hasPermission` para garantir que um usuario nao possa solicitar o dashboard de um workspace ao qual ele nao tem acesso. A decisao pragmatica foi retornar `0` nas contagens, uma vez que as tabelas necessarias so serao implementadas na proxima branch, e o contrato ja fica estabelecido para a UI.
+
+No lado do frontend Angular, implementou-se o `WorkspaceService` para consultar a API. Criou-se o componente `DashboardComponent` renderizando uma grid de 3 metricas (Colecoes, Documentos, Processamentos) e um destaque de "Empty State" incitando a criacao da primeira colecao. Alem disso, o componente matriz `ShellComponent` foi atualizado para injetar a reatividade do `AuthService` via signals (`toSignal(auth.authState$)`), de forma que o menu lateral passou a renderizar visualmente o nome real do Workspace ao inves de conteudos estaticos, conectando o ciclo completo: login -> auth guard -> dados no shell -> dados na pagina filha.
+
+A validacao por compilacao (`mvnw compile` e `npm run build`) ocorreu de forma positiva sem erros de sintaxe ou lint. O proximo passo operacional esperado e abrir o pull request para `develop` e iniciar a branch subsequente: `feat/colecoes-documentos-core` ou `feat/workspace-settings-mvp`.
+
 ## Modelo de entrada futura
 
 ```text

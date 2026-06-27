@@ -1,13 +1,15 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject, signal, computed } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { lucideMenu } from '@ng-icons/lucide';
+import { lucideMenu, lucideLayoutDashboard } from '@ng-icons/lucide';
+import { AuthService } from '../../core/auth/auth.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-shell',
   standalone: true,
-  imports: [RouterOutlet, NgIconComponent],
-  providers: [provideIcons({ lucideMenu })],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgIconComponent],
+  providers: [provideIcons({ lucideMenu, lucideLayoutDashboard })],
   template: `
     <div class="shell-container" [class.sidebar-collapsed]="!isSidebarExpanded()">
       <aside class="sidebar">
@@ -18,8 +20,21 @@ import { lucideMenu } from '@ng-icons/lucide';
             <div class="logo-collapsed">VL</div>
           }
         </div>
+        
+        @if (isSidebarExpanded()) {
+          <div class="workspace-selector">
+            <span class="workspace-label">WORKSPACE</span>
+            <div class="workspace-name">{{ activeWorkspaceName() }}</div>
+          </div>
+        }
+
         <nav class="sidebar-nav">
-          <!-- Navigation items will go here -->
+          <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+            <ng-icon name="lucideLayoutDashboard"></ng-icon>
+            @if (isSidebarExpanded()) {
+              <span>Dashboard</span>
+            }
+          </a>
         </nav>
       </aside>
       
@@ -38,7 +53,17 @@ import { lucideMenu } from '@ng-icons/lucide';
   styleUrls: ['./shell.component.css']
 })
 export class ShellComponent {
+  private auth = inject(AuthService);
+  
   isSidebarExpanded = signal(true);
+  authState = toSignal(this.auth.authState$);
+
+  activeWorkspaceName = computed(() => {
+    const state = this.authState();
+    if (!state || !state.activeWorkspaceId) return 'Carregando...';
+    const workspace = state.workspaces.find(w => w.id === state.activeWorkspaceId);
+    return workspace ? workspace.name : 'Desconhecido';
+  });
 
   toggleSidebar() {
     this.isSidebarExpanded.update(v => !v);
