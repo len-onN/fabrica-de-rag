@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-27 |
 | Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/auth-bootstrap-workspaces` |
+| Branch atual | `feat/workspace-dashboard-minimo` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Implementar usuario local, workspace padrao e roles basicas. |
-| Status | `feat/auth-bootstrap-workspaces` concluída; backend API e frontend views implementados com cookie opaco. |
-| Proximo marco | Abrir PR para `develop`; depois iniciar `feat/workspace-dashboard-minimo`. |
+| Objetivo atual | Criar dashboard inicial do workspace com dados reais e estados vazios. |
+| Status | Concluida. Endpoint criado na API com contadores (retornando fixo 0) e UI do dashboard Angular e Sidebar integrados com o AuthService. |
+| Proximo marco | Abrir PR para `develop`; depois iniciar `feat/workspace-settings-mvp` ou `feat/colecoes-documentos-core`. |
 
 ## Sessao viva
 
@@ -87,9 +87,9 @@ Na branch `feat/auth-bootstrap-workspaces`, foi implementada a fundação vertic
 
 Proximo passo concreto:
 
-- commitar e publicar `feat/auth-bootstrap-workspaces`;
+- commitar e publicar `feat/workspace-dashboard-minimo`;
 - abrir PR para `develop`;
-- apos merge, iniciar `feat/workspace-dashboard-minimo`.
+- apos merge, iniciar `feat/workspace-settings-mvp` ou `feat/colecoes-documentos-core`.
 
 ## Quadro de branches
 
@@ -110,8 +110,8 @@ Proximo passo concreto:
 | `chore/frontend-angular-base` | Concluída | Criar base Angular testavel | Pendente | Layout shell, roteamento, tema e testes. |
 | `chore/worker-python-base` | Mesclada | Criar base Python worker testavel | #13 | FastAPI/Pydantic, health, testes e container validados. |
 | `test/smoke-stack-local` | Concluída | Validar a stack local com testes de fumaca | Pendente | Confirma que os servicos sobem e respondem via `test-smoke.ps1`. |
-| `feat/auth-bootstrap-workspaces` | Concluída | Implementar usuario local, workspace padrao e roles basicas | Pendente | Bootstrap e auth via cookie opaco finalizados. |
-| `feat/workspace-dashboard-minimo` | Candidata | Criar dashboard inicial com estado vazio e dados autenticados | Pendente | Primeira tela real conectada ao backend. |
+| `feat/auth-bootstrap-workspaces` | Mesclada | Implementar usuario local, workspace padrao e roles basicas | Concluido | Bootstrap e auth via cookie opaco finalizados. |
+| `feat/workspace-dashboard-minimo` | Concluída | Criar dashboard inicial com estado vazio e dados autenticados | Pendente | Rota de dashboard e sidebar integradas no Shell. |
 | `feat/workspace-settings-mvp` | Candidata | Criar configuracoes do workspace para ingestao, analytics, acesso e API | Pendente | Fecha rota `/settings` do MVP. |
 | `feat/colecoes-documentos-core` | Candidata | Criar entidades centrais de colecoes, documentos e metadados | Pendente | Exige schema relacional inicial. |
 | `feat/ingestao-upload-pdf` | Candidata | Implementar upload e run inicial de ingestao de PDF | Pendente | Exige storage local e contratos de job. |
