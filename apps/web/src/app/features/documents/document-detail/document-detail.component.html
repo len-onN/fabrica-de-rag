@@ -1,0 +1,15 @@
+<div class="page-container">
+  <div class="page-header">
+    <div class="title-section">
+      <a [routerLink]="['/collections', collectionId]" class="back-link">← Voltar para Coleção</a>
+      <h1>Detalhes do Documento</h1>
+      <p class="subtitle">Visualização do documento {{ documentId }}</p>
+    </div>
+  </div>
+
+  <div class="empty-state construction-state">
+    <span class="icon">🚧</span>
+    <h3>Em Construção</h3>
+    <p>A visualização de detalhes de documentos, chunks e logs de processamento será implementada na próxima fase.</p>
+  </div>
+</div>

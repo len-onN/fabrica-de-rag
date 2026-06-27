@@ -1,0 +1,65 @@
+<div class="page-container">
+  <div class="page-header">
+    <div class="title-section">
+      <a routerLink="/collections" class="back-link">← Voltar para coleções</a>
+      <h1>Nova Coleção</h1>
+      <p class="subtitle">Crie um novo repositório de conhecimento.</p>
+    </div>
+  </div>
+
+  <div class="form-container">
+    <div *ngIf="error" class="alert alert-error">
+      {{ error }}
+    </div>
+
+    <form [formGroup]="createForm" (ngSubmit)="onSubmit()">
+      
+      <div class="form-group">
+        <label for="name">Nome da coleção *</label>
+        <input id="name" type="text" formControlName="name" placeholder="Ex: Manuais de RH" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descrição</label>
+        <textarea id="description" formControlName="description" rows="3" placeholder="Opcional. Qual o objetivo desta coleção?" class="form-control"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="purpose">Propósito</label>
+        <select id="purpose" formControlName="purpose" class="form-control">
+          <option value="general">Geral</option>
+          <option value="study">Estudo</option>
+          <option value="research">Pesquisa</option>
+          <option value="writing">Escrita</option>
+          <option value="code">Código</option>
+          <option value="agent">Agente MCP</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="defaultIngestionProfile">Perfil de Ingestão Padrão</label>
+          <select id="defaultIngestionProfile" formControlName="defaultIngestionProfile" class="form-control">
+            <option value="fast">Rápido (apenas texto)</option>
+            <option value="balanced">Balanceado (com layout)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="defaultContextPolicy">Política de Contexto</label>
+          <select id="defaultContextPolicy" formControlName="defaultContextPolicy" class="form-control">
+            <option value="conservative">Conservadora (alta precisão)</option>
+            <option value="sequential">Sequencial (maior contexto)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <a routerLink="/collections" class="btn btn-outline">Cancelar</a>
+        <button type="submit" class="btn btn-primary" [disabled]="createForm.invalid || submitting">
+          {{ submitting ? 'Criando...' : 'Criar Coleção' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

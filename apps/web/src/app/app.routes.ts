@@ -19,6 +19,10 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', loadComponent: () => import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent) },
       { path: 'settings', loadComponent: () => import('./features/settings/settings.component').then(m => m.SettingsComponent) },
+      { path: 'collections', loadComponent: () => import('./features/collections/collection-list/collection-list.component').then(m => m.CollectionListComponent) },
+      { path: 'collections/new', loadComponent: () => import('./features/collections/collection-create/collection-create.component').then(m => m.CollectionCreateComponent) },
+      { path: 'collections/:id', loadComponent: () => import('./features/collections/collection-detail/collection-detail.component').then(m => m.CollectionDetailComponent) },
+      { path: 'collections/:id/documents/:docId', loadComponent: () => import('./features/documents/document-detail/document-detail.component').then(m => m.DocumentDetailComponent) },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
