@@ -1,0 +1,167 @@
+<div class="settings-container">
+  <header class="settings-header">
+    <h1>Configurações do Workspace</h1>
+    <p>Gerencie preferências de ingestão, analytics e acessos do seu workspace.</p>
+  </header>
+
+  <div class="settings-layout">
+    <nav class="settings-nav">
+      <button 
+        [class.active]="activeTab() === 'general'" 
+        (click)="activeTab.set('general')">
+        Geral
+      </button>
+      <button 
+        [class.active]="activeTab() === 'ingestion'" 
+        (click)="activeTab.set('ingestion')">
+        Ingestão
+      </button>
+      <button 
+        [class.active]="activeTab() === 'analytics'" 
+        (click)="activeTab.set('analytics')">
+        Analytics Local
+      </button>
+      <button 
+        [class.active]="activeTab() === 'access'" 
+        (click)="activeTab.set('access')">
+        Acesso
+      </button>
+      <button 
+        [class.active]="activeTab() === 'api'" 
+        (click)="activeTab.set('api')">
+        API Local
+      </button>
+    </nav>
+
+    <div class="settings-content">
+      <!-- Aba Geral -->
+      <section *ngIf="activeTab() === 'general'" class="settings-section">
+        <h2>Geral</h2>
+        <form (ngSubmit)="saveGeneral()" class="settings-form">
+          <div class="form-group">
+            <label for="ws-name">Nome do Workspace</label>
+            <input id="ws-name" type="text" [(ngModel)]="generalForm.name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="ws-slug">Identificador URL (Slug)</label>
+            <input id="ws-slug" type="text" [(ngModel)]="generalForm.slug" name="slug">
+          </div>
+          <div class="form-group">
+            <label for="ws-purpose">Finalidade</label>
+            <select id="ws-purpose" [(ngModel)]="generalForm.purpose" name="purpose">
+              <option value="study">Estudos</option>
+              <option value="research">Pesquisa</option>
+              <option value="writing">Escrita</option>
+              <option value="code">Código</option>
+              <option value="agent">Agente IA</option>
+              <option value="general">Geral</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Salvar Geral</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Aba Ingestão -->
+      <section *ngIf="activeTab() === 'ingestion'" class="settings-section">
+        <h2>Padrões de Ingestão</h2>
+        <form (ngSubmit)="saveSettingsBlock()" class="settings-form">
+          <div class="form-group">
+            <label for="profile">Perfil de Extração</label>
+            <select id="profile" [(ngModel)]="ingestionForm.profile" name="profile">
+              <option value="fast">Rápido (Apenas Texto)</option>
+              <option value="balanced">Balanceado (Visão & Texto)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="ocr">Uso de OCR</label>
+            <select id="ocr" [(ngModel)]="ingestionForm.ocr" name="ocr">
+              <option value="auto">Automático (quando falhar extração)</option>
+              <option value="always">Sempre</option>
+              <option value="never">Nunca</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="chunkTarget">Tamanho Alvo do Chunk (Tokens)</label>
+              <input id="chunkTarget" type="number" [(ngModel)]="ingestionForm.chunkTarget" name="chunkTarget">
+            </div>
+            <div class="form-group">
+              <label for="overlap">Overlap de Chunks (Tokens)</label>
+              <input id="overlap" type="number" [(ngModel)]="ingestionForm.overlap" name="overlap">
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Salvar Ingestão</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Aba Analytics -->
+      <section *ngIf="activeTab() === 'analytics'" class="settings-section">
+        <h2>Analytics Local</h2>
+        <form (ngSubmit)="saveSettingsBlock()" class="settings-form">
+          <div class="form-group">
+            <label for="historyMode">Modo de Histórico</label>
+            <select id="historyMode" [(ngModel)]="analyticsForm.historyMode" name="historyMode">
+              <option value="metadata_only">Apenas Metadados (Mais privado)</option>
+              <option value="local_history">Histórico Completo (Local)</option>
+              <option value="analytics_off">Desligado</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="retention">Retenção de Eventos (Dias)</label>
+            <input id="retention" type="number" [(ngModel)]="analyticsForm.retention" name="retention">
+          </div>
+          <div class="form-group checkbox-group">
+            <input id="exportEnabled" type="checkbox" [(ngModel)]="analyticsForm.exportEnabled" name="exportEnabled">
+            <label for="exportEnabled">Permitir exportação de dados analíticos em CSV/JSONL</label>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">Salvar Analytics</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Aba Acesso -->
+      <section *ngIf="activeTab() === 'access'" class="settings-section">
+        <h2>Acesso</h2>
+        <div class="access-info-card">
+          <div class="role-badge" [ngClass]="currentRole()">{{ currentRole() | uppercase }}</div>
+          <p class="role-desc">
+            Seu nível de acesso atual neste workspace é <strong>{{ currentRole() }}</strong>.
+          </p>
+          <p class="role-note">
+            No momento (MVP), a gestão completa e convites de membros são feitos externamente via administração de banco de dados.
+          </p>
+        </div>
+      </section>
+
+      <!-- Aba API -->
+      <section *ngIf="activeTab() === 'api'" class="settings-section">
+        <h2>API Local</h2>
+        <div class="api-info">
+          <div class="api-field">
+            <label>Base URL</label>
+            <div class="code-box">{{ apiUrl }}</div>
+          </div>
+          <div class="api-field">
+            <label>Workspace Público ID</label>
+            <div class="code-box">{{ settingsData()?.publicId || 'Carregando...' }}</div>
+          </div>
+          
+          <div class="api-examples">
+            <h3>Exemplo: Recuperando Coleções (cURL)</h3>
+            <pre><code>curl -X GET {{ apiUrl }}/workspaces/{{ settingsData()?.publicId }}/collections \
+  -H "Cookie: SESSION=sua_sessao" \
+  -H "Content-Type: application/json"</code></pre>
+          </div>
+          
+          <p class="api-note">O uso de Chaves de API (API Keys) ainda não está habilitado neste workspace (Planejado pós-MVP).</p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 # feat/workspace-settings-mvp
 
-Status: candidata.
+Status: concluída.
 
 ## Objetivo
 
