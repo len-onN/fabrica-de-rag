@@ -3,6 +3,8 @@ package local.fabricarag.core.client;
 import local.fabricarag.core.dto.worker.PdfInspectRequest;
 import local.fabricarag.core.dto.worker.PdfRenderRequest;
 import local.fabricarag.core.dto.worker.PdfExtractTextRequest;
+import local.fabricarag.core.dto.worker.PdfExtractElementsRequest;
+import local.fabricarag.core.dto.worker.PdfInterpretVisualRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,6 +52,24 @@ public class WorkerClient {
     public void requestExtractText(PdfExtractTextRequest request) {
         restClient.post()
                 .uri("/api/v1/pdf/extract-text")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(request)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
+    public void requestExtractElements(PdfExtractElementsRequest request) {
+        restClient.post()
+                .uri("/api/v1/pdf/extract-elements")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(request)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
+    public void requestInterpretVisual(PdfInterpretVisualRequest request) {
+        restClient.post()
+                .uri("/api/v1/pdf/interpret-visual")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(request)
                 .retrieve()

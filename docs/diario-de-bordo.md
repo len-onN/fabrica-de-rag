@@ -253,3 +253,13 @@ Data - Titulo da etapa
 
 Texto corrido descrevendo o contexto, o que foi feito, por que foi feito, quais decisoes foram tomadas, quais arquivos ou areas foram afetados, quais verificacoes ocorreram e qual e a proxima frente de trabalho.
 ```
+
+## 2026-06-28 - Interpretação Visual e de Tabelas em PDF
+
+Depois do merge de `feat/worker-pdf-render-ocr-base`, a branch `feat/worker-pdf-visual-tables-base` foi aberta para estender as capacidades operacionais da esteira com recursos vitais definidos pelo documento de planejamento visual.
+
+O foco desta etapa foi incorporar a capacidade estrutural (Pydantic e Spring Boot) e os adaptadores de processamento (worker) que lidam com elementos ricos do PDF, especificamente a extração de tabelas (usando a recém adicionada biblioteca `pdfplumber`, de licença MIT) e o design base para interpretar visualmente imagens/tabelas através de Webhooks com Vision Language Models (VLM). Foi implementado também o `mock-vision-interpreter`, um adaptador de testes capaz de emular a funcionalidade determinística das descrições da VLM e acatar às limitações de orçamentos (budgets).
+
+Com relação à orquestração, os DTOs do backend Java ganharam extensões substanciais sob `local.fabricarag.core.dto.worker.components`, permitindo o intercâmbio de estruturas complexas entre o Worker e a Ingestão (PdfExtractElementsRequest/Response e PdfInterpretVisualRequest/Response). Além disso, foram ajustadas as dependências faltantes `WorkerBaseRequest` e `WorkerErrorResponse` e as implementações referentes ao webhook.
+
+Testes locais usando a suíte pytest provaram que os fluxos síncronos de falha e webhooks assíncronos de aceitação executam sem atrito, sendo suportados pela validação estrita com FastAPI. O backend compilou perfeitamente. O próximo passo será realizar o merge para `develop` e preparar a infraestrutura que derivará a numeração das páginas (`feat/paginas-numeracao`).
