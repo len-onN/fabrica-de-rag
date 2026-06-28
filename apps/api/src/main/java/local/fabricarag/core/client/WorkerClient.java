@@ -84,4 +84,13 @@ public class WorkerClient {
                 .retrieve()
                 .body(local.fabricarag.core.dto.worker.ChunksBuildResponse.class);
     }
+
+    public void requestEmbeddings(local.fabricarag.core.dto.worker.EmbeddingsTextRequest request) {
+        restClient.post()
+                .uri("/api/v1/embeddings/text")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(request)
+                .retrieve()
+                .toBodilessEntity();
+    }
 }

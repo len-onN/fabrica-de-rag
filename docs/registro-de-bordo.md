@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-28 |
 | Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/chunking-semantico` |
+| Branch atual | `feat/embeddings-base` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Implementar chunking, heading path e overlap |
+| Objetivo atual | Implementar contrato inicial e mock determinístico de embeddings |
 | Status | Concluido. Aguardando PR. |
-| Proximo marco | Iniciar proxima branch conforme plano. |
+| Proximo marco | Iniciar proxima branch de indexacao Qdrant. |
 
 ## Sessao viva
 
@@ -85,11 +85,13 @@ Verificacoes executadas: `git switch develop`, `git pull --ff-only`, `git switch
 
 Na branch `feat/auth-bootstrap-workspaces`, foi implementada a fundação vertical do sistema: criação das migrações do banco (usuários, workspaces, sessoes), domínio e filtros de segurança no Spring Boot (`OpaqueSessionFilter` e `SecurityConfig`) usando tokens em cookie e hashing Argon2id. No frontend Angular, foi implementado o `AuthLayoutComponent` isolado e os componentes de login e bootstrap. Adicionalmente, consolidou-se um novo documento `docs/pos-mvp.md` contendo o roadmap futuro (OAuth, telemetria, storage distribuído).
 
+Na branch `feat/embeddings-base`, foi estabelecido o contrato para geração de embeddings entre a API e o Worker utilizando padrão Webhook (para resiliência contra rate limits, com fallback pos-MVP em `docs/pos-mvp.md`). O `MockEmbeddingProvider` determinístico foi construído com `random.seed(sourceHash)` gerando vetores de dimensão 16 e a persistência em JPA/Flyway foi adicionada cobrindo as tabelas `vector_connections`, `vector_index_bindings` e `chunk_embeddings`.
+
 Proximo passo concreto:
 
-- commitar e publicar `feat/chunking-semantico`;
+- commitar e publicar `feat/embeddings-base`;
 - abrir PR para `develop`;
-- apos merge, iniciar a proxima branch prioritaria (provavelmente `feat/embeddings-base`).
+- apos merge, iniciar a proxima branch prioritaria (provavelmente `feat/qdrant-indexacao`).
 
 ## Quadro de branches
 
@@ -121,7 +123,7 @@ Proximo passo concreto:
 | `feat/worker-pdf-visual-tables-base` | Concluída | Interpretar imagens/tabelas em PDFs com assets, elementos e adapter visual | Pendente | Necessario para preservar conhecimento visual/tabular. |
 | `feat/paginas-numeracao` | Mesclada | Implementar mapa de paginas e numeracao impressa por ancoras | Concluido | Mesclada. |
 | `feat/chunking-semantico` | Concluída | Implementar chunking, heading path e overlap | Pendente | Fecha funcionalidade base de quebra de texto. |
-| `feat/embeddings-base` | Candidata | Definir contrato inicial de embeddings | Pendente | Exige modelo/provider ou adapter mockado. |
+| `feat/embeddings-base` | Concluída | Definir contrato inicial de embeddings | Pendente | Exige modelo/provider ou adapter mockado. |
 | `feat/qdrant-indexacao` | Candidata | Indexar embeddings no Qdrant com payload minimo | Pendente | Exige contrato de payload vetorial. |
 | `feat/ingestao-pipeline-indexacao` | Candidata | Orquestrar ingestao completa ate chunks, embeddings e Qdrant | Pendente | Fecha o fluxo real de upload a indexado. |
 | `feat/busca-vetorial-base` | Candidata | Buscar chunks por pergunta com filtros e citacoes minimas | Pendente | Exige Qdrant e embeddings. |

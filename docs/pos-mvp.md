@@ -18,6 +18,7 @@ Sempre que novas sugestões brilhantes (mas não bloqueantes para a versão 1.0)
 - **Reranking Algorítmico**: Aplicação de *Cross-Encoders* para reordenar os resultados brutos retornados pelo Qdrant antes da montagem final do contexto do LLM, melhorando drasticamente a precisão em bases imensas.
 - **Outras Fontes (Além do PDF)**: Suporte nativo para Word, Excel, Markdown, sites da web (scrapers), conectores de Notion, Jira e Confluence (veja também `docs/fontes-e-integracoes-futuras.md`).
 - **Conectores de Vector Stores Externos**: Permitir plugar a Fábrica de RAG em bancos vetoriais gerenciados de terceiros, como Pinecone, Weaviate ou pgvector (veja `docs/conectores-vector-store.md`).
+- **Circuit Breakers e Retentativas Avançadas**: Implementar resiliência profunda (ex: Resilience4j) para lidar com *rate limits* e instabilidades severas de provedores de IA em nuvem, evoluindo o mecanismo de *webhook* simples do MVP.
 
 ## 3. Integração com Agentes (MCP)
 - **Ações Autônomas Mutantes (Auto-Agent)**: Permitir que agentes e clientes do *Model Context Protocol* executem configurações, exclusões de dados sensíveis ou modificações na base sem exigir aprovação humana (No MVP, ferramentas destrutivas exigem confirmação explícita na interface do usuário local).
