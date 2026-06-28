@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 
 from rag_worker.api import health
-from rag_worker.routers import pdf
+from rag_worker.routers import pdf, chunks
 
 
 def create_app() -> FastAPI:
@@ -34,6 +34,7 @@ def create_app() -> FastAPI:
     # Mount routers
     app.include_router(health.router)
     app.include_router(pdf.router)
+    app.include_router(chunks.router)
 
     return app
 

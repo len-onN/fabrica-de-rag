@@ -75,4 +75,13 @@ public class WorkerClient {
                 .retrieve()
                 .toBodilessEntity();
     }
+
+    public local.fabricarag.core.dto.worker.ChunksBuildResponse requestBuildChunksSync(local.fabricarag.core.dto.worker.ChunksBuildRequest request) {
+        return restClient.post()
+                .uri("/api/v1/chunks/build")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(request)
+                .retrieve()
+                .body(local.fabricarag.core.dto.worker.ChunksBuildResponse.class);
+    }
 }

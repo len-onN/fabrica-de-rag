@@ -27,9 +27,9 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-28 |
 | Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/paginas-numeracao` |
+| Branch atual | `feat/chunking-semantico` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Implementar mapa de paginas e numeracao impressa por ancoras |
+| Objetivo atual | Implementar chunking, heading path e overlap |
 | Status | Concluido. Aguardando PR. |
 | Proximo marco | Iniciar proxima branch conforme plano. |
 
@@ -87,9 +87,9 @@ Na branch `feat/auth-bootstrap-workspaces`, foi implementada a fundação vertic
 
 Proximo passo concreto:
 
-- commitar e publicar `feat/worker-pdf-visual-tables-base`;
+- commitar e publicar `feat/chunking-semantico`;
 - abrir PR para `develop`;
-- apos merge, iniciar `feat/paginas-numeracao` ou a proxima branch prioritaria.
+- apos merge, iniciar a proxima branch prioritaria (provavelmente `feat/embeddings-base`).
 
 ## Quadro de branches
 
@@ -119,8 +119,8 @@ Proximo passo concreto:
 | `feat/worker-pdf-inspect` | Mesclada | Integrar worker Python para inspecao/extracao inicial de PDF | Concluido | Contrato interno Spring -> worker via webhook implementado. |
 | `feat/worker-pdf-render-ocr-base` | Mesclada | Adicionar render de paginas e OCR opcional basico | Concluido | Necessario para preview, mapa de paginas e PDFs sem texto nativo. |
 | `feat/worker-pdf-visual-tables-base` | Concluída | Interpretar imagens/tabelas em PDFs com assets, elementos e adapter visual | Pendente | Necessario para preservar conhecimento visual/tabular. |
-| `feat/paginas-numeracao` | Concluída | Implementar mapa de paginas e numeracao impressa por ancoras | Pendente | Exige especificacao do algoritmo. |
-| `feat/chunking-semantico` | Candidata | Implementar chunking, heading path e overlap | Pendente | Exige especificacao do algoritmo e testes. |
+| `feat/paginas-numeracao` | Mesclada | Implementar mapa de paginas e numeracao impressa por ancoras | Concluido | Mesclada. |
+| `feat/chunking-semantico` | Concluída | Implementar chunking, heading path e overlap | Pendente | Fecha funcionalidade base de quebra de texto. |
 | `feat/embeddings-base` | Candidata | Definir contrato inicial de embeddings | Pendente | Exige modelo/provider ou adapter mockado. |
 | `feat/qdrant-indexacao` | Candidata | Indexar embeddings no Qdrant com payload minimo | Pendente | Exige contrato de payload vetorial. |
 | `feat/ingestao-pipeline-indexacao` | Candidata | Orquestrar ingestao completa ate chunks, embeddings e Qdrant | Pendente | Fecha o fluxo real de upload a indexado. |
@@ -169,16 +169,16 @@ Proximo passo concreto:
 Usar este modelo quando uma etapa for concluida ou interrompida:
 
 ```text
-Data:
-Branch:
-Status:
-Objetivo da etapa:
-Skills/fontes ativadas:
-O que foi feito:
-Arquivos tocados:
-Decisoes tomadas:
-Riscos/colateralidades:
-Testes/verificacoes:
-Pendencias:
-Proximo passo:
+Data: 2026-06-28
+Branch: `feat/chunking-semantico`
+Status: Concluída
+Objetivo da etapa: Implementar chunking semântico (backend Java + worker Python).
+Skills/fontes ativadas: N/A
+O que foi feito: Implementado modelo Pydantic, serviço e rota em FastAPI no worker. Implementado DTOs, serviço e DB (Flyway) no Spring Boot, testado com testes unitários.
+Arquivos tocados: Worker (chunking.py, chunks.py, routers/chunks.py, test_chunking.py), API (V6__chunks_and_relations.sql, Chunk.java, ChunkRelation.java, ChunkingService.java, etc).
+Decisoes tomadas: Utilizar `uv` no worker. SourceLocator/HeadingPath como JSONB no DB para suportar MVP.
+Riscos/colateralidades: A compilação precisou da recriação do IdGenerator por falha importada da branch anterior.
+Testes/verificacoes: Teste Python com pytest (passou), Gradle Maven build com Mockito (passou).
+Pendencias: Nenhuma no escopo atual.
+Proximo passo: Commit, Push, PR.
 ```

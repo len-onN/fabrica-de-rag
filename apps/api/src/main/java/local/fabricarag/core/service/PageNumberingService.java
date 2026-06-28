@@ -6,6 +6,7 @@ import local.fabricarag.core.dto.PageNumberingAnchorDto;
 import local.fabricarag.core.dto.UpdateNumberingAnchorsRequest;
 import local.fabricarag.core.repository.DocumentPageRepository;
 import local.fabricarag.core.repository.PageNumberingAnchorRepository;
+import local.fabricarag.core.util.IdGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
