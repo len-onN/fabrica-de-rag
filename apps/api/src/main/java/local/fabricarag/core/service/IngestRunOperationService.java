@@ -24,14 +24,17 @@ public class IngestRunOperationService {
     private final DocumentRepository documentRepository;
     private final WorkerClient workerClient;
 
+    private final IngestRunPipelineService pipelineService;
+
     public IngestRunOperationService(IngestRunRepository runRepository, IngestStepRepository stepRepository,
                                      IngestRunLogRepository logRepository, DocumentRepository documentRepository,
-                                     WorkerClient workerClient) {
+                                     WorkerClient workerClient, IngestRunPipelineService pipelineService) {
         this.runRepository = runRepository;
         this.stepRepository = stepRepository;
         this.logRepository = logRepository;
         this.documentRepository = documentRepository;
         this.workerClient = workerClient;
+        this.pipelineService = pipelineService;
     }
 
     @Transactional(readOnly = true)
@@ -113,6 +116,10 @@ public class IngestRunOperationService {
                 null
         );
         runRepository.save(newRun);
+        
+        // Trigger pipeline orchestration for the retried run
+        pipelineService.advancePipeline(newRun.getId());
+        
         return getRunDetails(workspaceId, newPublicId);
     }
     
@@ -130,41 +137,5 @@ public class IngestRunOperationService {
         });
     }
 
-    @Transactional
-    public void startInspectStep(UUID runId, String storageUri, String apiBaseUrl) {
-        IngestRun run = runRepository.findById(runId)
-                .orElseThrow(() -> new ResourceNotFoundException("Run not found"));
-        
-        // Em um fluxo real, a etapa IngestStep seria criada aqui e marcada como RUNNING.
-        
-        String callbackUrl = apiBaseUrl + "/api/v1/internal/callbacks/ingest-runs/" + runId + "/inspect";
-        
-        PdfInspectRequest request = PdfInspectRequest.create(
-                UUID.randomUUID().toString(),
-                run.getWorkspaceId(),
-                run.getDocumentId(),
-                storageUri,
-                callbackUrl
-        );
-        
-        workerClient.inspectPdf(request);
-    }
 
-    @Transactional
-    public void handleInspectCallback(UUID runId, Map<String, Object> payload) {
-        IngestRun run = runRepository.findById(runId)
-                .orElseThrow(() -> new ResourceNotFoundException("Run not found"));
-        
-        if (payload.containsKey("error")) {
-            run.updateStatus(IngestRunStatus.FAILED);
-            // Salva log de erro na IngestRunLog aqui
-        } else {
-            // Sucesso na inspeção
-            // No MVP real, aqui pegaria pageCount, encrypted etc e salvaria no IngestStep
-            // e avançaria para a próxima etapa (ex: render ou chunking)
-            run.updateStatus(IngestRunStatus.WAITING_FOR_REVIEW); // ou continua
-        }
-        
-        runRepository.save(run);
-    }
 }

@@ -19,8 +19,6 @@ public class PdfRenderRequest extends WorkerBaseRequest {
 
     private Integer dpi = 150;
 
-    private String callbackUrl;
-
     public String getDocumentId() {
         return documentId;
     }
@@ -51,13 +49,5 @@ public class PdfRenderRequest extends WorkerBaseRequest {
 
     public void setDpi(Integer dpi) {
         this.dpi = dpi;
-    }
-
-    public String getCallbackUrl() {
-        return callbackUrl;
-    }
-
-    public void setCallbackUrl(String callbackUrl) {
-        this.callbackUrl = callbackUrl;
     }
 }

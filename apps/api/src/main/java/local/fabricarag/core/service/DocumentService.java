@@ -29,15 +29,18 @@ public class DocumentService {
     private final KnowledgeCollectionRepository collectionRepository;
     private final IngestRunRepository ingestRunRepository;
     private final StorageService storageService;
+    private final IngestRunPipelineService pipelineService;
 
     public DocumentService(DocumentRepository documentRepository,
                            KnowledgeCollectionRepository collectionRepository,
                            IngestRunRepository ingestRunRepository,
-                           StorageService storageService) {
+                           StorageService storageService,
+                           IngestRunPipelineService pipelineService) {
         this.documentRepository = documentRepository;
         this.collectionRepository = collectionRepository;
         this.ingestRunRepository = ingestRunRepository;
         this.storageService = storageService;
+        this.pipelineService = pipelineService;
     }
 
     @Transactional
@@ -104,8 +107,10 @@ public class DocumentService {
                 idempotencyKey,
                 userId
         );
-        
         ingestRunRepository.save(run);
+        
+        // Trigger pipeline orchestration
+        pipelineService.advancePipeline(run.getId());
 
         return mapToResponse(document);
     }
