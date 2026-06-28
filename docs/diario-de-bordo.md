@@ -195,15 +195,19 @@ No lado do backend, foi criado um `WorkspaceController` responsavel pela rota `G
 No lado do frontend Angular, implementou-se o `WorkspaceService` para consultar a API. Criou-se o componente `DashboardComponent` renderizando uma grid de 3 metricas (Colecoes, Documentos, Processamentos) e um destaque de "Empty State" incitando a criacao da primeira colecao. Alem disso, o componente matriz `ShellComponent` foi atualizado para injetar a reatividade do `AuthService` via signals (`toSignal(auth.authState$)`), de forma que o menu lateral passou a renderizar visualmente o nome real do Workspace ao inves de conteudos estaticos, conectando o ciclo completo: login -> auth guard -> dados no shell -> dados na pagina filha.
 
 A validacao por compilacao (`mvnw compile` e `npm run build`) ocorreu de forma positiva sem erros de sintaxe ou lint. O proximo passo operacional esperado e abrir o pull request para `develop` e iniciar a branch subsequente: `feat/colecoes-documentos-core` ou `feat/workspace-settings-mvp`.
+
 ## 2026-06-27 - Workspace Settings MVP
 
-Depois do merge da branch anterior, a branch `feat/workspace-settings-mvp` foi aberta para implementar a tela de configuraÃ§Ãµes do workspace. Essa tela centraliza a gestÃ£o de preferÃªncias gerais, ingestÃ£o de dados, retenÃ§Ã£o analÃ­tica, nÃ­veis de acesso e informaÃ§Ãµes de API, cobrindo requisitos essenciais definidos nos portÃµes de planejamento.
+Depois do merge da branch anterior, a branch `feat/workspace-settings-mvp` foi aberta para implementar a tela de configurações do workspace. Essa tela centraliza a gestão de preferências gerais, ingestão de dados, retenção analítica, níveis de acesso e informações de API, cobrindo requisitos essenciais definidos nos portões de planejamento.
 
-No backend, foi adicionada a migration `V3__workspace_settings.sql` injetando as colunas `slug`, `owner_user_id`, `settings` (`jsonb`) e `deleted_at`. O domÃ­nio `Workspace` foi estendido para mapear o campo JSON dinÃ¢mico de configuraÃ§Ãµes (`@JdbcTypeCode(SqlTypes.JSON)`). Foram criados os DTOs e os endpoints `GET` e `PATCH` para `/api/v1/workspaces/{workspaceId}/settings` no `WorkspaceController`, protegidos adequadamente pelas permissÃµes `workspace.read` e `workspace.update`.
+No backend, foi adicionada a migration `V3__workspace_settings.sql` injetando as colunas `slug`, `owner_user_id`, `settings` (`jsonb`) e `deleted_at`. O domínio `Workspace` O DTO foi revalidado e alinhado entre o Python e o Java para processamentos com arrays de objetos JSON (`@JdbcTypeCode`).
 
-No frontend Angular, o `WorkspaceService` foi expandido. Foi desenvolvida a rota `/settings` com o `WorkspaceSettingsComponent` contendo 5 abas (Geral, IngestÃ£o, Analytics, Acesso e API). A aba de Acesso manteve foco *read-only* mostrando o nÃ­vel de permissÃ£o (role) atual, delegando a gestÃ£o completa de membros (convites e ediÃ§Ã£o) para fase pÃ³s-MVP, fato devidamente registrado no `docs/pos-mvp.md`. O menu lateral (`ShellComponent`) foi integrado para acesso direto Ã  rota.
+Foram criados os DTOs e os endpoints `GET` e `PATCH` para `/api/v1/workspaces/{workspaceId}/settings` no `WorkspaceController`, protegidos adequadamente pelas permissões `workspace.read` e `workspace.update`.
 
-A compilaÃ§Ã£o local garantiu que os contratos e novas funÃ§Ãµes estavam saudÃ¡veis. O prÃ³ximo passo serÃ¡ revisar, comitar, mesclar esta branch em `develop` e iniciar a funcionalidade central de coleÃ§Ãµes (`feat/colecoes-documentos-core`).
+No frontend Angular, o `WorkspaceService` foi expandido. Foi desenvolvida a rota `/settings` com o `WorkspaceSettingsComponent` contendo 5 abas (Geral, Ingestão, Analytics, Acesso e API). A aba de Acesso manteve foco *read-only* mostrando o nível de permissão (role) atual, delegando a gestão completa de membros (convites e edição) para fase pós-MVP, fato devidamente registrado no `docs/pos-mvp.md`. O menu lateral (`ShellComponent`) foi integrado para acesso direto à rota.
+
+A compilação local garantiu que os contratos e novas funções estavam saudáveis. O próximo passo será revisar, comitar, mesclar esta branch em `develop` e iniciar a funcionalidade central de coleções (`feat/colecoes-documentos-core`).
+
 ## 2026-06-27 - Ingestao Upload PDF
 
 Depois do merge remoto de `feat/colecoes-documentos-core`, foi iniciada a branch `feat/ingestao-upload-pdf` para permitir que o usuÃ¡rio adicione o primeiro artefato real na base de conhecimento. A arquitetura determinou que nÃ£o haverÃ¡ LLMs nem OCR em tempo sÃ­ncrono. O upload apenas persiste o arquivo fÃ­sico e cria a intenÃ§Ã£o (`IngestRun`) no estado `QUEUED`.
@@ -284,3 +288,16 @@ Garantimos a qualidade e funcionamento correto do fluxo implementando a suíte d
 
 Todas as dependências e processos buildaram apropriadamente localmente. A branch é dada por aprovada para sofrer *merge request* para `develop`, direcionando então as engrenagens rumo a camada de busca vetorial base.
 
+
+## 2026-06-28 - Busca Vetorial Base
+
+Depois de assentar as fundações de orquestração do Qdrant e injeção do Worker, foi aberta a branch eat/busca-vetorial-base objetivando fechar o fluxo de resposta do RAG, consultando a base de conhecimento estruturada pelas branches anteriores.
+
+A arquitetura definiu explicitamente que o RAG no MVP não utilizará reranking complexos de rede, garantindo performance bruta. Assim, desenvolveu-se o VectorSearchService atuando em 3 frentes sincrônicas: 
+1. Solicitação da embedding (vetor float) ao Worker síncrono via POST direto;
+2. Chamada ao VectorStoreAdapter (gRPC para Qdrant) usando o point vetorial recém-gerado cruzando filtros vitais obrigatórios como workspaceId, collectionId e versão do contrato; 
+3. Re-hidratação com dados reais utilizando o Postgres (ChunkRepository) puxando todos os chunks com os publicIds identificados pelo Qdrant.
+
+A avaliação de similaridade continuou confiando puramente em Distância do Cosseno (cosine). Quando o score individual for muito fraco (< 0.35) ou quando menos de 2 chunks forem providenciados, a resposta RAG assumirá um carimbo protetor lowConfidence = true, fornecendo à UI ou à API indicações claras para mitigar alucinações nas próximas fases do projeto.
+
+O processo de citações foi formatado com perfeição baseando-se no payload rico source_locator, recuperando paginas de PDF originais ou rótulos impressos nativamente sem vazamento interno. Todos os componentes Java, os records de Request/Response de Busca e os testes unitários via Mockito passaram sem erros locais através das compilações regulares do Maven. O próximo passo será realizar PR e prosseguir com a camada do navegador visual (eat/chunks-navegador).

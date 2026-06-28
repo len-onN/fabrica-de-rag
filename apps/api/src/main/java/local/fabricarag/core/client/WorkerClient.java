@@ -93,4 +93,13 @@ public class WorkerClient {
                 .retrieve()
                 .toBodilessEntity();
     }
+
+    public local.fabricarag.core.dto.worker.EmbeddingsTextResponse requestEmbeddingsSync(local.fabricarag.core.dto.worker.EmbeddingsTextRequest request) {
+        return restClient.post()
+                .uri("/api/v1/embeddings/text")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(request)
+                .retrieve()
+                .body(local.fabricarag.core.dto.worker.EmbeddingsTextResponse.class);
+    }
 }
