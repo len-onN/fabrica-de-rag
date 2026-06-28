@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-28 |
 | Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/worker-pdf-inspect` |
+| Branch atual | `feat/worker-pdf-render-ocr-base` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Integrar worker Python para inspecao inicial de PDF usando webhook assincrono |
-| Status | Concluída. Worker e Spring Boot integrados. |
-| Proximo marco | Abrir PR para `develop`; depois iniciar a renderizacao e OCR basico (`feat/worker-pdf-render-ocr-base`). |
+| Objetivo atual | Adicionar render de paginas e OCR opcional basico ao worker |
+| Status | Concluido. Aguardando commit e PR. |
+| Proximo marco | Iniciar proxima branch conforme plano. |
 
 ## Sessao viva
 
@@ -87,9 +87,9 @@ Na branch `feat/auth-bootstrap-workspaces`, foi implementada a fundação vertic
 
 Proximo passo concreto:
 
-- commitar e publicar `feat/worker-pdf-inspect`;
+- commitar e publicar `feat/worker-pdf-render-ocr-base`;
 - abrir PR para `develop`;
-- apos merge, iniciar `feat/worker-pdf-render-ocr-base`.
+- apos merge, iniciar `feat/worker-pdf-visual-tables-base` ou a proxima branch prioritaria.
 
 ## Quadro de branches
 
@@ -116,8 +116,8 @@ Proximo passo concreto:
 | `feat/colecoes-documentos-core` | Mesclada | Criar entidades centrais de colecoes, documentos e metadados | Concluido | Feito o schema relacional e controladores do Core. |
 | `feat/ingestao-upload-pdf` | Mesclada | Implementar upload e run inicial de ingestao de PDF | Concluido | Criados storage, limites de upload, UI e status inicial de IngestRun. |
 | `feat/ingestao-runs-operacao` | Concluída | Criar status, etapas, cancelamento, retry e logs de runs | Pendente | Fecha operacao visivel de ingestao. |
-| `feat/worker-pdf-inspect` | Concluída | Integrar worker Python para inspecao/extracao inicial de PDF | Pendente | Contrato interno Spring -> worker via webhook implementado. |
-| `feat/worker-pdf-render-ocr-base` | Candidata | Adicionar render de paginas e OCR opcional basico | Pendente | Necessario para preview, mapa de paginas e PDFs sem texto nativo. |
+| `feat/worker-pdf-inspect` | Mesclada | Integrar worker Python para inspecao/extracao inicial de PDF | Concluido | Contrato interno Spring -> worker via webhook implementado. |
+| `feat/worker-pdf-render-ocr-base` | Concluída | Adicionar render de paginas e OCR opcional basico | Pendente | Necessario para preview, mapa de paginas e PDFs sem texto nativo. |
 | `feat/worker-pdf-visual-tables-base` | Candidata | Interpretar imagens/tabelas em PDFs com assets, elementos e adapter visual | Pendente | Necessario para preservar conhecimento visual/tabular. |
 | `feat/paginas-numeracao` | Candidata | Implementar mapa de paginas e numeracao impressa por ancoras | Pendente | Exige especificacao do algoritmo. |
 | `feat/chunking-semantico` | Candidata | Implementar chunking, heading path e overlap | Pendente | Exige especificacao do algoritmo e testes. |

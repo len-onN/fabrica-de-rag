@@ -6,6 +6,9 @@ WORKDIR /app
 # Install uv for fast dependency management
 RUN pip install uv==0.5.0
 
+# Install OS dependencies for OCR
+RUN apt-get update && apt-get install -y --no-install-recommends tesseract-ocr && rm -rf /var/lib/apt/lists/*
+
 # Copy project files needed for installing dependencies
 COPY pyproject.toml README.md ./
 # Create dummy src structure to allow initial dependency resolution if needed
@@ -18,6 +21,9 @@ RUN uv venv && uv pip install .
 FROM python:3.13-slim AS runner
 
 WORKDIR /app
+
+# Install OS dependencies for OCR in runner
+RUN apt-get update && apt-get install -y --no-install-recommends tesseract-ocr && rm -rf /var/lib/apt/lists/*
 
 # Copy the built virtualenv
 COPY --from=builder /app/.venv /app/.venv

@@ -1,6 +1,6 @@
 # feat/worker-pdf-render-ocr-base
 
-Status: candidata.
+Status: em andamento.
 
 ## Objetivo
 
