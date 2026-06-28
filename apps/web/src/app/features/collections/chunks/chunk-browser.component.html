@@ -1,0 +1,61 @@
+<div class="chunk-browser-container">
+  <div class="filters-row">
+    <input 
+      type="text" 
+      class="form-control search-input" 
+      placeholder="Buscar nos chunks da coleção..." 
+      [(ngModel)]="searchQuery" 
+      (keyup.enter)="onSearch()">
+    <button class="btn btn-primary" (click)="onSearch()" [disabled]="loading">Buscar</button>
+  </div>
+
+  <div class="table-container" *ngIf="!loading && chunks.length > 0">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Seq</th>
+          <th>Documento</th>
+          <th>Heading</th>
+          <th>Tokens</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let chunk of chunks" (click)="selectChunk(chunk)" class="clickable-row" [class.selected]="selectedChunk?.id === chunk.id">
+          <td>{{ chunk.sequenceNumber }}</td>
+          <td><span class="truncate-text" [title]="chunk.documentId">{{ chunk.documentId }}</span></td>
+          <td>
+            <span class="truncate-text" [title]="parseHeading(chunk.headingPath)">
+              {{ parseHeading(chunk.headingPath) }}
+            </span>
+          </td>
+          <td>{{ chunk.tokenCount }}</td>
+          <td><span class="badge badge-success">{{ chunk.embeddingStatus }}</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    Carregando chunks...
+  </div>
+  
+  <div *ngIf="!loading && chunks.length === 0" class="empty-state">
+    <p>Nenhum chunk encontrado.</p>
+  </div>
+
+  <div class="pagination-row" *ngIf="totalPages > 1 && !loading">
+    <button class="btn btn-outline" (click)="prevPage()" [disabled]="page === 0">Anterior</button>
+    <span>Página {{ page + 1 }} de {{ totalPages }}</span>
+    <button class="btn btn-outline" (click)="nextPage()" [disabled]="page >= totalPages - 1">Próxima</button>
+  </div>
+</div>
+
+<app-chunk-details-panel 
+  *ngIf="selectedChunk" 
+  [chunk]="selectedChunk" 
+  [workspaceId]="workspaceId"
+  [collectionId]="collectionId"
+  (closed)="closePanel()"
+  (chunkChanged)="selectChunk($event)">
+</app-chunk-details-panel>
