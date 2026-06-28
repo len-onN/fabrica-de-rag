@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-28 |
 | Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/qdrant-indexacao` |
+| Branch atual | `feat/ingestao-pipeline-indexacao` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Indexar embeddings no Qdrant com payload mínimo e testes |
+| Objetivo atual | Orquestrar pipeline de ingestão e processamento de lotes no Qdrant |
 | Status | Concluído. Aguardando PR. |
-| Proximo marco | Iniciar branch `feat/ingestao-pipeline-indexacao`. |
+| Proximo marco | Iniciar branch `feat/busca-vetorial-base`. |
 
 ## Sessao viva
 
@@ -89,9 +89,9 @@ Na branch `feat/embeddings-base`, foi estabelecido o contrato para geração de 
 
 Proximo passo concreto:
 
-- commitar e publicar `feat/qdrant-indexacao`;
+- commitar e publicar `feat/ingestao-pipeline-indexacao`;
 - abrir PR para `develop`;
-- apos merge, iniciar a proxima branch prioritaria (`feat/ingestao-pipeline-indexacao`).
+- apos merge, iniciar a proxima branch prioritaria (`feat/busca-vetorial-base`).
 
 ## Quadro de branches
 
@@ -124,8 +124,8 @@ Proximo passo concreto:
 | `feat/paginas-numeracao` | Mesclada | Implementar mapa de paginas e numeracao impressa por ancoras | Concluido | Mesclada. |
 | `feat/chunking-semantico` | Concluída | Implementar chunking, heading path e overlap | Pendente | Fecha funcionalidade base de quebra de texto. |
 | `feat/embeddings-base` | Concluída | Definir contrato inicial de embeddings | Pendente | Exige modelo/provider ou adapter mockado. |
-| `feat/qdrant-indexacao` | Concluída | Indexar embeddings no Qdrant com payload minimo | Pendente | Qdrant client 1.12.0 e adapter implementado. |
-| `feat/ingestao-pipeline-indexacao` | Candidata | Orquestrar ingestao completa ate chunks, embeddings e Qdrant | Pendente | Fecha o fluxo real de upload a indexado. |
+| `feat/qdrant-indexacao` | Mesclada | Indexar embeddings no Qdrant com payload minimo | Concluido | Qdrant client 1.12.0 e adapter implementado. |
+| `feat/ingestao-pipeline-indexacao` | Concluída | Orquestrar ingestao completa ate chunks, embeddings e Qdrant | Pendente | Fecha o fluxo real de upload a indexado. |
 | `feat/busca-vetorial-base` | Candidata | Buscar chunks por pergunta com filtros e citacoes minimas | Pendente | Exige Qdrant e embeddings. |
 | `feat/chunks-navegador` | Candidata | Criar navegador de chunks com filtros, vizinhos, origem e feedback | Pendente | Fecha tela de inspecao de chunks. |
 | `feat/context-builder-base` | Candidata | Montar contexto expandido por vizinhos, budget e citacoes | Pendente | Exige busca vetorial base. |
@@ -172,15 +172,15 @@ Usar este modelo quando uma etapa for concluida ou interrompida:
 
 ```text
 Data: 2026-06-28
-Branch: `feat/qdrant-indexacao`
+Branch: `feat/ingestao-pipeline-indexacao`
 Status: Concluída
-Objetivo da etapa: Implementar indexação vetorial no Qdrant com payload mínimo e filtros obrigatórios.
+Objetivo da etapa: Implementar orquestração da pipeline de ingestão e inserção em lote no Qdrant.
 Skills/fontes ativadas: N/A
-O que foi feito: Adicionado `io.qdrant:client:1.12.0` ao Spring Boot, implementado `VectorStorePort` via `QdrantVectorStoreAdapter`. Escrito script PowerShell para criação inicial da coleção `ragcreator_chunks_v1` via compose up. Configurados testes de integração com Testcontainers.
-Arquivos tocados: pom.xml, VectorStorePort.java, QdrantConfig.java, QdrantVectorStoreAdapter.java, QdrantVectorStoreAdapterIT.java, compose-up.ps1, qdrant-init.ps1.
-Decisoes tomadas: Utilizar `io.qdrant:client:1.12.0`. A inicialização da coleção foi delegada a um script PowerShell executado na subida do Compose (Option B) seguindo Princípio de Menor Privilégio, mantendo a API restrita a inserção e busca.
-Riscos/colateralidades: Dependências gRPC (`guava` e `protobuf-java`) foram adicionadas explicitamente devido ao spring boot gerenciar versões conflitantes ou não provê-las transitivamente pelo Qdrant Client.
-Testes/verificacoes: Teste de compilação via Maven concluído com sucesso.
+O que foi feito: Criado o `IngestRunPipelineService` gerenciando os estados de ingestão dinamicamente e orquestrando o roteamento dos callbacks do worker por `runId`. Atualizado o `QdrantVectorStoreAdapter` para agrupar e inserir as embeddings no Qdrant via batch de 100 itens. Limpeza de responsabilidades e transição de código legado em `IngestRunOperationService` para o novo orquestrador. Implementados os testes da máquina de estados do pipeline.
+Arquivos tocados: QdrantVectorStoreAdapter.java, InternalCallbackController.java, WorkerBaseRequest.java, IngestRunOperationService.java, IngestRunPipelineService.java, VectorStorePort.java, IngestRunPipelineServiceTest.java.
+Decisoes tomadas: Adotar batch de 100 itens para o `upsertBatch` no Qdrant prevenindo limite de I/O. As requisições ao worker ganharam injeção do `callbackUrl` roteável nativamente contendo o `runId`.
+Riscos/colateralidades: Fluxos parciais de retry operacionais foram integrados adequadamente não deixando estados abertos na pipeline.
+Testes/verificacoes: Build e testes rodaram sem erros em `mvnw compile` e `mvnw test` incluindo validações com Mockito.
 Pendencias: Nenhuma no escopo atual.
 Proximo passo: Commit, Push, PR.
 ```

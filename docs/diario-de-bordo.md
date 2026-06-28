@@ -269,3 +269,18 @@ Testes locais usando a suite pytest provaram que os fluxos sincronos de falha e 
 A branch `feat/qdrant-indexacao` foi implementada para cumprir o papel de interfaceamento do RAG com o vetor store Qdrant. A decisão central foi manter a separação de responsabilidades (Princípio de Menor Privilégio), onde a API gerencia apenas a inserção e deleção de vetores (points), sem criar estruturas. A coleção inicial (`ragcreator_chunks_v1`) passa a ser provisionada por um script PowerShell (`scripts/qdrant-init.ps1`) agregado na subida do `docker compose`.
 
 No escopo da API Spring Boot, o adapter `QdrantVectorStoreAdapter` foi criado assinando o contrato `VectorStorePort`, incorporando o cliente gRPC oficial `io.qdrant:client` (v1.12.0) para prover a comunicação. O payload foi extraído mapeando os metadados e os limites do bloco (`Chunk` e `ChunkEmbedding`). Para garantir a estabilidade da compilação e evitar ausência de pacotes no runtime, `guava` e `protobuf-java` precisaram ser incluídos explicitamente no POM, compensando o gerenciamento do Spring Boot. Testes de integração (IT) via Testcontainers foram adicionados para validar o pipeline vetorial de ponta a ponta. O merge para `develop` preparará o caminho para as branches orquestradoras do RAG.
+
+## 2026-06-28 - Ingestão Pipeline e Indexação no Qdrant
+
+A branch `feat/ingestao-pipeline-indexacao` foi executada para concluir o principal elo do MVP: a orquestração ponta a ponta da esteira de processamento de documentos, integrando o Worker assíncrono ao banco vetorial Qdrant.
+
+A evolução chave nesta etapa foi a introdução do orquestrador `IngestRunPipelineService`, o coração da esteira. Ao invés de lógicas fragmentadas por todo o serviço `DocumentService` ou controladoras Webhooks, a responsabilidade de progressão dos passos (`QUEUED`, `RUNNING`, `FAILED`, `COMPLETED`), foi movida e encapsulada nesse pipeline central que reage aos callbacks emitidos pelo *worker*.
+
+Para que os callbacks operassem dinamicamente (em conformidade às recomendações arquiteturais), a estrutura base do worker (`WorkerBaseRequest`) foi ampliada com o campo `callbackUrl`. Com isso, a chamada no controller de webhook (`InternalCallbackController`) deixou de usar rotas estáticas genéricas (ex: `/embeddings`) passando a recuperar e encaminhar a própria `runId` recebida pelo sub-caminho dinâmico. A limpeza foi imediata e o código legado (`IngestRunOperationService`) que forçava injeções locais foi migrado para o pipeline.
+
+O limite de I/O em banco de dados analíticos ou vetoriais é comumente um gargalo, logo, a segunda diretriz do planejamento desta branch determinou a persistência de chunks vectoriais no Qdrant com estratégia baseada em lote. O componente `QdrantVectorStoreAdapter` foi enriquecido com a nova assinatura do contrato provendo o comportamento assíncrono de varrer o payload de embeddings recebido nos blocos (`upsertBatch`), enviando conjuntos de `100` pontos em um único request grpc para a instância vetorial, poupando a rede e provendo ganhos maciços no armazenamento massivo do *source*.
+
+Garantimos a qualidade e funcionamento correto do fluxo implementando a suíte de testes de máquina de estado do pipeline (`IngestRunPipelineServiceTest`) mockando os repositórios vitais (banco e o *client* do Worker). 
+
+Todas as dependências e processos buildaram apropriadamente localmente. A branch é dada por aprovada para sofrer *merge request* para `develop`, direcionando então as engrenagens rumo a camada de busca vetorial base.
+

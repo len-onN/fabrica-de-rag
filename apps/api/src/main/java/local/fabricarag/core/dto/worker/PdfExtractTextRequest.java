@@ -21,8 +21,6 @@ public class PdfExtractTextRequest extends WorkerBaseRequest {
 
     private Boolean forceOcr = false;
 
-    private String callbackUrl;
-
     public String getDocumentId() {
         return documentId;
     }
@@ -61,13 +59,5 @@ public class PdfExtractTextRequest extends WorkerBaseRequest {
 
     public void setForceOcr(Boolean forceOcr) {
         this.forceOcr = forceOcr;
-    }
-
-    public String getCallbackUrl() {
-        return callbackUrl;
-    }
-
-    public void setCallbackUrl(String callbackUrl) {
-        this.callbackUrl = callbackUrl;
     }
 }

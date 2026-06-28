@@ -10,6 +10,9 @@ public class WorkerBaseRequest {
     @NotBlank(message = "WorkspaceId cannot be blank")
     private String workspaceId;
 
+    @NotBlank(message = "CallbackUrl cannot be blank")
+    private String callbackUrl;
+
     public String getRequestId() {
         return requestId;
     }
@@ -24,5 +27,13 @@ public class WorkerBaseRequest {
 
     public void setWorkspaceId(String workspaceId) {
         this.workspaceId = workspaceId;
+    }
+
+    public String getCallbackUrl() {
+        return callbackUrl;
+    }
+
+    public void setCallbackUrl(String callbackUrl) {
+        this.callbackUrl = callbackUrl;
     }
 }
