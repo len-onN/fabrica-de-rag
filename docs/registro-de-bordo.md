@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-27 |
 | Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/workspace-settings-mvp` |
+| Branch atual | `feat/ingestao-upload-pdf` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Criar configuracoes do workspace (Ingestao, Analytics, Acesso e API). |
-| Status | Concluída. Modelos, endpoints e UI de configurações implementados e compilados. |
-| Proximo marco | Abrir PR para `develop`; depois iniciar `feat/colecoes-documentos-core`. |
+| Objetivo atual | Implementar a persistência, o armazenamento local e a etapa inicial de ingestão do documento PDF. |
+| Status | Concluída. Camadas de API, Storage e UI integradas para aceitar arquivos de até 90MB. |
+| Proximo marco | Abrir PR para `develop`; depois iniciar as rotinas de fila e worker assíncrono. |
 
 ## Sessao viva
 
@@ -113,8 +113,8 @@ Proximo passo concreto:
 | `feat/auth-bootstrap-workspaces` | Mesclada | Implementar usuario local, workspace padrao e roles basicas | Concluido | Bootstrap e auth via cookie opaco finalizados. |
 | `feat/workspace-dashboard-minimo` | Concluída | Criar dashboard inicial com estado vazio e dados autenticados | Pendente | Rota de dashboard e sidebar integradas no Shell. |
 | `feat/workspace-settings-mvp` | Concluída | Criar configuracoes do workspace para ingestao, analytics, acesso e API | Pendente | Fecha rota `/settings` do MVP. |
-| `feat/colecoes-documentos-core` | Candidata | Criar entidades centrais de colecoes, documentos e metadados | Pendente | Exige schema relacional inicial. |
-| `feat/ingestao-upload-pdf` | Candidata | Implementar upload e run inicial de ingestao de PDF | Pendente | Exige storage local e contratos de job. |
+| `feat/colecoes-documentos-core` | Mesclada | Criar entidades centrais de colecoes, documentos e metadados | Concluido | Feito o schema relacional e controladores do Core. |
+| `feat/ingestao-upload-pdf` | Concluída | Implementar upload e run inicial de ingestao de PDF | Pendente | Criados storage, limites de upload, UI e status inicial de IngestRun. |
 | `feat/ingestao-runs-operacao` | Candidata | Criar status, etapas, cancelamento, retry e logs de runs | Pendente | Fecha operacao visivel de ingestao. |
 | `feat/worker-pdf-inspect` | Candidata | Integrar worker Python para inspecao/extracao inicial de PDF | Pendente | Exige contrato interno Spring -> worker. |
 | `feat/worker-pdf-render-ocr-base` | Candidata | Adicionar render de paginas e OCR opcional basico | Pendente | Necessario para preview, mapa de paginas e PDFs sem texto nativo. |
