@@ -4,10 +4,11 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CollectionService, CollectionResponse } from '../../../core/http/collection.service';
 import { DocumentService, DocumentResponse } from '../../../core/http/document.service';
 import { ChunkBrowserComponent } from '../chunks/chunk-browser.component';
+import { RagLaboratoryComponent } from '../laboratory/rag-laboratory.component';
 
 @Component({
   selector: 'app-collection-detail',
-  imports: [CommonModule, RouterLink, ChunkBrowserComponent],
+  imports: [CommonModule, RouterLink, ChunkBrowserComponent, RagLaboratoryComponent],
   templateUrl: './collection-detail.component.html',
   styleUrls: ['./collection-detail.component.css']
 })

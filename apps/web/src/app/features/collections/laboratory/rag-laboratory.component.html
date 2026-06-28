@@ -1,0 +1,129 @@
+<div class="lab-container">
+  <div class="lab-header">
+    <h3>Laboratório RAG</h3>
+    <p>Teste a recuperação vetorial e a geração de respostas com o contexto do seu banco de dados.</p>
+  </div>
+
+  <div class="lab-form">
+    <div class="form-group">
+      <label>Pergunta (Query)</label>
+      <input type="text" [(ngModel)]="query" placeholder="Faça uma pergunta sobre seus documentos..." (keyup.enter)="ask()">
+    </div>
+    
+    <div class="form-row">
+      <div class="form-group">
+        <label>Top K</label>
+        <input type="number" [(ngModel)]="topK" min="1" max="20">
+      </div>
+      <div class="form-group">
+        <label>Token Budget</label>
+        <input type="number" [(ngModel)]="tokenBudget" min="100" max="10000" step="100">
+      </div>
+      <div class="form-group checkbox-group">
+        <label>
+          <input type="checkbox" [(ngModel)]="includeTables"> Tabelas
+        </label>
+      </div>
+      <div class="form-group checkbox-group">
+        <label>
+          <input type="checkbox" [(ngModel)]="includeVisuals"> Visuais
+        </label>
+      </div>
+    </div>
+    
+    <button class="btn btn-primary" (click)="ask()" [disabled]="loading || !query.trim()">
+      {{ loading ? 'Buscando...' : 'Perguntar' }}
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error-box">
+    {{ error }}
+  </div>
+
+  <div class="lab-results" *ngIf="response">
+    <div class="results-tabs">
+      <button [class.active]="activeTab === 'response'" (click)="activeTab = 'response'">Resposta & Citações</button>
+      <button [class.active]="activeTab === 'chunks'" (click)="activeTab = 'chunks'">Chunks Recuperados ({{response.metrics.retrievedChunks}})</button>
+      <button [class.active]="activeTab === 'context'" (click)="activeTab = 'context'">Contexto Expandido ({{response.metrics.contextItems}})</button>
+    </div>
+
+    <div class="tab-content" *ngIf="activeTab === 'response'">
+      <div class="answer-box">
+        <h4>Resposta do LLM</h4>
+        <div class="status-badge" [ngClass]="response.status">
+          Status: {{ response.status }}
+        </div>
+        
+        <div class="answer-text" *ngIf="response.answer">
+          {{ response.answer }}
+        </div>
+        <div class="answer-reason" *ngIf="response.reason">
+          Motivo: {{ response.reason }}
+        </div>
+      </div>
+
+      <div class="metrics-box">
+        <span><strong>Tempo:</strong> {{ response.metrics.latencyMs }}ms</span>
+        <span><strong>Tokens (est.):</strong> {{ response.metrics.estimatedTokens }}</span>
+      </div>
+
+      <div class="feedback-box" *ngIf="!feedbackSubmitted">
+        <p>A resposta foi útil?</p>
+        <button class="btn btn-sm" (click)="submitFeedback('positive')">👍 Sim</button>
+        <button class="btn btn-sm" (click)="submitFeedback('negative')">👎 Não</button>
+      </div>
+      <div class="feedback-box" *ngIf="feedbackSubmitted">
+        <p>Obrigado pelo seu feedback!</p>
+      </div>
+
+      <div class="citations-box" *ngIf="response.citations?.length">
+        <h4>Citações Utilizadas</h4>
+        <div class="citation-card" *ngFor="let cit of response.citations">
+          <div class="citation-header">
+            <strong>{{ cit.sourceLabel }}</strong>
+            <span class="badge">{{ cit.contentKind }}</span>
+            <span class="badge" *ngIf="cit.printedLabel">Pág. {{ cit.printedLabel }}</span>
+          </div>
+          <div class="citation-quote">
+            {{ cit.quote }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" *ngIf="activeTab === 'chunks'">
+      <h4>Chunks Retornados pelo Qdrant</h4>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Score</th>
+            <th>Chunk ID</th>
+            <th>Document ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let chunk of response.retrievedChunks">
+            <td>{{ chunk.score | number:'1.2-4' }}</td>
+            <td class="code-font">{{ chunk.chunkId }}</td>
+            <td class="code-font">{{ chunk.documentId }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tab-content" *ngIf="activeTab === 'context'">
+      <h4>Itens Enviados ao Modelo</h4>
+      <div class="context-item" *ngFor="let ctx of response.expandedContext">
+        <div class="context-header">
+          <span class="badge">{{ ctx.rankSource }}</span>
+          <span class="badge">{{ ctx.contentKind }}</span>
+          <span class="badge token-badge">{{ ctx.tokenCount }} tokens</span>
+          <span class="badge warn" *ngIf="ctx.truncated">Truncado</span>
+        </div>
+        <div class="context-body">
+          <pre>{{ ctx.content }}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

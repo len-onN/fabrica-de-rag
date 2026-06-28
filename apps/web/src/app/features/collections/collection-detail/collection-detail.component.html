@@ -79,8 +79,16 @@
         </app-chunk-browser>
       </div>
 
+      <!-- Aba Lab -->
+      <div *ngIf="activeTab === 'lab'" class="content-section">
+        <app-rag-laboratory 
+          [workspaceId]="collection.workspaceId" 
+          [collectionId]="collection.id">
+        </app-rag-laboratory>
+      </div>
+
       <!-- Abas não implementadas -->
-      <div *ngIf="activeTab !== 'documents' && activeTab !== 'chunks'" class="content-section">
+      <div *ngIf="activeTab !== 'documents' && activeTab !== 'chunks' && activeTab !== 'lab'" class="content-section">
         <div class="empty-state construction-state">
           <span class="icon">🚧</span>
           <h3>Aba em Construção</h3>

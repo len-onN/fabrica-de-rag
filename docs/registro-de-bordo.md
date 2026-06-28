@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-28 |
 | Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/resposta-rag-base` |
+| Branch atual | `feat/laboratorio-recuperacao` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Gerar resposta RAG fundamentada com adapter de LLM (mock) |
+| Objetivo atual | Criar laboratorio com chunks, contexto e citacoes |
 | Status | Concluído |
-| Proximo marco | Commit, PR e iniciar próxima etapa (`feat/citacoes-preview-fonte` ou `feat/laboratorio-recuperacao`) |
+| Proximo marco | Commit, PR e iniciar próxima etapa (`feat/citacoes-preview-fonte` ou `feat/analytics-eventos-base`) |
 
 ## Sessao viva
 
@@ -129,8 +129,8 @@ Proximo passo concreto:
 | `feat/busca-vetorial-base` | Mesclada | Buscar chunks por pergunta com filtros e citacoes minimas | Concluido | Exige Qdrant e embeddings. |
 | `feat/chunks-navegador` | Mesclada | Criar navegador de chunks com filtros, vizinhos, origem e feedback | Concluido | Fecha tela de inspecao de chunks. |
 | `feat/context-builder-base` | Concluída | Montar contexto expandido por vizinhos, budget e citacoes | Pendente | Exige busca vetorial base. |
-| `feat/laboratorio-recuperacao` | Candidata | Criar laboratorio com chunks, contexto e citacoes | Pendente | Exige busca e context builder inicial. |
-| `feat/resposta-rag-base` | Candidata | Gerar resposta RAG com grounding quando provider estiver definido | Pendente | Pode usar adapter mockado inicialmente. |
+| `feat/laboratorio-recuperacao` | Concluída | Criar laboratorio com chunks, contexto e citacoes | Pendente | Exige busca e context builder inicial. |
+| `feat/resposta-rag-base` | Mesclada | Gerar resposta RAG com grounding quando provider estiver definido | Concluido | Pode usar adapter mockado inicialmente. |
 | `feat/citacoes-preview-fonte` | Candidata | Abrir fonte original de citacoes com preview e fallback textual | Pendente | Fecha criterio de validacao de evidencia. |
 | `feat/analytics-eventos-base` | Candidata | Registrar eventos locais versionados | Pendente | Exige taxonomia de eventos. |
 | `feat/analytics-dashboard-base` | Candidata | Criar dashboard local minimo de qualidade e falhas | Pendente | Exige eventos base. |
@@ -223,6 +223,21 @@ Arquivos tocados: ContextBuilderService.java, ContextBuilderServiceTest.java, Ch
 Decisoes tomadas: Adotado a lógica `budgetHit` para alertar clientes se o orçamento limitou o retorno. Citações truncadas ganham `[TRUNCATED]` preservando sempre a referência do `sourceLocator`. Relações visuais ou de tabelas vêm como `direct_relation` via `ChunkRelation`.
 Riscos/colateralidades: Algoritmo é escalável para o MVP e mitiga N+1 com buscas otimizadas no relacional.
 Testes/verificacoes: Testes unitários com JUnit cobrindo as restrições e orçamentos passaram (`[INFO] BUILD SUCCESS`).
+Pendencias: Nenhuma no escopo atual.
+Proximo passo: Commit, Push, PR.
+```
+
+```text
+Data: 2026-06-28
+Branch: `feat/laboratorio-recuperacao`
+Status: Concluída
+Objetivo da etapa: Criar laboratorio de recuperacao com pergunta, chunks, contexto e citacoes.
+Skills/fontes ativadas: N/A
+O que foi feito: Frontend Angular: criado o serviço `RagService` contendo as definições dos DTOs de `AskRequest`, `AskResponse` e métodos de HTTP (`ask`, `submitFeedback`). Criado o componente de página `RagLaboratoryComponent` exibindo painel de input de teste de RAG (query, topK, etc), o status de resposta, Citações utilizadas, Contextos recuperados via tabela e o bloco renderizado bruto repassado pela API de Context Assembly. Componente integrado como tab `lab` na página principal de `CollectionDetailComponent`.
+Arquivos tocados: rag.service.ts, rag-laboratory.component.ts/html/css, collection-detail.component.ts/html.
+Decisoes tomadas: O laboratório está alocado contextualmente dentro das sub-rotas/tabs da própria Collection para simplificar as requisições de workspace/collection ids. As tags de feedbacks positivos e negativos disparam diretamente pro endpoint HTTP de `RetrievalFeedback` com referências da query via `queryEventId`.
+Riscos/colateralidades: Sem impacto direto na compilação ou execução fora do escopo do próprio laboratório isolado.
+Testes/verificacoes: Build Angular validado localmente com npm run build sem erros de template parsing e tipagem, cobrindo DTOs.
 Pendencias: Nenhuma no escopo atual.
 Proximo passo: Commit, Push, PR.
 ```
