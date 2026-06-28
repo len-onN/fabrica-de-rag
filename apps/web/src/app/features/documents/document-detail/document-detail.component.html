@@ -7,9 +7,86 @@
     </div>
   </div>
 
-  <div class="empty-state construction-state">
-    <span class="icon">🚧</span>
-    <h3>Em Construção</h3>
-    <p>A visualização de detalhes de documentos, chunks e logs de processamento será implementada na próxima fase.</p>
+  <div class="tabs">
+    <button class="tab-button" [class.active]="activeTab === 'pages'" (click)="setTab('pages')">Páginas</button>
+    <button class="tab-button" [class.active]="activeTab === 'chunks'" (click)="setTab('chunks')">Chunks</button>
+  </div>
+
+  <div class="tab-content" *ngIf="activeTab === 'pages'">
+    <div *ngIf="loading" class="loading">Carregando páginas...</div>
+    
+    <div *ngIf="!loading && pages.length > 0">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Página do Arquivo</th>
+            <th>Página Impressa (Efetiva)</th>
+            <th>Papel</th>
+            <th>RAG / Numeração</th>
+            <th>Ações (Âncora)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let page of pages">
+            <td>{{ page.filePageNumber }}</td>
+            <td>
+              <strong>{{ page.effectivePrintedLabel || '-' }}</strong> 
+              <span class="hint" *ngIf="page.detectedPrintedLabel">(Detectado: {{ page.detectedPrintedLabel }})</span>
+            </td>
+            <td>{{ page.pageRole }}</td>
+            <td>
+              <span [style.color]="page.includeInSearch ? 'green' : 'red'">RAG: {{ page.includeInSearch ? 'Sim' : 'Não' }}</span> |
+              <span [style.color]="page.includeInNumbering ? 'green' : 'red'">Num: {{ page.includeInNumbering ? 'Sim' : 'Não' }}</span>
+            </td>
+            <td>
+              <button class="btn-small" (click)="openAnchorModal(page)">Ancorar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div *ngIf="!loading && pages.length === 0" class="empty-state">
+      <p>Nenhuma página encontrada. O processamento pode não ter concluído.</p>
+    </div>
+  </div>
+  
+  <div class="tab-content" *ngIf="activeTab === 'chunks'">
+    <div class="empty-state construction-state">
+      <span class="icon">🚧</span>
+      <h3>Em Construção</h3>
+      <p>A visualização de chunks será implementada na próxima fase.</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal" *ngIf="showAnchorModal" (click)="closeModal($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Adicionar Âncora - Página {{ selectedPage?.filePageNumber }}</h3>
+      <button class="close-btn" (click)="showAnchorModal = false">×</button>
+    </div>
+    <div class="modal-body form-group">
+      <label>Label Impresso (ex: 1, i, V, Apêndice A)</label>
+      <input type="text" [(ngModel)]="newAnchor.printedLabel" class="form-control" />
+      
+      <label>Estilo</label>
+      <select [(ngModel)]="newAnchor.numberingStyle" class="form-control">
+        <option value="arabic">Arábico (1, 2, 3)</option>
+        <option value="roman">Romano (i, ii, iv)</option>
+        <option value="custom">Customizado</option>
+      </select>
+
+      <label>Direção</label>
+      <select [(ngModel)]="newAnchor.applyDirection" class="form-control">
+        <option value="forward">Para Frente (Forward)</option>
+        <option value="backward">Para Trás (Backward)</option>
+        <option value="both">Ambas (Both)</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="showAnchorModal = false">Cancelar</button>
+      <button class="btn-primary" (click)="saveAnchor()">Salvar e Reinferir</button>
+    </div>
   </div>
 </div>

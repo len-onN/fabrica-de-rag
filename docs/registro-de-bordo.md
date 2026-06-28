@@ -27,10 +27,10 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-28 |
 | Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/worker-pdf-visual-tables-base` |
+| Branch atual | `feat/paginas-numeracao` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Interpretar imagens/tabelas em PDFs com assets, elementos e adapter visual |
-| Status | Concluido. Aguardando commit e PR. |
+| Objetivo atual | Implementar mapa de paginas e numeracao impressa por ancoras |
+| Status | Concluido. Aguardando PR. |
 | Proximo marco | Iniciar proxima branch conforme plano. |
 
 ## Sessao viva
@@ -119,7 +119,7 @@ Proximo passo concreto:
 | `feat/worker-pdf-inspect` | Mesclada | Integrar worker Python para inspecao/extracao inicial de PDF | Concluido | Contrato interno Spring -> worker via webhook implementado. |
 | `feat/worker-pdf-render-ocr-base` | Mesclada | Adicionar render de paginas e OCR opcional basico | Concluido | Necessario para preview, mapa de paginas e PDFs sem texto nativo. |
 | `feat/worker-pdf-visual-tables-base` | Concluída | Interpretar imagens/tabelas em PDFs com assets, elementos e adapter visual | Pendente | Necessario para preservar conhecimento visual/tabular. |
-| `feat/paginas-numeracao` | Candidata | Implementar mapa de paginas e numeracao impressa por ancoras | Pendente | Exige especificacao do algoritmo. |
+| `feat/paginas-numeracao` | Concluída | Implementar mapa de paginas e numeracao impressa por ancoras | Pendente | Exige especificacao do algoritmo. |
 | `feat/chunking-semantico` | Candidata | Implementar chunking, heading path e overlap | Pendente | Exige especificacao do algoritmo e testes. |
 | `feat/embeddings-base` | Candidata | Definir contrato inicial de embeddings | Pendente | Exige modelo/provider ou adapter mockado. |
 | `feat/qdrant-indexacao` | Candidata | Indexar embeddings no Qdrant com payload minimo | Pendente | Exige contrato de payload vetorial. |
