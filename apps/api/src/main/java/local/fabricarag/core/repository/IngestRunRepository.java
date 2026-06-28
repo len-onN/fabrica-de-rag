@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface IngestRunRepository extends JpaRepository<IngestRun, UUID> {
     Optional<IngestRun> findByIdAndWorkspaceId(UUID id, UUID workspaceId);
+    Optional<IngestRun> findByWorkspaceIdAndPublicId(UUID workspaceId, String publicId);
 }

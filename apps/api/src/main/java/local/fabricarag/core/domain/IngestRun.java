@@ -31,6 +31,12 @@ public class IngestRun {
     @Column(name = "idempotency_key")
     private String idempotencyKey;
 
+    @Column(name = "retry_of_run_id")
+    private UUID retryOfRunId;
+
+    @Column(name = "reprocess_of_run_id")
+    private UUID reprocessOfRunId;
+
     @Column(name = "created_by_user_id")
     private UUID createdByUserId;
 
@@ -47,7 +53,8 @@ public class IngestRun {
     }
 
     public IngestRun(UUID id, String publicId, UUID workspaceId, UUID documentId, 
-                     String idempotencyKey, UUID createdByUserId) {
+                     String idempotencyKey, UUID createdByUserId,
+                     UUID retryOfRunId, UUID reprocessOfRunId) {
         this.id = id;
         this.publicId = publicId;
         this.workspaceId = workspaceId;
@@ -55,8 +62,15 @@ public class IngestRun {
         this.status = IngestRunStatus.QUEUED;
         this.idempotencyKey = idempotencyKey;
         this.createdByUserId = createdByUserId;
+        this.retryOfRunId = retryOfRunId;
+        this.reprocessOfRunId = reprocessOfRunId;
         this.createdAt = OffsetDateTime.now();
         this.updatedAt = this.createdAt;
+    }
+
+    public IngestRun(UUID id, String publicId, UUID workspaceId, UUID documentId, 
+                     String idempotencyKey, UUID createdByUserId) {
+        this(id, publicId, workspaceId, documentId, idempotencyKey, createdByUserId, null, null);
     }
 
     public void updateStatus(IngestRunStatus newStatus) {
@@ -76,6 +90,8 @@ public class IngestRun {
     public IngestRunStatus getStatus() { return status; }
     public String getIdempotencyKey() { return idempotencyKey; }
     public UUID getCreatedByUserId() { return createdByUserId; }
+    public UUID getRetryOfRunId() { return retryOfRunId; }
+    public UUID getReprocessOfRunId() { return reprocessOfRunId; }
     public OffsetDateTime getCreatedAt() { return createdAt; }
     public OffsetDateTime getUpdatedAt() { return updatedAt; }
     public OffsetDateTime getDeletedAt() { return deletedAt; }

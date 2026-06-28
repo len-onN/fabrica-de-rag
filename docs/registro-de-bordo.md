@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-27 |
 | Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/ingestao-upload-pdf` |
+| Branch atual | `feat/ingestao-runs-operacao` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Implementar a persistência, o armazenamento local e a etapa inicial de ingestão do documento PDF. |
-| Status | Concluída. Camadas de API, Storage e UI integradas para aceitar arquivos de até 90MB. |
-| Proximo marco | Abrir PR para `develop`; depois iniciar as rotinas de fila e worker assíncrono. |
+| Objetivo atual | Criar status, etapas, cancelamento, retry e logs de runs. |
+| Status | Concluída. API Spring Boot e UI Angular integradas. |
+| Proximo marco | Abrir PR para `develop`; depois iniciar a integração do worker Python (`feat/worker-pdf-inspect`). |
 
 ## Sessao viva
 
@@ -87,9 +87,9 @@ Na branch `feat/auth-bootstrap-workspaces`, foi implementada a fundação vertic
 
 Proximo passo concreto:
 
-- commitar e publicar `feat/workspace-settings-mvp`;
+- commitar e publicar `feat/ingestao-runs-operacao`;
 - abrir PR para `develop`;
-- apos merge, iniciar `feat/colecoes-documentos-core`.
+- apos merge, iniciar `feat/worker-pdf-inspect`.
 
 ## Quadro de branches
 
@@ -111,11 +111,11 @@ Proximo passo concreto:
 | `chore/worker-python-base` | Mesclada | Criar base Python worker testavel | #13 | FastAPI/Pydantic, health, testes e container validados. |
 | `test/smoke-stack-local` | Concluída | Validar a stack local com testes de fumaca | Pendente | Confirma que os servicos sobem e respondem via `test-smoke.ps1`. |
 | `feat/auth-bootstrap-workspaces` | Mesclada | Implementar usuario local, workspace padrao e roles basicas | Concluido | Bootstrap e auth via cookie opaco finalizados. |
-| `feat/workspace-dashboard-minimo` | Concluída | Criar dashboard inicial com estado vazio e dados autenticados | Pendente | Rota de dashboard e sidebar integradas no Shell. |
-| `feat/workspace-settings-mvp` | Concluída | Criar configuracoes do workspace para ingestao, analytics, acesso e API | Pendente | Fecha rota `/settings` do MVP. |
+| `feat/workspace-dashboard-minimo` | Mesclada | Criar dashboard inicial com estado vazio e dados autenticados | Concluido | Rota de dashboard e sidebar integradas no Shell. |
+| `feat/workspace-settings-mvp` | Mesclada | Criar configuracoes do workspace para ingestao, analytics, acesso e API | Concluido | Fecha rota `/settings` do MVP. |
 | `feat/colecoes-documentos-core` | Mesclada | Criar entidades centrais de colecoes, documentos e metadados | Concluido | Feito o schema relacional e controladores do Core. |
-| `feat/ingestao-upload-pdf` | Concluída | Implementar upload e run inicial de ingestao de PDF | Pendente | Criados storage, limites de upload, UI e status inicial de IngestRun. |
-| `feat/ingestao-runs-operacao` | Candidata | Criar status, etapas, cancelamento, retry e logs de runs | Pendente | Fecha operacao visivel de ingestao. |
+| `feat/ingestao-upload-pdf` | Mesclada | Implementar upload e run inicial de ingestao de PDF | Concluido | Criados storage, limites de upload, UI e status inicial de IngestRun. |
+| `feat/ingestao-runs-operacao` | Concluída | Criar status, etapas, cancelamento, retry e logs de runs | Pendente | Fecha operacao visivel de ingestao. |
 | `feat/worker-pdf-inspect` | Candidata | Integrar worker Python para inspecao/extracao inicial de PDF | Pendente | Exige contrato interno Spring -> worker. |
 | `feat/worker-pdf-render-ocr-base` | Candidata | Adicionar render de paginas e OCR opcional basico | Pendente | Necessario para preview, mapa de paginas e PDFs sem texto nativo. |
 | `feat/worker-pdf-visual-tables-base` | Candidata | Interpretar imagens/tabelas em PDFs com assets, elementos e adapter visual | Pendente | Necessario para preservar conhecimento visual/tabular. |
