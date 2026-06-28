@@ -19,4 +19,17 @@ public class StorageService {
         Path path = Paths.get(baseStorageDir, workspaceId.toString(), "documents", documentId.toString(), filename);
         return "file://" + path.toString().replace("\\", "/");
     }
+
+    /**
+     * Saves the content to the local filesystem.
+     */
+    public void saveFile(UUID workspaceId, UUID documentId, String filename, java.io.InputStream content) {
+        try {
+            Path path = Paths.get(baseStorageDir, workspaceId.toString(), "documents", documentId.toString(), filename);
+            java.nio.file.Files.createDirectories(path.getParent());
+            java.nio.file.Files.copy(content, path, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+        } catch (java.io.IOException e) {
+            throw new RuntimeException("Failed to store file", e);
+        }
+    }
 }

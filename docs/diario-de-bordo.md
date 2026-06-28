@@ -204,6 +204,14 @@ No backend, foi adicionada a migration `V3__workspace_settings.sql` injetando as
 No frontend Angular, o `WorkspaceService` foi expandido. Foi desenvolvida a rota `/settings` com o `WorkspaceSettingsComponent` contendo 5 abas (Geral, Ingestão, Analytics, Acesso e API). A aba de Acesso manteve foco *read-only* mostrando o nível de permissão (role) atual, delegando a gestão completa de membros (convites e edição) para fase pós-MVP, fato devidamente registrado no `docs/pos-mvp.md`. O menu lateral (`ShellComponent`) foi integrado para acesso direto à rota.
 
 A compilação local garantiu que os contratos e novas funções estavam saudáveis. O próximo passo será revisar, comitar, mesclar esta branch em `develop` e iniciar a funcionalidade central de coleções (`feat/colecoes-documentos-core`).
+## 2026-06-27 - Ingestao Upload PDF
+
+Depois do merge remoto de `feat/colecoes-documentos-core`, foi iniciada a branch `feat/ingestao-upload-pdf` para permitir que o usuário adicione o primeiro artefato real na base de conhecimento. A arquitetura determinou que não haverá LLMs nem OCR em tempo síncrono. O upload apenas persiste o arquivo físico e cria a intenção (`IngestRun`) no estado `QUEUED`.
+
+Foi ajustado o limite do Spring Web para suportar uploads de até 90MB, conforme necessidade, rejeitando arquivos inválidos antecipadamente (HTTP 400). A tabela `ingest_runs` foi criada (via `V5__ingest_runs.sql`) juntamente com `IngestRun` e suas cardinalidades. O `StorageService` ganhou capacidades de escrita de sistema de arquivos e os serviços Spring orquestraram o checksum de `source_hash`.
+
+No Frontend, foi ajustado o `DocumentService` (Angular) para usar objetos do tipo `FormData`, passando com sucesso no mecanismo de segurança já instituído e com validações amigáveis no componente. Finalizada a lógica de backend e frontend sem erros de compilação. Próximo passo será a revisão no Pull Request antes de adentrar na orquestração assíncrona do Worker (processamento RAG de fato).
+
 ## Modelo de entrada futura
 
 ```text

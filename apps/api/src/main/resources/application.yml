@@ -3,6 +3,10 @@ spring:
     active: ${SPRING_PROFILES_ACTIVE:dev}
   application:
     name: fabricarag-api
+  servlet:
+    multipart:
+      max-file-size: 90MB
+      max-request-size: 90MB
 
 server:
   port: ${SERVER_PORT:8080}

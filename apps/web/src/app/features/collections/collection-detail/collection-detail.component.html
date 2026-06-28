@@ -28,12 +28,46 @@
       <div *ngIf="activeTab === 'documents'" class="content-section">
         <div class="section-header">
           <h2>Documentos</h2>
-          <button class="btn btn-primary" disabled title="Upload será ativado na próxima versão.">Adicionar Documento</button>
+          <div>
+            <input type="file" #fileInput accept="application/pdf" style="display: none;" (change)="onFileSelected($event)">
+            <button class="btn btn-primary" (click)="triggerUpload(fileInput)" [disabled]="uploading">
+              {{ uploading ? 'Enviando...' : 'Adicionar Documento' }}
+            </button>
+          </div>
         </div>
         
-        <div class="empty-state">
+        <div *ngIf="loadingDocs" class="loading-state">
+          Carregando documentos...
+        </div>
+
+        <div *ngIf="!loadingDocs && documents.length === 0" class="empty-state">
           <p>Nenhum documento adicionado ainda.</p>
-          <p class="hint">O upload de PDFs estará disponível em breve.</p>
+          <p class="hint">Faça o upload do seu primeiro PDF.</p>
+        </div>
+
+        <div *ngIf="!loadingDocs && documents.length > 0" class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Tamanho</th>
+                <th>Páginas</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let doc of documents">
+                <td>{{ doc.originalFilename }}</td>
+                <td>{{ (doc.fileSizeBytes / 1024 / 1024).toFixed(2) }} MB</td>
+                <td>{{ doc.pageCount || '-' }}</td>
+                <td>
+                  <span class="badge" [class.badge-success]="doc.status === 'ready'" [class.badge-neutral]="doc.status !== 'ready'">
+                    {{ doc.status }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
