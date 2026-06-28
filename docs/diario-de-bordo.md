@@ -220,6 +220,18 @@ No frontend Angular, foi criado o `IngestRunService` para chamadas HTTP e o `Ing
 
 A branch compila sem erros (backend com `mvn compile` e frontend com `ng build`). O PR para `develop` é o próximo passo, antes de partir para a integração da API com o script Python em `feat/worker-pdf-inspect`.
 
+## 2026-06-28 - Integração do Worker de Inspecao de PDF (Async Webhook)
+
+Depois do merge da branch anterior (`feat/ingestao-runs-operacao`), foi iniciada a branch `feat/worker-pdf-inspect`. O objetivo desta etapa era estabelecer a primeira interação real e pesada entre a API principal (Spring Boot) e o Worker (Python), extraindo metadados básicos e contagem de páginas de PDFs inseridos pelo usuário.
+
+A decisão arquitetônica mais relevante foi adotar um modelo totalmente assíncrono baseado em *webhooks*, evitando assim qualquer tipo de "bare timeout" ou travamento de threads na aplicação Spring. Para isso:
+- O Worker Python foi atualizado com a biblioteca `pypdf` para operações isoladas de leitura. A rota `POST /api/v1/pdf/inspect` utiliza `fastapi.BackgroundTasks` para enfileirar a inspeção nativamente e retorna um `202 Accepted` de imediato. Ao finalizar, o Worker utiliza o `httpx` para disparar um callback para o backend informando o sucesso ou erro (via `WorkerErrorResponse`).
+- O Backend Spring Boot ganhou um `WorkerClient` usando `RestClient` e um `InternalCallbackController` que ouve essas respostas do Worker de forma desacoplada, invocando o `IngestRunOperationService` para evoluir ou falhar o processamento ativamente, em vez de depender de polling ou polling restrito.
+
+Testes automatizados unitários em Python garantiram o fallback do callback através de mocks (`unittest.mock`), evitando lentidões na suíte, e a compatibilidade das dependências foi provada reconstruindo as bibliotecas através do `uv sync`.
+
+Com todos os testes e a compilação Spring Boot (`mvn compile`) reportando sucesso, o escopo foi fechado com alta confiabilidade operacional. O próximo passo é mesclar em `develop` e focar na funcionalidade de extração mais rica: renderização e OCR (`feat/worker-pdf-render-ocr-base`).
+
 ## Modelo de entrada futura
 
 ```text

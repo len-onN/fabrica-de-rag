@@ -4,6 +4,8 @@ import local.fabricarag.core.domain.*;
 import local.fabricarag.core.dto.*;
 import local.fabricarag.core.exception.ResourceNotFoundException;
 import local.fabricarag.core.repository.*;
+import local.fabricarag.core.client.WorkerClient;
+import local.fabricarag.core.dto.worker.PdfInspectRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,13 +22,16 @@ public class IngestRunOperationService {
     private final IngestStepRepository stepRepository;
     private final IngestRunLogRepository logRepository;
     private final DocumentRepository documentRepository;
+    private final WorkerClient workerClient;
 
     public IngestRunOperationService(IngestRunRepository runRepository, IngestStepRepository stepRepository,
-                                     IngestRunLogRepository logRepository, DocumentRepository documentRepository) {
+                                     IngestRunLogRepository logRepository, DocumentRepository documentRepository,
+                                     WorkerClient workerClient) {
         this.runRepository = runRepository;
         this.stepRepository = stepRepository;
         this.logRepository = logRepository;
         this.documentRepository = documentRepository;
+        this.workerClient = workerClient;
     }
 
     @Transactional(readOnly = true)
@@ -122,5 +128,43 @@ public class IngestRunOperationService {
              }
              return new IngestRunLogResponse(l.getLevel(), l.getMessage(), l.getDetails(), l.getCreatedAt(), stepPublicId);
         });
+    }
+
+    @Transactional
+    public void startInspectStep(UUID runId, String storageUri, String apiBaseUrl) {
+        IngestRun run = runRepository.findById(runId)
+                .orElseThrow(() -> new ResourceNotFoundException("Run not found"));
+        
+        // Em um fluxo real, a etapa IngestStep seria criada aqui e marcada como RUNNING.
+        
+        String callbackUrl = apiBaseUrl + "/api/v1/internal/callbacks/ingest-runs/" + runId + "/inspect";
+        
+        PdfInspectRequest request = PdfInspectRequest.create(
+                UUID.randomUUID().toString(),
+                run.getWorkspaceId(),
+                run.getDocumentId(),
+                storageUri,
+                callbackUrl
+        );
+        
+        workerClient.inspectPdf(request);
+    }
+
+    @Transactional
+    public void handleInspectCallback(UUID runId, Map<String, Object> payload) {
+        IngestRun run = runRepository.findById(runId)
+                .orElseThrow(() -> new ResourceNotFoundException("Run not found"));
+        
+        if (payload.containsKey("error")) {
+            run.updateStatus(IngestRunStatus.FAILED);
+            // Salva log de erro na IngestRunLog aqui
+        } else {
+            // Sucesso na inspeção
+            // No MVP real, aqui pegaria pageCount, encrypted etc e salvaria no IngestStep
+            // e avançaria para a próxima etapa (ex: render ou chunking)
+            run.updateStatus(IngestRunStatus.WAITING_FOR_REVIEW); // ou continua
+        }
+        
+        runRepository.save(run);
     }
 }
