@@ -1,0 +1,55 @@
+<div class="ingest-run-container" *ngIf="run()">
+  <div class="header">
+    <div class="header-info">
+      <h1>Run: {{ run()?.publicId }}</h1>
+      <p class="subtitle">Document: {{ run()?.documentPublicId }}</p>
+    </div>
+    <div class="header-actions">
+      <span class="badge" [ngClass]="getStatusBadgeClass(run()?.status)">
+        {{ run()?.status }}
+      </span>
+      <button class="btn btn-secondary" *ngIf="canCancel()" (click)="cancelRun()">Cancel</button>
+      <button class="btn btn-primary" *ngIf="canRetry()" (click)="retryRun()">Retry</button>
+    </div>
+  </div>
+
+  <div class="metadata">
+    <p><strong>Created:</strong> {{ run()?.createdAt | date:'short' }}</p>
+    <p><strong>Last Updated:</strong> {{ run()?.updatedAt | date:'short' }}</p>
+    <p *ngIf="run()?.retryOfRunPublicId"><strong>Retry of:</strong> {{ run()?.retryOfRunPublicId }}</p>
+    <p *ngIf="run()?.reprocessOfRunPublicId"><strong>Reprocess of:</strong> {{ run()?.reprocessOfRunPublicId }}</p>
+  </div>
+
+  <div class="steps-section" *ngIf="run()?.steps?.length">
+    <h2>Steps</h2>
+    <div class="steps-list">
+      <div class="step-card" *ngFor="let step of run()?.steps">
+        <div class="step-header">
+          <strong>{{ step.stepName }}</strong>
+          <span class="badge badge-sm" [ngClass]="getStatusBadgeClass(step.status)">{{ step.status }}</span>
+        </div>
+        <div class="step-details">
+          <small>Duration: {{ step.durationMs ? step.durationMs + 'ms' : '-' }}</small>
+          <p *ngIf="step.errorMessage" class="error-msg">{{ step.errorMessage }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="logs-section" *ngIf="logs().length">
+    <h2>Logs</h2>
+    <div class="logs-console">
+      <div class="log-entry" *ngFor="let log of logs()">
+        <span class="log-time">[{{ log.createdAt | date:'HH:mm:ss' }}]</span>
+        <span class="log-level" [ngClass]="'level-' + log.level.toLowerCase()">{{ log.level }}</span>
+        <span class="log-message">{{ log.message }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="error()" class="error-alert">
+  {{ error() }}
+</div>
+<div *ngIf="!run() && !error()" class="loading">
+  Loading run details...
+</div>

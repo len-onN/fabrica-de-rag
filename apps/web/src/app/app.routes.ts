@@ -23,6 +23,7 @@ export const routes: Routes = [
       { path: 'collections/new', loadComponent: () => import('./features/collections/collection-create/collection-create.component').then(m => m.CollectionCreateComponent) },
       { path: 'collections/:id', loadComponent: () => import('./features/collections/collection-detail/collection-detail.component').then(m => m.CollectionDetailComponent) },
       { path: 'collections/:id/documents/:docId', loadComponent: () => import('./features/documents/document-detail/document-detail.component').then(m => m.DocumentDetailComponent) },
+      { path: 'ingest-runs/:id', loadComponent: () => import('./features/ingest-runs/ingest-run-detail/ingest-run-detail.component').then(m => m.IngestRunDetailComponent) },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },

@@ -210,7 +210,15 @@ Depois do merge remoto de `feat/colecoes-documentos-core`, foi iniciada a branch
 
 Foi ajustado o limite do Spring Web para suportar uploads de até 90MB, conforme necessidade, rejeitando arquivos inválidos antecipadamente (HTTP 400). A tabela `ingest_runs` foi criada (via `V5__ingest_runs.sql`) juntamente com `IngestRun` e suas cardinalidades. O `StorageService` ganhou capacidades de escrita de sistema de arquivos e os serviços Spring orquestraram o checksum de `source_hash`.
 
-No Frontend, foi ajustado o `DocumentService` (Angular) para usar objetos do tipo `FormData`, passando com sucesso no mecanismo de segurança já instituído e com validações amigáveis no componente. Finalizada a lógica de backend e frontend sem erros de compilação. Próximo passo será a revisão no Pull Request antes de adentrar na orquestração assíncrona do Worker (processamento RAG de fato).
+## 2026-06-27 - Operação de Ingest Runs (Cancel, Retry e Logs)
+
+Iniciada e concluída a branch `feat/ingestao-runs-operacao`. Esta funcionalidade permite aos usuários acompanharem o status das execuções assíncronas (runs), etapas de processamento e logs associados, completando a camada observável do RAG.
+
+No backend Spring Boot, criamos as entidades `IngestStep` e `IngestRunLog`, além de atualizar `IngestRun` com relações para suporte de Retry/Reprocessamento. Foi adicionada a migração `V6__ingest_steps_and_logs.sql` e utilizado o tipo de dados JSON nativo do Hibernate 6 (`@JdbcTypeCode(SqlTypes.JSON)`) no lugar de `hypersistence-utils`, visando simplificar dependências e melhorar aderência à arquitetura padrão. Também foram expostas as rotas protegidas pelo RBAC existente (`ingest_run.read` e `ingest_run.update`).
+
+No frontend Angular, foi criado o `IngestRunService` para chamadas HTTP e o `IngestRunDetailComponent` implementou a visualização do run, histórico de steps e terminal de logs com polling automático a cada 5 segundos para atualizações ao vivo. Foram adicionados controles baseados no status da run, permitindo cancelamento quando iniciada/na fila, e repetição (retry) quando falhada.
+
+A branch compila sem erros (backend com `mvn compile` e frontend com `ng build`). O PR para `develop` é o próximo passo, antes de partir para a integração da API com o script Python em `feat/worker-pdf-inspect`.
 
 ## Modelo de entrada futura
 
