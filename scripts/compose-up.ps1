@@ -26,6 +26,13 @@ if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }
 
+Write-Info "Inicializando serviços adicionais (Qdrant)..."
+$qdrantInit = Join-Path $PSScriptRoot "qdrant-init.ps1"
+& powershell -File $qdrantInit
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Aviso: Falha ao inicializar coleções do Qdrant." -ForegroundColor Yellow
+}
+
 $psArguments = $composeArguments + @("ps")
 & docker @psArguments
 exit $LASTEXITCODE

@@ -1,6 +1,6 @@
 # feat/qdrant-indexacao
 
-Status: candidata.
+Status: concluída.
 
 ## Objetivo
 
@@ -39,9 +39,9 @@ CODE, RUNTIME, DATA, CONTRACT, TEST, SEC, PERF
 
 ## Falta definir
 
-- Nome da colecao.
-- Metrica vetorial.
-- Payload minimo final.
+- Nome da colecao: `ragcreator_chunks_v1`.
+- Metrica vetorial: `Cosine` (dimensão 16).
+- Payload minimo final: Baseado em `qdrant.chunk.v1` (com suporte a UUID determinístico SHA-256).
 
 ## Estrategia
 

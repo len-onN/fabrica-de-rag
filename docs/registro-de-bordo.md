@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-28 |
 | Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/embeddings-base` |
+| Branch atual | `feat/qdrant-indexacao` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Implementar contrato inicial e mock determinístico de embeddings |
-| Status | Concluido. Aguardando PR. |
-| Proximo marco | Iniciar proxima branch de indexacao Qdrant. |
+| Objetivo atual | Indexar embeddings no Qdrant com payload mínimo e testes |
+| Status | Concluído. Aguardando PR. |
+| Proximo marco | Iniciar branch `feat/ingestao-pipeline-indexacao`. |
 
 ## Sessao viva
 
@@ -89,9 +89,9 @@ Na branch `feat/embeddings-base`, foi estabelecido o contrato para geração de 
 
 Proximo passo concreto:
 
-- commitar e publicar `feat/embeddings-base`;
+- commitar e publicar `feat/qdrant-indexacao`;
 - abrir PR para `develop`;
-- apos merge, iniciar a proxima branch prioritaria (provavelmente `feat/qdrant-indexacao`).
+- apos merge, iniciar a proxima branch prioritaria (`feat/ingestao-pipeline-indexacao`).
 
 ## Quadro de branches
 
@@ -124,7 +124,7 @@ Proximo passo concreto:
 | `feat/paginas-numeracao` | Mesclada | Implementar mapa de paginas e numeracao impressa por ancoras | Concluido | Mesclada. |
 | `feat/chunking-semantico` | Concluída | Implementar chunking, heading path e overlap | Pendente | Fecha funcionalidade base de quebra de texto. |
 | `feat/embeddings-base` | Concluída | Definir contrato inicial de embeddings | Pendente | Exige modelo/provider ou adapter mockado. |
-| `feat/qdrant-indexacao` | Candidata | Indexar embeddings no Qdrant com payload minimo | Pendente | Exige contrato de payload vetorial. |
+| `feat/qdrant-indexacao` | Concluída | Indexar embeddings no Qdrant com payload minimo | Pendente | Qdrant client 1.12.0 e adapter implementado. |
 | `feat/ingestao-pipeline-indexacao` | Candidata | Orquestrar ingestao completa ate chunks, embeddings e Qdrant | Pendente | Fecha o fluxo real de upload a indexado. |
 | `feat/busca-vetorial-base` | Candidata | Buscar chunks por pergunta com filtros e citacoes minimas | Pendente | Exige Qdrant e embeddings. |
 | `feat/chunks-navegador` | Candidata | Criar navegador de chunks com filtros, vizinhos, origem e feedback | Pendente | Fecha tela de inspecao de chunks. |
@@ -172,15 +172,15 @@ Usar este modelo quando uma etapa for concluida ou interrompida:
 
 ```text
 Data: 2026-06-28
-Branch: `feat/chunking-semantico`
+Branch: `feat/qdrant-indexacao`
 Status: Concluída
-Objetivo da etapa: Implementar chunking semântico (backend Java + worker Python).
+Objetivo da etapa: Implementar indexação vetorial no Qdrant com payload mínimo e filtros obrigatórios.
 Skills/fontes ativadas: N/A
-O que foi feito: Implementado modelo Pydantic, serviço e rota em FastAPI no worker. Implementado DTOs, serviço e DB (Flyway) no Spring Boot, testado com testes unitários.
-Arquivos tocados: Worker (chunking.py, chunks.py, routers/chunks.py, test_chunking.py), API (V6__chunks_and_relations.sql, Chunk.java, ChunkRelation.java, ChunkingService.java, etc).
-Decisoes tomadas: Utilizar `uv` no worker. SourceLocator/HeadingPath como JSONB no DB para suportar MVP.
-Riscos/colateralidades: A compilação precisou da recriação do IdGenerator por falha importada da branch anterior.
-Testes/verificacoes: Teste Python com pytest (passou), Gradle Maven build com Mockito (passou).
+O que foi feito: Adicionado `io.qdrant:client:1.12.0` ao Spring Boot, implementado `VectorStorePort` via `QdrantVectorStoreAdapter`. Escrito script PowerShell para criação inicial da coleção `ragcreator_chunks_v1` via compose up. Configurados testes de integração com Testcontainers.
+Arquivos tocados: pom.xml, VectorStorePort.java, QdrantConfig.java, QdrantVectorStoreAdapter.java, QdrantVectorStoreAdapterIT.java, compose-up.ps1, qdrant-init.ps1.
+Decisoes tomadas: Utilizar `io.qdrant:client:1.12.0`. A inicialização da coleção foi delegada a um script PowerShell executado na subida do Compose (Option B) seguindo Princípio de Menor Privilégio, mantendo a API restrita a inserção e busca.
+Riscos/colateralidades: Dependências gRPC (`guava` e `protobuf-java`) foram adicionadas explicitamente devido ao spring boot gerenciar versões conflitantes ou não provê-las transitivamente pelo Qdrant Client.
+Testes/verificacoes: Teste de compilação via Maven concluído com sucesso.
 Pendencias: Nenhuma no escopo atual.
 Proximo passo: Commit, Push, PR.
 ```
