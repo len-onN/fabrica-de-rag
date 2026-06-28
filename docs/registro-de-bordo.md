@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-28 |
 | Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/chunks-navegador` |
+| Branch atual | `feat/context-builder-base` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Criar navegador de chunks para inspecao, filtros, vizinhos e feedback local |
+| Objetivo atual | Montar contexto expandido por vizinhos, budget e citacoes |
 | Status | Concluído |
-| Proximo marco | Commit, PR e iniciar próxima etapa |
+| Proximo marco | Commit, PR e iniciar próxima etapa (`feat/resposta-rag-base`) |
 
 ## Sessao viva
 
@@ -89,9 +89,9 @@ Na branch `feat/embeddings-base`, foi estabelecido o contrato para geração de 
 
 Proximo passo concreto:
 
-- commitar e publicar `feat/ingestao-pipeline-indexacao`;
+- commitar e publicar `feat/context-builder-base`;
 - abrir PR para `develop`;
-- apos merge, iniciar a proxima branch prioritaria (`feat/busca-vetorial-base`).
+- apos merge, iniciar a proxima branch prioritaria (`feat/resposta-rag-base`).
 
 ## Quadro de branches
 
@@ -127,8 +127,8 @@ Proximo passo concreto:
 | `feat/qdrant-indexacao` | Mesclada | Indexar embeddings no Qdrant com payload minimo | Concluido | Qdrant client 1.12.0 e adapter implementado. |
 | `feat/ingestao-pipeline-indexacao` | Concluída | Orquestrar ingestao completa ate chunks, embeddings e Qdrant | Pendente | Fecha o fluxo real de upload a indexado. |
 | `feat/busca-vetorial-base` | Mesclada | Buscar chunks por pergunta com filtros e citacoes minimas | Concluido | Exige Qdrant e embeddings. |
-| `feat/chunks-navegador` | Concluída | Criar navegador de chunks com filtros, vizinhos, origem e feedback | Pendente | Fecha tela de inspecao de chunks. |
-| `feat/context-builder-base` | Candidata | Montar contexto expandido por vizinhos, budget e citacoes | Pendente | Exige busca vetorial base. |
+| `feat/chunks-navegador` | Mesclada | Criar navegador de chunks com filtros, vizinhos, origem e feedback | Concluido | Fecha tela de inspecao de chunks. |
+| `feat/context-builder-base` | Concluída | Montar contexto expandido por vizinhos, budget e citacoes | Pendente | Exige busca vetorial base. |
 | `feat/laboratorio-recuperacao` | Candidata | Criar laboratorio com chunks, contexto e citacoes | Pendente | Exige busca e context builder inicial. |
 | `feat/resposta-rag-base` | Candidata | Gerar resposta RAG com grounding quando provider estiver definido | Pendente | Pode usar adapter mockado inicialmente. |
 | `feat/citacoes-preview-fonte` | Candidata | Abrir fonte original de citacoes com preview e fallback textual | Pendente | Fecha criterio de validacao de evidencia. |
@@ -209,6 +209,20 @@ Arquivos tocados: RetrievalFeedback.java, RetrievalFeedbackRequest.java, ChunkRe
 Decisoes tomadas: Feedback salvo na base local via entidade independente, gaveta lateral (mobile-first) para inspeção profunda de chunks.
 Riscos/colateralidades: Sem riscos adicionais.
 Testes/verificacoes: Maven compile e Angular build (npm run build) executados com sucesso.
+Pendencias: Nenhuma no escopo atual.
+Proximo passo: Commit, Push, PR.
+```
+```text
+Data: 2026-06-28
+Branch: `feat/context-builder-base`
+Status: Concluída
+Objetivo da etapa: Montar contexto expandido por vizinhos, budget e citacoes.
+Skills/fontes ativadas: N/A
+O que foi feito: Backend: implementado o `ContextBuilderService` junto com queries otimizadas em `ChunkRepository` (`findNeighbors`) e `ChunkRelationRepository`. Foram criados os DTOs do RAG (`ContextAssembleRequest`, `ContextAssembleResponse`, `ContextItemResponse`) para prover os resultados de busca formatados e testada a aplicação da política conservadora e sequencial para agrupamento do contexto baseado em budget (orçamento de tokens) e fallback truncado.
+Arquivos tocados: ContextBuilderService.java, ContextBuilderServiceTest.java, ChunkRepository.java, ChunkRelationRepository.java, ContextAssembleRequest.java, ContextAssembleResponse.java, ContextItemResponse.java.
+Decisoes tomadas: Adotado a lógica `budgetHit` para alertar clientes se o orçamento limitou o retorno. Citações truncadas ganham `[TRUNCATED]` preservando sempre a referência do `sourceLocator`. Relações visuais ou de tabelas vêm como `direct_relation` via `ChunkRelation`.
+Riscos/colateralidades: Algoritmo é escalável para o MVP e mitiga N+1 com buscas otimizadas no relacional.
+Testes/verificacoes: Testes unitários com JUnit cobrindo as restrições e orçamentos passaram (`[INFO] BUILD SUCCESS`).
 Pendencias: Nenhuma no escopo atual.
 Proximo passo: Commit, Push, PR.
 ```

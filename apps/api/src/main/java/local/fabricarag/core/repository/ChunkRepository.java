@@ -38,4 +38,12 @@ public interface ChunkRepository extends JpaRepository<Chunk, UUID> {
             @Param("documentId") String documentId,
             @Param("sequenceNumber") Integer sequenceNumber
     );
+
+    @Query("SELECT c FROM Chunk c WHERE c.workspaceId = :workspaceId AND c.documentId = :documentId AND c.sequenceNumber >= :startSeq AND c.sequenceNumber <= :endSeq ORDER BY c.sequenceNumber ASC")
+    List<Chunk> findNeighbors(
+            @Param("workspaceId") String workspaceId,
+            @Param("documentId") String documentId,
+            @Param("startSeq") Integer startSeq,
+            @Param("endSeq") Integer endSeq
+    );
 }
