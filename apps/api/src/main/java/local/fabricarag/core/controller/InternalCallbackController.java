@@ -84,4 +84,11 @@ public class InternalCallbackController {
         // For MVP, we just log.
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/embeddings/text")
+    public ResponseEntity<Void> onEmbeddingsTextSuccess(@Valid @RequestBody local.fabricarag.core.dto.worker.EmbeddingsTextResponse response) {
+        logger.info("Received embeddings text success callback for request {}", response.getRequestId());
+        // For MVP, we just log for now as the logic is in EmbeddingsService
+        return ResponseEntity.ok().build();
+    }
 }

@@ -1,0 +1,18 @@
+{
+  "contractVersion": "worker.embeddings.text.request.v1",
+  "requestId": "req_fixture_004",
+  "workspaceId": "wsp_fixture_alpha",
+  "callbackUrl": "http://host.docker.internal:8080/internal/v1/callbacks/embeddings",
+  "items": [
+    {
+      "itemId": "chk_fixture_intro",
+      "content": "A introdução deste documento trata dos algoritmos e chunks gerados.",
+      "contentKind": "text",
+      "sourceHash": "sha256:fixture-intro"
+    }
+  ],
+  "embeddingModel": "mock-text-embedding",
+  "vectorSpace": "text_chunks_v1",
+  "timeoutMs": 10000,
+  "batchSize": 32
+}
