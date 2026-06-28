@@ -71,8 +71,16 @@
         </div>
       </div>
 
+      <!-- Aba Chunks -->
+      <div *ngIf="activeTab === 'chunks'" class="content-section">
+        <app-chunk-browser 
+          [workspaceId]="collection.workspaceId" 
+          [collectionId]="collection.id">
+        </app-chunk-browser>
+      </div>
+
       <!-- Abas não implementadas -->
-      <div *ngIf="activeTab !== 'documents'" class="content-section">
+      <div *ngIf="activeTab !== 'documents' && activeTab !== 'chunks'" class="content-section">
         <div class="empty-state construction-state">
           <span class="icon">🚧</span>
           <h3>Aba em Construção</h3>

@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CollectionService, CollectionResponse } from '../../../core/http/collection.service';
 import { DocumentService, DocumentResponse } from '../../../core/http/document.service';
+import { ChunkBrowserComponent } from '../chunks/chunk-browser.component';
 
 @Component({
   selector: 'app-collection-detail',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, ChunkBrowserComponent],
   templateUrl: './collection-detail.component.html',
   styleUrls: ['./collection-detail.component.css']
 })

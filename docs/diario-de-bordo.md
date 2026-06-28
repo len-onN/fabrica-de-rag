@@ -300,4 +300,14 @@ A arquitetura definiu explicitamente que o RAG no MVP não utilizará reranking 
 
 A avaliação de similaridade continuou confiando puramente em Distância do Cosseno (cosine). Quando o score individual for muito fraco (< 0.35) ou quando menos de 2 chunks forem providenciados, a resposta RAG assumirá um carimbo protetor lowConfidence = true, fornecendo à UI ou à API indicações claras para mitigar alucinações nas próximas fases do projeto.
 
-O processo de citações foi formatado com perfeição baseando-se no payload rico source_locator, recuperando paginas de PDF originais ou rótulos impressos nativamente sem vazamento interno. Todos os componentes Java, os records de Request/Response de Busca e os testes unitários via Mockito passaram sem erros locais através das compilações regulares do Maven. O próximo passo será realizar PR e prosseguir com a camada do navegador visual (eat/chunks-navegador).
+O processo de citações foi formatado com perfeição baseando-se no payload rico source_locator, recuperando paginas de PDF originais ou rótulos impressos nativamente sem vazamento interno. Todos os componentes Java, os records de Request/Response de Busca e os testes unitários via Mockito passaram sem erros locais através das compilações regulares do Maven. O próximo passo será realizar PR e prosseguir com a camada do navegador visual (feat/chunks-navegador).
+
+## 2026-06-28 - Navegador de Chunks e Feedback Local
+
+Depois de fechar a busca vetorial, a branch `feat/chunks-navegador` foi aberta para prover visibilidade sobre os dados indexados, permitindo inspeção dos chunks e avaliação (feedback) diretamente na interface da coleção.
+
+No backend Spring Boot, a entidade `RetrievalFeedback` foi criada para suportar metadados valiosos (documento, chunk, tipo de feedback, notas), acompanhada de sua migration `V9__retrieval_feedback.sql`. O `ChunkRepository` recebeu queries JPQL customizadas para permitir paginação filtrada por workspace/coleção e buscas textuais com `LIKE %query%`. O `ChunkBrowserService` foi criado para abstrair a orquestração de paginação e a busca de vizinhos sequenciais, exposto por novos endpoints no `ChunkController` e `RetrievalFeedbackController`.
+
+No frontend Angular, foi criado o `ChunkService` para comunicação. A `ChunkBrowserComponent` exibe os chunks em formato tabular (sequência, documento, cabeçalho e tokens), enquanto a gaveta lateral `ChunkDetailsPanelComponent` permite visualizar os metadados brutos gerados pela pipeline de ingestão (como sourceLocator parseado) e o conteúdo textual. Além disso, a navegação entre chunks vizinhos (anterior e próximo) e os botões de feedback local interativos foram integrados. A integração foi feita diretamente no `CollectionDetailComponent` como uma nova aba.
+
+A compilação do Spring Boot foi verificada (via Maven) e o build da aplicação Angular concluído com sucesso, conectando de ponta a ponta as requisições. O próximo passo será realizar o merge para `develop` e iniciar a integração final da esteira ou preparar a tela de chat.

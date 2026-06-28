@@ -1,0 +1,69 @@
+<div class="side-panel-overlay" (click)="close()"></div>
+<div class="side-panel">
+  <div class="panel-header">
+    <h3>Inspeção de Chunk</h3>
+    <button class="btn-close" (click)="close()">×</button>
+  </div>
+
+  <div class="panel-body">
+    <div class="metadata-section">
+      <div class="meta-item">
+        <span class="meta-label">Documento:</span>
+        <span class="meta-value">{{ chunk.documentId }}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Sequência:</span>
+        <span class="meta-value">{{ chunk.sequenceNumber }}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Tokens:</span>
+        <span class="meta-value">{{ chunk.tokenCount }}</span>
+      </div>
+      
+      <div class="meta-item" *ngIf="parsedLocator?.filePageNumber">
+        <span class="meta-label">Pág PDF:</span>
+        <span class="meta-value">{{ parsedLocator.filePageNumber }}</span>
+      </div>
+      <div class="meta-item" *ngIf="parsedLocator?.printedLabel">
+        <span class="meta-label">Pág Impressa:</span>
+        <span class="meta-value">{{ parsedLocator.printedLabel }}</span>
+      </div>
+    </div>
+
+    <div class="metadata-section" *ngIf="parsedHeading.length > 0">
+      <span class="meta-label">Heading Path:</span>
+      <div class="heading-path">
+        <span class="heading-breadcrumb" *ngFor="let h of parsedHeading; let last = last">
+          {{ h }} <span *ngIf="!last"> &gt; </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h4>Conteúdo</h4>
+      <div class="chunk-content-box">
+        {{ chunk.content }}
+      </div>
+    </div>
+
+    <div class="actions-section">
+      <h4>Navegação</h4>
+      <div class="neighbors-row">
+        <button class="btn btn-outline" (click)="loadNeighbor(-1)">← Vizinho Anterior</button>
+        <button class="btn btn-outline" (click)="loadNeighbor(1)">Próximo Vizinho →</button>
+      </div>
+
+      <div class="feedback-section">
+        <h4>Avaliação (Feedback Local)</h4>
+        <div class="feedback-row" *ngIf="!feedbackGiven">
+          <button class="btn btn-success" [disabled]="feedbackSubmitting" (click)="submitFeedback(true)">👍 Relevante</button>
+          <button class="btn btn-danger" [disabled]="feedbackSubmitting" (click)="submitFeedback(false)">👎 Irrelevante</button>
+        </div>
+        <div class="feedback-thanks" *ngIf="feedbackGiven">
+          <span *ngIf="feedbackGiven === 'chunk_relevant'">Feedback registrado: Relevante 👍</span>
+          <span *ngIf="feedbackGiven === 'chunk_irrelevant'">Feedback registrado: Irrelevante 👎</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

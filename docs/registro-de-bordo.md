@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-28 |
 | Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/busca-vetorial-base` |
+| Branch atual | `feat/chunks-navegador` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Buscar chunks por pergunta com filtros e citacoes minimas |
-| Status | Concluído. Aguardando PR. |
-| Proximo marco | Iniciar branch `feat/chunks-navegador`. |
+| Objetivo atual | Criar navegador de chunks para inspecao, filtros, vizinhos e feedback local |
+| Status | Concluído |
+| Proximo marco | Commit, PR e iniciar próxima etapa |
 
 ## Sessao viva
 
@@ -126,8 +126,8 @@ Proximo passo concreto:
 | `feat/embeddings-base` | Concluída | Definir contrato inicial de embeddings | Pendente | Exige modelo/provider ou adapter mockado. |
 | `feat/qdrant-indexacao` | Mesclada | Indexar embeddings no Qdrant com payload minimo | Concluido | Qdrant client 1.12.0 e adapter implementado. |
 | `feat/ingestao-pipeline-indexacao` | Concluída | Orquestrar ingestao completa ate chunks, embeddings e Qdrant | Pendente | Fecha o fluxo real de upload a indexado. |
-| `feat/busca-vetorial-base` | Concluída | Buscar chunks por pergunta com filtros e citacoes minimas | Pendente | Exige Qdrant e embeddings. |
-| `feat/chunks-navegador` | Candidata | Criar navegador de chunks com filtros, vizinhos, origem e feedback | Pendente | Fecha tela de inspecao de chunks. |
+| `feat/busca-vetorial-base` | Mesclada | Buscar chunks por pergunta com filtros e citacoes minimas | Concluido | Exige Qdrant e embeddings. |
+| `feat/chunks-navegador` | Concluída | Criar navegador de chunks com filtros, vizinhos, origem e feedback | Pendente | Fecha tela de inspecao de chunks. |
 | `feat/context-builder-base` | Candidata | Montar contexto expandido por vizinhos, budget e citacoes | Pendente | Exige busca vetorial base. |
 | `feat/laboratorio-recuperacao` | Candidata | Criar laboratorio com chunks, contexto e citacoes | Pendente | Exige busca e context builder inicial. |
 | `feat/resposta-rag-base` | Candidata | Gerar resposta RAG com grounding quando provider estiver definido | Pendente | Pode usar adapter mockado inicialmente. |
@@ -194,6 +194,21 @@ Arquivos tocados: QdrantVectorStoreAdapter.java, InternalCallbackController.java
 Decisoes tomadas: Adotar batch de 100 itens para o `upsertBatch` no Qdrant prevenindo limite de I/O. As requisições ao worker ganharam injeção do `callbackUrl` roteável nativamente contendo o `runId`.
 Riscos/colateralidades: Fluxos parciais de retry operacionais foram integrados adequadamente não deixando estados abertos na pipeline.
 Testes/verificacoes: Build e testes rodaram sem erros em `mvnw compile` e `mvnw test` incluindo validações com Mockito.
+Pendencias: Nenhuma no escopo atual.
+Proximo passo: Commit, Push, PR.
+```
+
+```text
+Data: 2026-06-28
+Branch: `feat/chunks-navegador`
+Status: Concluída
+Objetivo da etapa: Criar navegador de chunks para inspecao, filtros, vizinhos e feedback local.
+Skills/fontes ativadas: N/A
+O que foi feito: Backend: criada entidade RetrievalFeedback, migration, repositórios e controllers. Implementado ChunkBrowserService e queries no ChunkRepository. Frontend: criado ChunkService, ChunkBrowserComponent e ChunkDetailsPanelComponent para exibir tabela e detalhes (source locator, texto) do chunk com opções de feedback.
+Arquivos tocados: RetrievalFeedback.java, RetrievalFeedbackRequest.java, ChunkResponse.java, ChunkController.java, RetrievalFeedbackController.java, ChunkRepository.java, ChunkBrowserService.java, V9__retrieval_feedback.sql, chunk.service.ts, chunk-browser.component.ts/html/css, chunk-details-panel.component.ts/html/css, collection-detail.component.ts/html.
+Decisoes tomadas: Feedback salvo na base local via entidade independente, gaveta lateral (mobile-first) para inspeção profunda de chunks.
+Riscos/colateralidades: Sem riscos adicionais.
+Testes/verificacoes: Maven compile e Angular build (npm run build) executados com sucesso.
 Pendencias: Nenhuma no escopo atual.
 Proximo passo: Commit, Push, PR.
 ```
