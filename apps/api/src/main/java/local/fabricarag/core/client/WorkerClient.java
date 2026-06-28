@@ -1,6 +1,8 @@
 package local.fabricarag.core.client;
 
 import local.fabricarag.core.dto.worker.PdfInspectRequest;
+import local.fabricarag.core.dto.worker.PdfRenderRequest;
+import local.fabricarag.core.dto.worker.PdfExtractTextRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +32,24 @@ public class WorkerClient {
         // The worker will process in background and call the callbackUrl.
         restClient.post()
                 .uri("/api/v1/pdf/inspect")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(request)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
+    public void requestRenderPage(PdfRenderRequest request) {
+        restClient.post()
+                .uri("/api/v1/pdf/render-page")
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(request)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
+    public void requestExtractText(PdfExtractTextRequest request) {
+        restClient.post()
+                .uri("/api/v1/pdf/extract-text")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(request)
                 .retrieve()

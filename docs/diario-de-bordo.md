@@ -232,6 +232,20 @@ Testes automatizados unitários em Python garantiram o fallback do callback atra
 
 Com todos os testes e a compilação Spring Boot (`mvn compile`) reportando sucesso, o escopo foi fechado com alta confiabilidade operacional. O próximo passo é mesclar em `develop` e focar na funcionalidade de extração mais rica: renderização e OCR (`feat/worker-pdf-render-ocr-base`).
 
+## 2026-06-28 - Renderização e Extração de Texto via OCR (Worker)
+
+Depois de concluir a integração inicial com o Worker Python via webhooks, a branch `feat/worker-pdf-render-ocr-base` foi aberta para prover capacidades de renderização de páginas (necessária para visualização e criação do mapa de páginas do frontend) e extração de texto, com suporte automático a OCR.
+
+O plano original previa utilizar `pymupdf` por possuir suporte forte nativo a extração de texto, bounding boxes e renderização, contudo, o fato de ser licenciado sob AGPL levantou bloqueios práticos para distribuição em modo portfólio. A decisão foi migrar para o `pypdfium2`, um wrapper de altíssima performance para o motor PDFium (Apache-2.0), que manteve todos os recursos necessários livres da contaminação copyleft da AGPL.
+
+No worker Python, foram criados os contratos Pydantic baseados nas necessidades da Fábrica:
+- Renderização: extrai imagens PNG de páginas sob demanda com suporte a ajuste de DPI.
+- Extração de texto: extrai texto nativo priorizando eficiência. Como estratégia de *fallback*, caso a página seja um documento escaneado (sem texto nativo reconhecido) ou se a flag `forceOcr` for acionada, o sistema converte a página para imagem localmente (300 DPI) e roda o reconhecimento óptico de caracteres através do pacote `pytesseract`.
+
+As rotas foram implementadas no `routers/pdf.py`, suportando chamadas webhooks para operações pesadas. Todo o ecossistema foi testado sob *mocks* para prover garantias de cobertura em tempo de integração. As dependências OS (`tesseract-ocr`) foram embutidas de forma minimalista na etapa multi-stage do `Dockerfile`.
+
+Por fim, no ecossistema Spring Boot, a camada do `WorkerClient` e do `InternalCallbackController` foram estendidas, assim como seus respectivos DTOs, atestando a conexão final com a stack orquestradora. Com as aprovações unitárias em alta confiança, o pull request para `develop` foi o próximo passo preparativo antes das inspeções focadas em extração estrutural avançada (elementos visuais e tabelas).
+
 ## Modelo de entrada futura
 
 ```text
