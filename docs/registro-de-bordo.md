@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-28 |
 | Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/context-builder-base` |
+| Branch atual | `feat/resposta-rag-base` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Montar contexto expandido por vizinhos, budget e citacoes |
+| Objetivo atual | Gerar resposta RAG fundamentada com adapter de LLM (mock) |
 | Status | Concluído |
-| Proximo marco | Commit, PR e iniciar próxima etapa (`feat/resposta-rag-base`) |
+| Proximo marco | Commit, PR e iniciar próxima etapa (`feat/citacoes-preview-fonte` ou `feat/laboratorio-recuperacao`) |
 
 ## Sessao viva
 
@@ -89,9 +89,9 @@ Na branch `feat/embeddings-base`, foi estabelecido o contrato para geração de 
 
 Proximo passo concreto:
 
-- commitar e publicar `feat/context-builder-base`;
+- commitar e publicar `feat/resposta-rag-base`;
 - abrir PR para `develop`;
-- apos merge, iniciar a proxima branch prioritaria (`feat/resposta-rag-base`).
+- apos merge, iniciar a proxima branch prioritaria (`feat/citacoes-preview-fonte` ou `feat/laboratorio-recuperacao`).
 
 ## Quadro de branches
 
