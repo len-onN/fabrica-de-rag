@@ -17,4 +17,6 @@ public interface DocumentRepository extends JpaRepository<Document, UUID> {
     Optional<Document> findByWorkspaceIdAndPublicId(UUID workspaceId, String publicId);
     
     Page<Document> findByWorkspaceIdAndKnowledgeCollectionId(UUID workspaceId, UUID knowledgeCollectionId, Pageable pageable);
+
+    java.util.List<Document> findByPublicIdIn(java.util.List<String> publicIds);
 }

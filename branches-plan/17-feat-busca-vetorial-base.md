@@ -1,6 +1,6 @@
 # feat/busca-vetorial-base
 
-Status: candidata.
+Status: concluída.
 
 ## Objetivo
 

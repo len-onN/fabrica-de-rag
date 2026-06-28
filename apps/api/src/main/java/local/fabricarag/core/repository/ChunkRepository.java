@@ -11,4 +11,5 @@ import java.util.UUID;
 public interface ChunkRepository extends JpaRepository<Chunk, UUID> {
     List<Chunk> findByDocumentId(String documentId);
     java.util.Optional<Chunk> findByPublicId(String publicId);
+    List<Chunk> findByPublicIdIn(List<String> publicIds);
 }

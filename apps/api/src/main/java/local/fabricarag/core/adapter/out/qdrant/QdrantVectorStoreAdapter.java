@@ -11,6 +11,7 @@ import local.fabricarag.core.domain.Document;
 import local.fabricarag.core.domain.KnowledgeCollection;
 import local.fabricarag.core.domain.VectorIndexBinding;
 import local.fabricarag.core.port.out.VectorStorePort;
+import local.fabricarag.core.port.out.VectorStoreSearchResult;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -202,6 +203,92 @@ public class QdrantVectorStoreAdapter implements VectorStorePort {
             throw new RuntimeException("Failed to delete from Qdrant", e);
         } catch (ExecutionException e) {
             throw new RuntimeException("Failed to delete from Qdrant", e.getCause());
+        }
+    }
+
+    @Override
+    public List<VectorStoreSearchResult> search(String collectionName, List<Float> queryVector, int topK, Map<String, Object> filters) {
+        try {
+            if (collectionName == null || collectionName.isEmpty()) {
+                collectionName = "ragcreator_chunks_v1";
+            }
+
+            io.qdrant.client.grpc.Points.Filter.Builder filterBuilder = io.qdrant.client.grpc.Points.Filter.newBuilder();
+
+            if (filters != null) {
+                for (Map.Entry<String, Object> entry : filters.entrySet()) {
+                    String key = entry.getKey();
+                    Object value = entry.getValue();
+
+                    io.qdrant.client.grpc.Points.Condition condition = null;
+
+                    if (value instanceof String) {
+                        condition = io.qdrant.client.grpc.Points.Condition.newBuilder()
+                                .setField(io.qdrant.client.grpc.Points.FieldCondition.newBuilder()
+                                        .setKey(key)
+                                        .setMatch(io.qdrant.client.grpc.Points.Match.newBuilder()
+                                                .setKeyword((String) value)
+                                                .build())
+                                        .build())
+                                .build();
+                    } else if (value instanceof Number) {
+                        condition = io.qdrant.client.grpc.Points.Condition.newBuilder()
+                                .setField(io.qdrant.client.grpc.Points.FieldCondition.newBuilder()
+                                        .setKey(key)
+                                        .setMatch(io.qdrant.client.grpc.Points.Match.newBuilder()
+                                                .setInteger(((Number) value).longValue())
+                                                .build())
+                                        .build())
+                                .build();
+                    } else if (value instanceof Boolean) {
+                        condition = io.qdrant.client.grpc.Points.Condition.newBuilder()
+                                .setField(io.qdrant.client.grpc.Points.FieldCondition.newBuilder()
+                                        .setKey(key)
+                                        .setMatch(io.qdrant.client.grpc.Points.Match.newBuilder()
+                                                .setBoolean((Boolean) value)
+                                                .build())
+                                        .build())
+                                .build();
+                    }
+                    
+                    if (condition != null) {
+                        filterBuilder.addMust(condition);
+                    }
+                }
+            }
+
+            io.qdrant.client.grpc.Points.SearchPoints searchPoints = io.qdrant.client.grpc.Points.SearchPoints.newBuilder()
+                    .setCollectionName(collectionName)
+                    .addAllVector(queryVector)
+                    .setLimit(topK)
+                    .setFilter(filterBuilder.build())
+                    .setWithPayload(io.qdrant.client.grpc.Points.WithPayloadSelector.newBuilder().setEnable(true).build())
+                    .build();
+
+            List<io.qdrant.client.grpc.Points.ScoredPoint> qdrantResults = qdrantClient.searchAsync(searchPoints).get();
+
+            List<VectorStoreSearchResult> results = new java.util.ArrayList<>();
+            for (io.qdrant.client.grpc.Points.ScoredPoint pt : qdrantResults) {
+                Map<String, Object> payloadMap = new java.util.HashMap<>();
+                for (Map.Entry<String, io.qdrant.client.grpc.JsonWithInt.Value> payloadEntry : pt.getPayloadMap().entrySet()) {
+                    io.qdrant.client.grpc.JsonWithInt.Value val = payloadEntry.getValue();
+                    if (val.hasStringValue()) {
+                        payloadMap.put(payloadEntry.getKey(), val.getStringValue());
+                    } else if (val.hasIntegerValue()) {
+                        payloadMap.put(payloadEntry.getKey(), val.getIntegerValue());
+                    } else if (val.hasBoolValue()) {
+                        payloadMap.put(payloadEntry.getKey(), val.getBoolValue());
+                    }
+                }
+                results.add(new VectorStoreSearchResult(pt.getId().getUuid(), pt.getScore(), payloadMap));
+            }
+
+            return results;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Failed to search in Qdrant", e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException("Failed to search in Qdrant", e.getCause());
         }
     }
 }

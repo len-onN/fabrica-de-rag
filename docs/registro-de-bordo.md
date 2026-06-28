@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-28 |
 | Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/ingestao-pipeline-indexacao` |
+| Branch atual | `feat/busca-vetorial-base` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Orquestrar pipeline de ingestão e processamento de lotes no Qdrant |
+| Objetivo atual | Buscar chunks por pergunta com filtros e citacoes minimas |
 | Status | Concluído. Aguardando PR. |
-| Proximo marco | Iniciar branch `feat/busca-vetorial-base`. |
+| Proximo marco | Iniciar branch `feat/chunks-navegador`. |
 
 ## Sessao viva
 
@@ -126,7 +126,7 @@ Proximo passo concreto:
 | `feat/embeddings-base` | Concluída | Definir contrato inicial de embeddings | Pendente | Exige modelo/provider ou adapter mockado. |
 | `feat/qdrant-indexacao` | Mesclada | Indexar embeddings no Qdrant com payload minimo | Concluido | Qdrant client 1.12.0 e adapter implementado. |
 | `feat/ingestao-pipeline-indexacao` | Concluída | Orquestrar ingestao completa ate chunks, embeddings e Qdrant | Pendente | Fecha o fluxo real de upload a indexado. |
-| `feat/busca-vetorial-base` | Candidata | Buscar chunks por pergunta com filtros e citacoes minimas | Pendente | Exige Qdrant e embeddings. |
+| `feat/busca-vetorial-base` | Concluída | Buscar chunks por pergunta com filtros e citacoes minimas | Pendente | Exige Qdrant e embeddings. |
 | `feat/chunks-navegador` | Candidata | Criar navegador de chunks com filtros, vizinhos, origem e feedback | Pendente | Fecha tela de inspecao de chunks. |
 | `feat/context-builder-base` | Candidata | Montar contexto expandido por vizinhos, budget e citacoes | Pendente | Exige busca vetorial base. |
 | `feat/laboratorio-recuperacao` | Candidata | Criar laboratorio com chunks, contexto e citacoes | Pendente | Exige busca e context builder inicial. |
@@ -171,6 +171,19 @@ Proximo passo concreto:
 Usar este modelo quando uma etapa for concluida ou interrompida:
 
 ```text
+Data: 2026-06-28
+Branch: `feat/busca-vetorial-base`
+Status: Concluída
+Objetivo da etapa: Buscar chunks por pergunta com filtros e citacoes minimas.
+Skills/fontes ativadas: N/A
+O que foi feito: Implementado o `VectorSearchService` orquestrando a geração síncrona de embeddings via Worker, a busca vetorial via `QdrantVectorStoreAdapter` (com aplicação rigorosa de filtros de workspace, collection e tipo de payload) e o enriquecimento de metadados dos chunks via `ChunkRepository`.
+Arquivos tocados: VectorSearchService.java, QdrantVectorStoreAdapter.java, VectorStorePort.java, WorkerClient.java, SearchRequest.java, SearchResponse.java, ChunkRepository.java, VectorSearchServiceTest.java.
+Decisoes tomadas: O Worker passou a suportar um fluxo síncrono para embeddings visando otimizar a latência. As buscas no Qdrant mantiveram a estrutura de `setKeyword` para filtros. `lowConfidence` é propagado em caso de scores inferioes a 0.35.
+Riscos/colateralidades: Sem riscos, a arquitetura restringe adequadamente a pesquisa.
+Testes/verificacoes: Build e testes `VectorSearchServiceTest` executados com sucesso (Mvn Test / Mvn Compile).
+Pendencias: Nenhuma no escopo atual.
+Proximo passo: Commit, Push, PR.
+```
 Data: 2026-06-28
 Branch: `feat/ingestao-pipeline-indexacao`
 Status: Concluída
