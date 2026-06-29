@@ -1,4 +1,4 @@
-﻿# Diario de Bordo
+# Diario de Bordo
 
 ## Como usar
 
@@ -332,3 +332,15 @@ Em seguida, a branch `feat/resposta-rag-base` avancou para a interface e politic
 
 Após o laboratório básico, o fluxo de recuperação exigia uma visualização rica da procedência (grounding). Na branch eat/citacoes-preview-fonte, refatoramos as citações no frontend. Os metadados visuais ou textuais puros provenientes do RAG agora alimentam os componentes CitationCardComponent e CitationPreviewComponent.
 O preview é apresentado em um painel lateral fluido para não ofuscar o contexto. Ele implementa fallback textual na ausência de renderização de PDF nativo e aplica highlights absolutos de BBox sobre os assets extraídos utilizando as propriedades pdf_points_top_left. O build rigoroso do Angular foi validado com sucesso e o fluxo está completo para as próximas trilhas de observabilidade e analytics.
+
+## 2026-06-29 - Analytics e Observabilidade Base
+
+Depois da conclusão de `feat/citacoes-preview-fonte`, a branch `feat/analytics-eventos-base` foi aberta para prover a primeira camada fundamental de observabilidade e captura de eventos da Fábrica de RAG, implementando o esquema de envelope versionado previamente desenhado no portão de planejamento.
+
+A grande decisão desta etapa recaiu sobre a estratégia de retenção. Em vez de onerar cada `INSERT` com uma validação custosa baseada em quantidade de eventos no banco relacional, foi implementado o `AnalyticsRetentionJob`, um processo agendado assíncrono (rodando de madrugada via `@Scheduled`) para atuar como o 'lixeiro' seguro. Ele aplica a abordagem **Híbrida** para cada classe (Analytics, Histórico, Logs): garante a retenção em tempo de vida e corta pela raiz picos explosivos através do limite de volume.
+
+A gravação no Backend também seguiu o caminho de baixa latência e desacoplamento síncrono. O `AnalyticsEventService` utiliza a anotação `@Async` local do Spring Boot, sem requerer o deploy de instâncias custosas de filas externas como Kafka neste MVP. Esse serviço ganhou também a reponsabilidade de realizar a Sanitização automática (limpando qualquer prop acidental de tokens/senhas).
+
+A integração da infraestrutura aos eventos essenciais do produto foi efetuada através dos fluxos existentes: A visualização na UI (através do componente de Laboratório RAG) chama um recém-criado Endpoint da API REST publicando o `retrieval_lab_opened`. E nos serviços centrais de backend, as execuções de ingestão (`ingest_run_started` e `ingest_run_completed`) e as consultas vetoriais (`retrieval_query_executed`) publicam diretamente.
+
+Os builds e os testes garantiram o status verde no código. O próximo passo do escopo analítico será preparar os blocos visuais de consumo desta informação (`feat/analytics-dashboard-base`) ou a exposição para clientes das rotas da RAG API.

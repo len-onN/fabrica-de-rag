@@ -2,6 +2,7 @@ import { Component, Input, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RagService, AskRequest, AskResponse, RetrievalFeedbackRequest, Citation } from '../../../core/http/rag.service';
+import { AnalyticsService, AnalyticsEventRequest } from '../../../core/http/analytics.service';
 import { CitationCardComponent } from '../shared/citation-card/citation-card';
 import { CitationPreviewComponent } from '../shared/citation-preview/citation-preview';
 
@@ -17,6 +18,7 @@ export class RagLaboratoryComponent implements OnInit {
   @Input() collectionId!: string;
 
   private ragService = inject(RagService);
+  private analyticsService = inject(AnalyticsService);
 
   query = '';
   topK = 8;
@@ -32,7 +34,21 @@ export class RagLaboratoryComponent implements OnInit {
   activeTab: 'response' | 'chunks' | 'context' = 'response';
   selectedCitation: Citation | null = null;
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.workspaceId) {
+      const req: AnalyticsEventRequest = {
+        eventVersion: 'analytics.event.v1',
+        eventName: 'retrieval_lab_opened',
+        origin: 'ui',
+        retentionClass: 'analytics',
+        correlationId: 'req_' + Math.random().toString(36).substring(2, 10),
+        occurredAt: new Date().toISOString(),
+        resource: { type: 'workspace', id: this.workspaceId },
+        properties: { collectionId: this.collectionId }
+      };
+      this.analyticsService.recordEvent(this.workspaceId, req).subscribe();
+    }
+  }
 
   ask() {
     if (!this.query.trim()) return;
