@@ -1,0 +1,29 @@
+<div class="drawer-overlay" *ngIf="citation" (click)="onClose()"></div>
+<div class="drawer-panel" [class.open]="!!citation">
+  <div class="drawer-header" *ngIf="citation">
+    <h3>Original: {{ citation.sourceLabel }}</h3>
+    <button class="btn-close" (click)="onClose()">✕</button>
+  </div>
+  
+  <div class="drawer-body" *ngIf="citation">
+    <!-- Preview available: image + highlight -->
+    <div class="preview-container" *ngIf="citation.previewAvailable && assetUrl">
+      <div class="image-wrapper">
+        <img [src]="assetUrl" alt="Page Preview" />
+        <!-- Destaque BBox usando a div sobreposta com opacidade -->
+        <div class="highlight-overlay" *ngIf="highlightStyle" [ngStyle]="highlightStyle"></div>
+      </div>
+    </div>
+
+    <!-- Fallback textual -->
+    <div class="fallback-container" *ngIf="!citation.previewAvailable || !assetUrl">
+      <div class="alert warn">
+        <strong>Preview visual indisponível.</strong>
+        Exibindo o texto bruto extraído:
+      </div>
+      <div class="quote-text">
+        {{ citation.quote }}
+      </div>
+    </div>
+  </div>
+</div>

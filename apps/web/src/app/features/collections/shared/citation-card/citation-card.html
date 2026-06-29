@@ -1,0 +1,11 @@
+<div class="citation-card">
+  <div class="citation-header">
+    <strong>{{ citation.sourceLabel }}</strong>
+    <span class="badge">{{ citation.contentKind }}</span>
+    <span class="badge" *ngIf="citation.printedLabel">Pág. {{ citation.printedLabel }}</span>
+    <button class="btn-preview" (click)="onViewClick()">Ver original</button>
+  </div>
+  <div class="citation-quote">
+    {{ citation.quote }}
+  </div>
+</div>
