@@ -78,16 +78,11 @@
 
       <div class="citations-box" *ngIf="response.citations?.length">
         <h4>Citações Utilizadas</h4>
-        <div class="citation-card" *ngFor="let cit of response.citations">
-          <div class="citation-header">
-            <strong>{{ cit.sourceLabel }}</strong>
-            <span class="badge">{{ cit.contentKind }}</span>
-            <span class="badge" *ngIf="cit.printedLabel">Pág. {{ cit.printedLabel }}</span>
-          </div>
-          <div class="citation-quote">
-            {{ cit.quote }}
-          </div>
-        </div>
+        <app-citation-card 
+          *ngFor="let cit of response.citations" 
+          [citation]="cit" 
+          (viewPreview)="openPreview($event)">
+        </app-citation-card>
       </div>
     </div>
 
@@ -126,4 +121,11 @@
       </div>
     </div>
   </div>
+
+  <app-citation-preview 
+    [citation]="selectedCitation" 
+    [workspaceId]="workspaceId"
+    (closePanel)="closePreview()">
+  </app-citation-preview>
 </div>
+

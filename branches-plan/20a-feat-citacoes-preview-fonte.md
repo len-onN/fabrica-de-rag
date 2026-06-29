@@ -1,6 +1,6 @@
 # feat/citacoes-preview-fonte
 
-Status: candidata.
+Status: concluída.
 
 ## Objetivo
 

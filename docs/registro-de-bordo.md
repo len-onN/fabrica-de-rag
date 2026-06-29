@@ -131,7 +131,7 @@ Proximo passo concreto:
 | `feat/context-builder-base` | Concluída | Montar contexto expandido por vizinhos, budget e citacoes | Pendente | Exige busca vetorial base. |
 | `feat/laboratorio-recuperacao` | Concluída | Criar laboratorio com chunks, contexto e citacoes | Pendente | Exige busca e context builder inicial. |
 | `feat/resposta-rag-base` | Mesclada | Gerar resposta RAG com grounding quando provider estiver definido | Concluido | Pode usar adapter mockado inicialmente. |
-| `feat/citacoes-preview-fonte` | Candidata | Abrir fonte original de citacoes com preview e fallback textual | Pendente | Fecha criterio de validacao de evidencia. |
+| `feat/citacoes-preview-fonte` | Concluída | Abrir fonte original de citacoes com preview e fallback textual | Pendente | Fecha criterio de validacao de evidencia. |
 | `feat/analytics-eventos-base` | Candidata | Registrar eventos locais versionados | Pendente | Exige taxonomia de eventos. |
 | `feat/analytics-dashboard-base` | Candidata | Criar dashboard local minimo de qualidade e falhas | Pendente | Exige eventos base. |
 | `feat/api-rag-publica` | Candidata | Expor API HTTP de consulta RAG | Pendente | Exige permissoes e limites. |
@@ -240,4 +240,19 @@ Riscos/colateralidades: Sem impacto direto na compilação ou execução fora do
 Testes/verificacoes: Build Angular validado localmente com npm run build sem erros de template parsing e tipagem, cobrindo DTOs.
 Pendencias: Nenhuma no escopo atual.
 Proximo passo: Commit, Push, PR.
+```
+
+```text
+Data: 2026-06-28
+Branch: `feat/citacoes-preview-fonte`
+Status: Concluída
+Objetivo da etapa: Abrir fonte original de citações com preview e fallback textual.
+Skills/fontes ativadas: N/A
+O que foi feito: No frontend Angular, refatorou-se a exibição de citações do Laboratório RAG para utilizar componentes reutilizáveis. Foram criados o `CitationCardComponent` para renderizar os cartões básicos de citações, e o `CitationPreviewComponent` funcionando como um painel lateral dinâmico (Drawer) para visualizar a fonte original. Lógicas de fallback textual para quando as imagens não estão disponíveis foram incorporadas, juntamente à um overlay (BBox) projetado a partir de coordenadas `pdf_points_top_left` vindas das interpretações visuais e tabelas do RAG.
+Arquivos tocados: rag-laboratory.component.ts/html/css, citation-card.ts/html/css, citation-preview.ts/html/css.
+Decisões tomadas: Utilizar Painel Lateral para visualização de origens, de forma a não interromper o contexto principal do chat e laboratório. O destaque de áreas específicas (BBox) foi implementado de forma fluída com posições absolutas baseadas em propriedades relativas.
+Riscos/colateralidades: Sem impactos adversos.
+Testes/verificações: Build do Angular (`npm run build`) validou com sucesso as injeções e tipos.
+Pendências: Nenhuma no escopo atual.
+Próximo passo: Commit, Push, PR e avançar para `feat/analytics-eventos-base`.
 ```

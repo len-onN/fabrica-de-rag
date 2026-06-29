@@ -1,15 +1,18 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RagService, AskRequest, AskResponse, RetrievalFeedbackRequest } from '../../../core/http/rag.service';
+import { RagService, AskRequest, AskResponse, RetrievalFeedbackRequest, Citation } from '../../../core/http/rag.service';
+import { CitationCardComponent } from '../shared/citation-card/citation-card';
+import { CitationPreviewComponent } from '../shared/citation-preview/citation-preview';
 
 @Component({
   selector: 'app-rag-laboratory',
-  imports: [CommonModule, FormsModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule, CitationCardComponent, CitationPreviewComponent],
   templateUrl: './rag-laboratory.component.html',
   styleUrls: ['./rag-laboratory.component.css']
 })
-export class RagLaboratoryComponent {
+export class RagLaboratoryComponent implements OnInit {
   @Input() workspaceId!: string;
   @Input() collectionId!: string;
 
@@ -27,6 +30,9 @@ export class RagLaboratoryComponent {
   feedbackSubmitted = false;
 
   activeTab: 'response' | 'chunks' | 'context' = 'response';
+  selectedCitation: Citation | null = null;
+
+  ngOnInit() {}
 
   ask() {
     if (!this.query.trim()) return;
@@ -60,7 +66,7 @@ export class RagLaboratoryComponent {
   }
 
   submitFeedback(type: 'positive' | 'negative') {
-    if (!this.response) return;
+    if (!this.response || !this.collectionId) return;
 
     const req: RetrievalFeedbackRequest = {
       collectionId: this.collectionId,
@@ -77,5 +83,13 @@ export class RagLaboratoryComponent {
         alert('Erro ao enviar feedback.');
       }
     });
+  }
+
+  openPreview(citation: Citation) {
+    this.selectedCitation = citation;
+  }
+
+  closePreview() {
+    this.selectedCitation = null;
   }
 }
