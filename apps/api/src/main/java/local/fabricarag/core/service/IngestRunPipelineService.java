@@ -16,6 +16,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.Optional;
+import java.time.Instant;
+import local.fabricarag.core.domain.analytics.ActorType;
+import local.fabricarag.core.domain.analytics.AnalyticsEvent;
+import local.fabricarag.core.domain.analytics.AnalyticsEventService;
+import local.fabricarag.core.domain.analytics.EventOrigin;
+import local.fabricarag.core.domain.analytics.RetentionClass;
 
 @Service
 public class IngestRunPipelineService {
@@ -30,6 +36,7 @@ public class IngestRunPipelineService {
     private final ChunkEmbeddingRepository chunkEmbeddingRepository;
     private final ChunkRepository chunkRepository;
     private final String apiBaseUrl;
+    private final AnalyticsEventService analyticsEventService;
 
     public IngestRunPipelineService(
             IngestRunRepository runRepository,
@@ -39,6 +46,7 @@ public class IngestRunPipelineService {
             VectorStorePort vectorStorePort,
             ChunkEmbeddingRepository chunkEmbeddingRepository,
             ChunkRepository chunkRepository,
+            AnalyticsEventService analyticsEventService,
             @Value("${fabricarag.api.url:http://localhost:8080}") String apiBaseUrl
     ) {
         this.runRepository = runRepository;
@@ -48,6 +56,7 @@ public class IngestRunPipelineService {
         this.vectorStorePort = vectorStorePort;
         this.chunkEmbeddingRepository = chunkEmbeddingRepository;
         this.chunkRepository = chunkRepository;
+        this.analyticsEventService = analyticsEventService;
         this.apiBaseUrl = apiBaseUrl;
     }
 
@@ -122,6 +131,26 @@ public class IngestRunPipelineService {
             stepRepository.save(step);
             run.updateStatus(IngestRunStatus.RUNNING);
             runRepository.save(run);
+            
+            if ("inspect_pdf".equals(stepName)) {
+                AnalyticsEvent event = new AnalyticsEvent();
+                event.setEventName("ingest_run_started");
+                event.setOrigin(EventOrigin.API);
+                event.setRetentionClass(RetentionClass.ANALYTICS);
+                event.setWorkspaceId(run.getWorkspaceId().toString());
+                event.setActorType(ActorType.SYSTEM);
+                event.setCorrelationId("run_" + run.getId().toString().replace("-", "").substring(0, 10));
+                event.setOccurredAt(Instant.now());
+                event.setResourceType("ingest_run");
+                event.setResourceId(run.getId().toString());
+                
+                event.setProperties(Map.of(
+                        "documentId", doc.getPublicId(),
+                        "profile", "default",
+                        "stageCount", 6
+                ));
+                analyticsEventService.publishEvent(event);
+            }
             
             try {
                 executeStepAction(run, doc, step);
@@ -220,6 +249,25 @@ public class IngestRunPipelineService {
         
         step.markCompleted(Map.of());
         stepRepository.save(step);
+        
+        AnalyticsEvent event = new AnalyticsEvent();
+        event.setEventName("ingest_run_completed");
+        event.setOrigin(EventOrigin.API);
+        event.setRetentionClass(RetentionClass.ANALYTICS);
+        event.setWorkspaceId(run.getWorkspaceId().toString());
+        event.setActorType(ActorType.SYSTEM);
+        event.setCorrelationId("run_" + run.getId().toString().replace("-", "").substring(0, 10));
+        event.setOccurredAt(Instant.now());
+        event.setResourceType("ingest_run");
+        event.setResourceId(run.getId().toString());
+        
+        event.setProperties(Map.of(
+                "durationMs", 0, // Placeholder
+                "chunksCount", 0, // Placeholder
+                "pagesCount", 1, // Placeholder
+                "warningsCount", 0
+        ));
+        analyticsEventService.publishEvent(event);
     }
     
     @Transactional

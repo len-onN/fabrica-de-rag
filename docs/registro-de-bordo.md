@@ -25,13 +25,13 @@ Atualizar:
 
 | Campo | Valor |
 | --- | --- |
-| Data do registro | 2026-06-28 |
+| Data do registro | 2026-06-29 |
 | Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/laboratorio-recuperacao` |
+| Branch atual | `feat/analytics-eventos-base` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Criar laboratorio com chunks, contexto e citacoes |
+| Objetivo atual | Registrar eventos locais versionados e retenção |
 | Status | Concluído |
-| Proximo marco | Commit, PR e iniciar próxima etapa (`feat/citacoes-preview-fonte` ou `feat/analytics-eventos-base`) |
+| Proximo marco | Commit, PR e iniciar próxima etapa (`feat/analytics-dashboard-base`) |
 
 ## Sessao viva
 
@@ -132,7 +132,7 @@ Proximo passo concreto:
 | `feat/laboratorio-recuperacao` | Concluída | Criar laboratorio com chunks, contexto e citacoes | Pendente | Exige busca e context builder inicial. |
 | `feat/resposta-rag-base` | Mesclada | Gerar resposta RAG com grounding quando provider estiver definido | Concluido | Pode usar adapter mockado inicialmente. |
 | `feat/citacoes-preview-fonte` | Concluída | Abrir fonte original de citacoes com preview e fallback textual | Pendente | Fecha criterio de validacao de evidencia. |
-| `feat/analytics-eventos-base` | Candidata | Registrar eventos locais versionados | Pendente | Exige taxonomia de eventos. |
+| `feat/analytics-eventos-base` | Concluída | Registrar eventos locais versionados | Pendente | Exige taxonomia de eventos. |
 | `feat/analytics-dashboard-base` | Candidata | Criar dashboard local minimo de qualidade e falhas | Pendente | Exige eventos base. |
 | `feat/api-rag-publica` | Candidata | Expor API HTTP de consulta RAG | Pendente | Exige permissoes e limites. |
 | `feat/mcp-tools-base` | Candidata | Expor primeiras ferramentas MCP controladas | Pendente | Exige schemas, permissoes e analytics. |
@@ -255,4 +255,19 @@ Riscos/colateralidades: Sem impactos adversos.
 Testes/verificações: Build do Angular (`npm run build`) validou com sucesso as injeções e tipos.
 Pendências: Nenhuma no escopo atual.
 Próximo passo: Commit, Push, PR e avançar para `feat/analytics-eventos-base`.
+```
+
+```text
+Data: 2026-06-29
+Branch: `feat/analytics-eventos-base`
+Status: Concluída
+Objetivo da etapa: Registrar eventos locais versionados, aplicar retenção por classe e integrar captura inicial.
+Skills/fontes ativadas: N/A
+O que foi feito: Backend: Criada entidade `AnalyticsEvent`, migrations e repositório. Construído `AnalyticsEventService` operando de forma assíncrona (`@Async`) e com sanitização de campos. Agendada regra Híbrida de Retenção de eventos usando `@Scheduled`. Integrados `IngestRunPipelineService` e `VectorSearchService` para publicarem os primeiros eventos essenciais da taxonomia RAG. Criados os endpoints POST, DELETE e export em `AnalyticsEventController`. Frontend: implementado `AnalyticsService.ts` e disparado o evento inicial no lab RAG.
+Arquivos tocados: V10__analytics_events.sql, AnalyticsEvent.java, AnalyticsEventRequest.java, AnalyticsEventRepository.java, AnalyticsEventService.java, AnalyticsRetentionJob.java, AnalyticsEventController.java, IngestRunPipelineService.java, VectorSearchService.java, analytics.service.ts, rag-laboratory.component.ts.
+Decisões tomadas: Gravação assíncrona (`@Async`) na própria thread pool do Spring em vez de kafka para simplicidade do MVP. A retenção usa abordagem híbrida (Tempo + Volume Seguro) no Background Job para evitar latência nos inserts. O evento `retrieval_query_executed` envia contagens exatas da query.
+Riscos/colateralidades: Operações assíncronas falhas não travarão a esteira, e limites de volume evitam crescimento explosivo.
+Testes/verificações: Build do Maven (`mvnw compile`) validou injeções e testes. Angular compilou corretamente.
+Pendências: Nenhuma no escopo atual.
+Próximo passo: Commit, Push, PR e avançar para dashboard analítico ou API pública.
 ```

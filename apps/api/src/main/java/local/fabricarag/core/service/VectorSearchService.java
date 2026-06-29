@@ -13,10 +13,16 @@ import local.fabricarag.core.dto.worker.EmbeddingsTextResponse;
 import local.fabricarag.core.port.out.VectorStorePort;
 import local.fabricarag.core.port.out.VectorStoreSearchResult;
 import local.fabricarag.core.repository.ChunkRepository;
+import local.fabricarag.core.domain.analytics.ActorType;
+import local.fabricarag.core.domain.analytics.AnalyticsEvent;
+import local.fabricarag.core.domain.analytics.AnalyticsEventService;
+import local.fabricarag.core.domain.analytics.EventOrigin;
+import local.fabricarag.core.domain.analytics.RetentionClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,12 +36,14 @@ public class VectorSearchService {
     private final VectorStorePort vectorStorePort;
     private final ChunkRepository chunkRepository;
     private final ObjectMapper objectMapper;
+    private final AnalyticsEventService analyticsEventService;
 
-    public VectorSearchService(WorkerClient workerClient, VectorStorePort vectorStorePort, ChunkRepository chunkRepository, ObjectMapper objectMapper) {
+    public VectorSearchService(WorkerClient workerClient, VectorStorePort vectorStorePort, ChunkRepository chunkRepository, ObjectMapper objectMapper, AnalyticsEventService analyticsEventService) {
         this.workerClient = workerClient;
         this.vectorStorePort = vectorStorePort;
         this.chunkRepository = chunkRepository;
         this.objectMapper = objectMapper;
+        this.analyticsEventService = analyticsEventService;
     }
 
     public SearchResponse search(SearchRequest request) {
@@ -143,11 +151,33 @@ public class VectorSearchService {
         Map<String, String> appliedFiltersStr = qdrantFilters.entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> String.valueOf(e.getValue())));
 
+        AnalyticsEvent event = new AnalyticsEvent();
+        event.setEventName("retrieval_query_executed");
+        event.setOrigin(EventOrigin.API);
+        event.setRetentionClass(RetentionClass.ANALYTICS);
+        event.setWorkspaceId(request.workspaceId());
+        event.setActorType(ActorType.USER); // For MVP, assuming user
+        event.setCorrelationId("qry_" + UUID.randomUUID().toString().replace("-", "").substring(0, 10));
+        event.setOccurredAt(Instant.now());
+        event.setResourceType("collection");
+        event.setResourceId(request.collectionId());
+        
+        Map<String, Object> props = new HashMap<>();
+        props.put("collectionId", request.collectionId());
+        props.put("queryMode", "metadata_only");
+        props.put("topK", topK);
+        props.put("retrievedChunksCount", finalResults.size());
+        props.put("lowConfidence", lowConfidenceAll);
+        props.put("durationMs", totalLatencyMs);
+        event.setProperties(props);
+        
+        analyticsEventService.publishEvent(event);
+
         return new SearchResponse(
                 "rag.search.response.v1",
                 request.workspaceId(),
                 request.collectionId(),
-                "qry_" + UUID.randomUUID().toString().replace("-", "").substring(0, 10),
+                event.getCorrelationId(),
                 request.query(),
                 "vector_search_v1",
                 topK,
