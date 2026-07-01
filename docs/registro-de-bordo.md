@@ -26,12 +26,12 @@ Atualizar:
 | Campo | Valor |
 | --- | --- |
 | Data do registro | 2026-07-01 |
-| Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/api-rag-publica` |
+| Fase | Endurecimento do MVP |
+| Branch atual | `develop` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Expor API HTTP de consulta RAG segura |
+| Objetivo atual | Reconciliação documental e preparo para E2E |
 | Status | Concluída |
-| Proximo marco | Commit, PR e iniciar próxima etapa (`feat/mcp-tools-base`) |
+| Proximo marco | Iniciar branch `test/e2e-mvp-ingestao-recuperacao` |
 
 ## Sessao viva
 
@@ -312,5 +312,5 @@ Decisoes tomadas: Adotada a estratégia de Workspaces dinâmicos no MCP: a Agent
 Riscos/colateralidades: O envelope de erro customizado devolve isError: true e strings estruturadas permitindo recuperação em LLMs maduros sem corromper a comunicação de IPC.
 Testes/verificacoes: Ambos os ecossistemas, Java (mvnw compile) e Node.js (tsc via npm run build) compilaram perfeitamente integrando a ponte de tipos de forma coesa.
 Pendencias: Nenhuma no escopo atual.
-Proximo passo: Commit, Push, PR e avançar para \eat/agentic-loop-worker\.
+Proximo passo: Commit, Push, PR e avançar para `test/e2e-mvp-ingestao-recuperacao`.
 \

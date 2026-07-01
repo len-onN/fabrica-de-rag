@@ -21,6 +21,7 @@ Sempre que novas sugestões brilhantes (mas não bloqueantes para a versão 1.0)
 - **Circuit Breakers e Retentativas Avançadas**: Implementar resiliência profunda (ex: Resilience4j) para lidar com *rate limits* e instabilidades severas de provedores de IA em nuvem, evoluindo o mecanismo de *webhook* simples do MVP.
 
 ## 3. Integração com Agentes (MCP)
+- **Loop Agêntico Nativo (Worker)**: Criação de um ciclo de reflexão/ação (ReAct) autônomo e isolado diretamente no backend Python (Worker). Permitirá orquestrar workflows complexos consumindo as próprias ferramentas da Fábrica, sem depender do loop interativo de clientes externos (como o Claude Desktop).
 - **Ações Autônomas Mutantes (Auto-Agent)**: Permitir que agentes e clientes do *Model Context Protocol* executem configurações, exclusões de dados sensíveis ou modificações na base sem exigir aprovação humana (No MVP, ferramentas destrutivas exigem confirmação explícita na interface do usuário local).
 - **MCP Server Remoto Seguro**: Exposição de conectores MCP via HTTP remoto obrigatoriamente sob TLS robusto e mTLS. O foco primário do MVP é stdio ou rede loopback.
 
