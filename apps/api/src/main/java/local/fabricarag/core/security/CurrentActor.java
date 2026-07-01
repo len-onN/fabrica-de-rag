@@ -10,17 +10,34 @@ public class CurrentActor implements Authentication {
     private final UUID userId;
     private final String publicId;
     private final String email;
+    private final String type;
+    private final String workspacePublicId;
+    private final List<String> capabilities;
     private boolean authenticated = true;
 
-    public CurrentActor(UUID userId, String publicId, String email) {
+    private CurrentActor(UUID userId, String publicId, String email, String type, String workspacePublicId, List<String> capabilities) {
         this.userId = userId;
         this.publicId = publicId;
         this.email = email;
+        this.type = type;
+        this.workspacePublicId = workspacePublicId;
+        this.capabilities = capabilities == null ? List.of() : capabilities;
+    }
+
+    public static CurrentActor forUser(UUID userId, String publicId, String email) {
+        return new CurrentActor(userId, publicId, email, "user", null, null);
+    }
+
+    public static CurrentActor forAgent(UUID keyId, String publicId, String workspacePublicId, List<String> capabilities) {
+        return new CurrentActor(keyId, publicId, "agent@" + workspacePublicId, "agent", workspacePublicId, capabilities);
     }
 
     public UUID getUserId() { return userId; }
     public String getPublicId() { return publicId; }
     public String getEmail() { return email; }
+    public String getType() { return type; }
+    public String getWorkspacePublicId() { return workspacePublicId; }
+    public List<String> getCapabilities() { return capabilities; }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

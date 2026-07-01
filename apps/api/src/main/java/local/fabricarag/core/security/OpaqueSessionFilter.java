@@ -43,7 +43,7 @@ public class OpaqueSessionFilter extends OncePerRequestFilter {
                 
                 if (authSession.getExpiresAt().isAfter(OffsetDateTime.now())) {
                     // Valid session, setup security context
-                    CurrentActor actor = new CurrentActor(
+                    CurrentActor actor = CurrentActor.forUser(
                             authSession.getUser().getId(),
                             authSession.getUser().getPublicId(),
                             authSession.getUser().getEmail()

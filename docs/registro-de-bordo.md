@@ -25,13 +25,13 @@ Atualizar:
 
 | Campo | Valor |
 | --- | --- |
-| Data do registro | 2026-06-29 |
+| Data do registro | 2026-07-01 |
 | Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/analytics-dashboard-base` |
+| Branch atual | `feat/api-rag-publica` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Criar dashboard local minimo de qualidade e falhas |
+| Objetivo atual | Expor API HTTP de consulta RAG segura |
 | Status | Concluída |
-| Proximo marco | Commit, PR e iniciar próxima etapa (`feat/api-rag-publica`) |
+| Proximo marco | Commit, PR e iniciar próxima etapa (`feat/mcp-tools-base`) |
 
 ## Sessao viva
 
@@ -133,8 +133,8 @@ Proximo passo concreto:
 | `feat/resposta-rag-base` | Mesclada | Gerar resposta RAG com grounding quando provider estiver definido | Concluido | Pode usar adapter mockado inicialmente. |
 | `feat/citacoes-preview-fonte` | Concluída | Abrir fonte original de citacoes com preview e fallback textual | Pendente | Fecha criterio de validacao de evidencia. |
 | `feat/analytics-eventos-base` | Concluída | Registrar eventos locais versionados | Pendente | Exige taxonomia de eventos. |
-| `feat/analytics-dashboard-base` | Candidata | Criar dashboard local minimo de qualidade e falhas | Pendente | Exige eventos base. |
-| `feat/api-rag-publica` | Candidata | Expor API HTTP de consulta RAG | Pendente | Exige permissoes e limites. |
+| `feat/analytics-dashboard-base` | Mesclada | Criar dashboard local minimo de qualidade e falhas | Concluido | Exige eventos base. |
+| `feat/api-rag-publica` | Concluída | Expor API HTTP de consulta RAG via API Keys | Pendente | Exige permissoes e limites. |
 | `feat/mcp-tools-base` | Candidata | Expor primeiras ferramentas MCP controladas | Pendente | Exige schemas, permissoes e analytics. |
 | `test/e2e-mvp-ingestao-recuperacao` | Candidata | Criar e2e do fluxo principal do MVP | Pendente | Exige compose e2e e fixtures pequenas. |
 | `perf/ingestao-e-contexto` | Candidata | Medir e otimizar gargalos reais | Pendente | Exige fluxo implementado para medir. |
@@ -284,4 +284,19 @@ Riscos/colateralidades: Como os eventos não sobrecarregam o banco (limites de r
 Testes/verificações: Build Maven `mvnw compile` concluído com sucesso e build Angular `npm run build` executado e limpo (sem problemas de tipagem sintática na resposta de DTO).
 Pendências: Nenhuma no escopo atual.
 Próximo passo: Commit, Push, PR e avançar para `feat/api-rag-publica`.
+```
+
+```text
+Data: 2026-07-01
+Branch: `feat/api-rag-publica`
+Status: Concluída
+Objetivo da etapa: Expor API HTTP de consulta RAG via API Keys e limits restritos.
+Skills/fontes ativadas: N/A
+O que foi feito: Backend: Criada entidade `ApiKey`, migration `V11` e repositório com suporte nativo a JSONB para as capabilities via Hibernate. Implementado `ApiKeyFilter` atuando como barreira inicial para tokens `Bearer rag_key_*` e preenchendo contexto seguro sob o Actor type "agent". Refatorada a `AuthorizationPolicy` e o `CurrentActor` para validar dinamicamente capabilities. Implementado `ApiKeyController` para emitir e revogar chaves usando geração de alta entropia (SecureRandom) salva como SHA-256 e acoplados logs de evento Analytics explícitos. Atualizado o `RagAskController` com limits (`topK`, `tokenBudget`) enforçados ativamente em cima de chaves API externas.
+Arquivos tocados: V11__api_keys.sql, ApiKey.java, CurrentActor.java, AuthorizationPolicy.java, ApiKeyFilter.java, SecurityConfig.java, ApiKeyController.java, RagAskController.java, DTOs de Auth.
+Decisões tomadas: O hash do secret usa SHA-256 no BD para não guardar a chave plaintext, considerando ser um token gerado aleatoriamente e não uma senha humana. A criação da API Key ganhou capacidades e expiração opcionais com fallbacks maduros (`rag.ask`, etc) provendo flexibilidade futura de escopo na UI.
+Riscos/colateralidades: Algoritmo seguro sem vazamento de secret original pós criação, os tetos (limits) de RAG previnem custos abusivos por chaves agentes válidas.
+Testes/verificações: Build do Maven (`mvnw compile`) concluído com sucesso avaliando anotações corrigidas JSON Type para compatibilidade do Hibernate 6.
+Pendências: Nenhuma no escopo atual.
+Próximo passo: Commit, Push, PR e avançar para `feat/mcp-tools-base`.
 ```

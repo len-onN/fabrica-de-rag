@@ -4,8 +4,10 @@ import jakarta.validation.Valid;
 import local.fabricarag.core.dto.rag.AskRequest;
 import local.fabricarag.core.dto.rag.AskResponse;
 import local.fabricarag.core.service.RagAskService;
+import local.fabricarag.core.security.CurrentActor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,19 +21,28 @@ public class RagAskController {
     }
 
     @PostMapping("/ask")
-    @PreAuthorize("@authorizationPolicy.hasPermission(#workspaceId, 'rag.ask')")
+    @PreAuthorize("@authorizationPolicy.hasPermission(authentication, #workspaceId, 'rag.ask')")
     public ResponseEntity<AskResponse> ask(
             @PathVariable String workspaceId,
-            @Valid @RequestBody AskRequest request
+            @Valid @RequestBody AskRequest request,
+            @AuthenticationPrincipal CurrentActor actor
     ) {
+        Integer topK = request.topK();
+        Integer budget = request.tokenBudget();
+
+        if ("agent".equals(actor.getType())) {
+            topK = topK == null ? 8 : Math.min(topK, 12);
+            budget = budget == null ? 5000 : Math.min(budget, 6000);
+        }
+
         // Assegura que o workspaceId da URL e do body sao consistentes (ou forca o da URL)
         AskRequest securedRequest = new AskRequest(
                 workspaceId,
                 request.collectionId(),
                 request.query(),
-                request.topK(),
+                topK,
                 request.policy(),
-                request.tokenBudget(),
+                budget,
                 request.filters(),
                 request.includeTables(),
                 request.includeVisuals()
