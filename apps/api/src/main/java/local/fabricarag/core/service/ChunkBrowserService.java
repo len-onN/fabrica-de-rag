@@ -26,6 +26,12 @@ public class ChunkBrowserService {
         return chunks.map(this::mapToResponse);
     }
 
+    public Optional<ChunkResponse> getChunk(String workspaceId, String chunkPublicId) {
+        return chunkRepository.findByPublicId(chunkPublicId)
+                .filter(chunk -> chunk.getWorkspaceId().equals(workspaceId))
+                .map(this::mapToResponse);
+    }
+
     public Optional<ChunkResponse> getNeighbor(String workspaceId, String chunkPublicId, int offset) {
         return chunkRepository.findByPublicId(chunkPublicId)
                 .filter(chunk -> chunk.getWorkspaceId().equals(workspaceId))

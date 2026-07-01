@@ -45,4 +45,16 @@ public class ChunkController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/{chunkId}")
+    @PreAuthorize("@authorizationPolicy.hasPermission(#workspaceId, 'document.read')")
+    public ResponseEntity<ChunkResponse> getChunk(
+            @PathVariable String workspaceId,
+            @PathVariable UUID collectionId,
+            @PathVariable String chunkId
+    ) {
+        return chunkBrowserService.getChunk(workspaceId, chunkId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }

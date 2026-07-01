@@ -354,3 +354,18 @@ No backend, criou-se a classe auxiliar de serviço `AnalyticsDashboardService` a
 No frontend, a arquitetura da UI apostou forte na usabilidade e rica percepção de valor: O Angular Signals atrelou o estado a um Form Reativo (filtros com `debounceTime`). O Grid se baseou em Glassmorphism, CSS Modules sem ruídos visuais exagerados, garantindo destaques coloridos para métricas críticas (como Falhas de Contexto e Hits de API). O empty state ganhou uma interface amigável.
 
 Tudo fluiu conforme testes da suíte e compilação das partes (`mvnw compile` & `npm run build`), certificando ausência de regressões sintáticas nos Contratos compartilhados (TS <-> Java). O próximo passo lógico segue a priorização para preparar a robusta camada de `feat/api-rag-publica`.
+
+## 2026-07-01 - API RAG Publica e Agent Keys
+
+Depois da branch de analytics e dashboard, o projeto avancou para exponenciar o RAG para sistemas terceiros na branch \eat/api-rag-publica\. O alvo central foi prover integracao programatica e segura aos dados sem necessitar da interface grafica.
+Para isso, foi introduzida a entidade de \ApiKey\ com RBAC robusto baseado em capabilities pre-definidas (ag.ask\, \document.read\, etc). O Spring Security recebeu a injecao de um filtro Customizado (\ApiKeyFilter\) lidando com o \Bearer rag_key_*\ gerando um contexto de autenticacao valido para um novo \CurrentActor\ do tipo \gent\.
+Essa ramificacao ativou os tetos orcamentarios e os \limits\ nativos para requests sem sessao de usuario, previnindo custos elevados com as buscas abertas geradas de forma autonoma (agentes LLM e workflows).
+
+## 2026-07-01 - Servidor MCP Local e Adaptadores de Tools
+
+O proximo passo foi plugar agentes LLM inteligentes via Model Context Protocol (MCP) integrando o frontend do Claude Desktop a nossa base vetorial e ao Context Builder em \eat/mcp-tools-base\.
+A decisao fundamental de arquitetura foi manter o Node.js como servidor MCP (\pps/mcp\), conectado por STDIO, mas operando ativamente a Descoberta Dinamica de Workspaces em vez de chumbar um unico projeto nas variaveis de ambiente locais.
+Foi escrito um servidor em TypeScript (Node 24) contendo adaptadores robustos das ferramentas: \list_workspaces\, \search_chunks\, \get_chunk\, \expand_context\ e \sk_rag\.
+Esse adaptador funciona como um \Anti-Corruption Layer (ACL)\. Ele entende o schema Zod relaxado otimizado para a linguagem do LLM, orquestra e re-envia payloads restritos para a API RAG Publica do Java anexando ao cabecalho a Agent Key. 
+A integracao ja engloba a telemetria essencial, empurrando via REST (fire-and-forget) os eventos de invocoes (mcp_tool_invoked) e falhas, mantendo o \isError: true\ transparente no lado LLM para a continuidade da conversa. 
+Os builds independentes rodaram liso. Na sequencia o foco vai pro core do Loop Agentico isolado (Worker Python).
