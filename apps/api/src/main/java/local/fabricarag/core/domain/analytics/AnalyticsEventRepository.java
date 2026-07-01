@@ -19,4 +19,11 @@ public interface AnalyticsEventRepository extends JpaRepository<AnalyticsEvent, 
     @Modifying
     @Query(value = "DELETE FROM analytics_events WHERE id IN (SELECT id FROM analytics_events WHERE workspace_id = :workspaceId AND retention_class = :retentionClass ORDER BY occurred_at DESC OFFSET :maxVolume)", nativeQuery = true)
     int enforceMaxVolumeLimit(@Param("workspaceId") String workspaceId, @Param("retentionClass") String retentionClass, @Param("maxVolume") int maxVolume);
+
+    @Query("SELECT a FROM AnalyticsEvent a WHERE a.workspaceId = :workspaceId AND a.occurredAt >= :from AND a.occurredAt <= :to")
+    java.util.List<AnalyticsEvent> findByWorkspaceIdAndOccurredAtBetween(
+            @Param("workspaceId") String workspaceId,
+            @Param("from") Instant from,
+            @Param("to") Instant to
+    );
 }

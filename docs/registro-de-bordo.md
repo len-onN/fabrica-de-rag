@@ -27,11 +27,11 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-06-29 |
 | Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/analytics-eventos-base` |
+| Branch atual | `feat/analytics-dashboard-base` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Registrar eventos locais versionados e retenção |
-| Status | Concluído |
-| Proximo marco | Commit, PR e iniciar próxima etapa (`feat/analytics-dashboard-base`) |
+| Objetivo atual | Criar dashboard local minimo de qualidade e falhas |
+| Status | Concluída |
+| Proximo marco | Commit, PR e iniciar próxima etapa (`feat/api-rag-publica`) |
 
 ## Sessao viva
 
@@ -270,4 +270,18 @@ Riscos/colateralidades: Operações assíncronas falhas não travarão a esteira
 Testes/verificações: Build do Maven (`mvnw compile`) validou injeções e testes. Angular compilou corretamente.
 Pendências: Nenhuma no escopo atual.
 Próximo passo: Commit, Push, PR e avançar para dashboard analítico ou API pública.
+```
+```text
+Data: 2026-06-29
+Branch: `feat/analytics-dashboard-base`
+Status: Concluída
+Objetivo da etapa: Criar dashboard local minimo de qualidade e falhas baseadas na retenção local.
+Skills/fontes ativadas: N/A
+O que foi feito: Backend: Criado `DashboardSummaryRequest` para receber filtros, estendido `DashboardSummaryResponse` seguindo o contrato rigoroso do V1. Implementado o `AnalyticsDashboardService` para extrair agregações (Ingestion, Retrieval, Answers, API/MCP, TopFailures) via stream/memory a partir de queries por tempo em `AnalyticsEventRepository`. Atualizado `WorkspaceController`. Frontend: Criado a camada UI do Dashboard utilizando Signals, FormBuilder para reatividade dos filtros, Glassmorphism/CSS Grid para cards informativos robustos, iconografia via Lucide e Empty State.
+Arquivos tocados: DashboardSummaryResponse.java, DashboardSummaryRequest.java, AnalyticsEventRepository.java, AnalyticsDashboardService.java, WorkspaceController.java, workspace.service.ts, dashboard.component.ts/css.
+Decisões tomadas: Extração primária dos eventos restrita por `workspaceId` e datas via SQL, com agregações e leitura de `properties` complexos sendo feitos em memória na camada de Serviço (seguro para o volume restrito de dados retidos locais definidos na etapa anterior). Interface baseada em forms reativos emitindo para o backend.
+Riscos/colateralidades: Como os eventos não sobrecarregam o banco (limites de retenção já aplicados), o processamento em memória do dashboard mantém latência baixa e elimina a complexidade de manipulação de JSONB no H2/Postgres via JPQL.
+Testes/verificações: Build Maven `mvnw compile` concluído com sucesso e build Angular `npm run build` executado e limpo (sem problemas de tipagem sintática na resposta de DTO).
+Pendências: Nenhuma no escopo atual.
+Próximo passo: Commit, Push, PR e avançar para `feat/api-rag-publica`.
 ```
