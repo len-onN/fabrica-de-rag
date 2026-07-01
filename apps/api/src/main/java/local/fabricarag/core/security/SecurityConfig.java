@@ -24,10 +24,12 @@ import java.util.List;
 public class SecurityConfig {
 
     private final OpaqueSessionFilter opaqueSessionFilter;
+    private final ApiKeyFilter apiKeyFilter;
     private final Environment env;
 
-    public SecurityConfig(OpaqueSessionFilter opaqueSessionFilter, Environment env) {
+    public SecurityConfig(OpaqueSessionFilter opaqueSessionFilter, ApiKeyFilter apiKeyFilter, Environment env) {
         this.opaqueSessionFilter = opaqueSessionFilter;
+        this.apiKeyFilter = apiKeyFilter;
         this.env = env;
     }
 
@@ -52,7 +54,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/**").authenticated()
                 .anyRequest().permitAll()
             )
-            .addFilterBefore(opaqueSessionFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(apiKeyFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterAfter(opaqueSessionFilter, ApiKeyFilter.class)
             .httpBasic(basic -> basic.disable())
             .formLogin(form -> form.disable())
             .logout(logout -> logout.disable()); // Custom logout handled in AuthController

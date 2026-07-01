@@ -25,6 +25,10 @@ public class AuthorizationPolicy {
 
         CurrentActor actor = (CurrentActor) authentication;
         
+        if ("agent".equals(actor.getType())) {
+            return workspacePublicId.equals(actor.getWorkspacePublicId()) && actor.getCapabilities().contains(permission);
+        }
+
         List<WorkspaceMembership> memberships = membershipRepository.findByUserId(actor.getUserId());
         
         return memberships.stream()
