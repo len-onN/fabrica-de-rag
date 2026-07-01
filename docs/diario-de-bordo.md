@@ -344,3 +344,13 @@ A gravação no Backend também seguiu o caminho de baixa latência e desacoplam
 A integração da infraestrutura aos eventos essenciais do produto foi efetuada através dos fluxos existentes: A visualização na UI (através do componente de Laboratório RAG) chama um recém-criado Endpoint da API REST publicando o `retrieval_lab_opened`. E nos serviços centrais de backend, as execuções de ingestão (`ingest_run_started` e `ingest_run_completed`) e as consultas vetoriais (`retrieval_query_executed`) publicam diretamente.
 
 Os builds e os testes garantiram o status verde no código. O próximo passo do escopo analítico será preparar os blocos visuais de consumo desta informação (`feat/analytics-dashboard-base`) ou a exposição para clientes das rotas da RAG API.
+
+## 2026-06-29 - Analytics Dashboard Base
+
+Depois do fechamento dos eventos analíticos na branch anterior, a branch `feat/analytics-dashboard-base` foi criada para consumir e expor visualmente essas métricas ao administrador. A funcionalidade compõe a camada MVP provendo visibilidade operacional das coleções e das execuções de RAG, tudo restrito pelo escopo de segurança já definido (RBAC `workspace.read`).
+
+No backend, criou-se a classe auxiliar de serviço `AnalyticsDashboardService` acoplada às queries de espaço de tempo adicionadas ao `AnalyticsEventRepository`. Para mitigar complexidade no MVP e dado que a política de retenção já é rigorosa, a agregação (somatórias, filtros secundários por origens ou `collectionId` e mediana de tempos) passou a ser operada majoritariamente pela camada de aplicação (em memória com streams) após a restrição rígida via banco pelo ID do Workspace e datas. A rota do `WorkspaceController` adotou um `DashboardSummaryRequest` estendido e retornou um DTO 1:1 com o Contrato Json (V1), estruturado com seções de ingestão, respostas RAG e Top Failures.
+
+No frontend, a arquitetura da UI apostou forte na usabilidade e rica percepção de valor: O Angular Signals atrelou o estado a um Form Reativo (filtros com `debounceTime`). O Grid se baseou em Glassmorphism, CSS Modules sem ruídos visuais exagerados, garantindo destaques coloridos para métricas críticas (como Falhas de Contexto e Hits de API). O empty state ganhou uma interface amigável.
+
+Tudo fluiu conforme testes da suíte e compilação das partes (`mvnw compile` & `npm run build`), certificando ausência de regressões sintáticas nos Contratos compartilhados (TS <-> Java). O próximo passo lógico segue a priorização para preparar a robusta camada de `feat/api-rag-publica`.

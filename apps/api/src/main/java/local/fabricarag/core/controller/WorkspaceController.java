@@ -20,25 +20,21 @@ public class WorkspaceController {
 
     private final WorkspaceRepository workspaceRepository;
     private final ObjectMapper objectMapper;
+    private final local.fabricarag.core.service.AnalyticsDashboardService dashboardService;
 
-    public WorkspaceController(WorkspaceRepository workspaceRepository, ObjectMapper objectMapper) {
+    public WorkspaceController(WorkspaceRepository workspaceRepository, ObjectMapper objectMapper, local.fabricarag.core.service.AnalyticsDashboardService dashboardService) {
         this.workspaceRepository = workspaceRepository;
         this.objectMapper = objectMapper;
+        this.dashboardService = dashboardService;
     }
 
     @GetMapping("/{workspaceId}/dashboard")
     @org.springframework.security.access.prepost.PreAuthorize("@authorizationPolicy.hasPermission(authentication, #workspaceId, 'workspace.read')")
     public ResponseEntity<DashboardSummaryResponse> getDashboardSummary(
-            @PathVariable String workspaceId) {
+            @PathVariable String workspaceId,
+            @ModelAttribute local.fabricarag.core.dto.DashboardSummaryRequest request) {
 
-        DashboardSummaryResponse response = new DashboardSummaryResponse(
-                "1.0",
-                workspaceId,
-                0, 
-                0, 
-                0  
-        );
-
+        DashboardSummaryResponse response = dashboardService.getDashboardSummary(workspaceId, request);
         return ResponseEntity.ok(response);
     }
 
