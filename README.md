@@ -62,41 +62,92 @@ Se o Git bloquear a checagem por `dubious ownership`, o agente nao deve contorna
 - [Analytics local de RAG](docs/analytics-local-rag.md)
 - [Planejamento](docs/document-cemetery/planejamento.md)
 
-## Estrutura inicial
+## Estrutura inicial e Execucao Local
+
+O projeto e divido em 4 aplicacoes principais e componentes de infraestrutura:
 
 ```text
 .
 +-- apps
-|   +-- api
-|   +-- mcp
-|   +-- web
-|   +-- worker
-+-- docs
-+-- infra
-|   +-- compose
-|       +-- compose.yml
-|       +-- compose.dev.yml
-|       +-- compose.e2e.yml
-+-- scripts
-+-- tests
-    +-- contracts
-    +-- e2e
-    +-- fixtures
+|   +-- api       (Spring Boot / Java 21)
+|   +-- mcp       (Node.js / TypeScript)
+|   +-- web       (Angular 22 / Node 24)
+|   +-- worker    (Python 3.13 / FastAPI)
++-- docs          (Base de conhecimento)
++-- infra         
+|   +-- compose   (Docker Compose da stack dependente)
++-- scripts       (Utilitarios operacionais)
++-- tests         (Fixtures e testes globais)
 ```
 
-Comandos atuais:
+### 1. Dependencias Base
+
+Suba os servicos auxiliares (Postgres, Qdrant) usando Docker Compose:
 
 ```powershell
-.\scripts\check.ps1
 .\scripts\compose-up.ps1 -Profile dev
-.\scripts\compose-down.ps1 -Profile dev
-.\scripts\compose-up.ps1 -Profile e2e
-.\scripts\compose-down.ps1 -Profile e2e -RemoveVolumes
+```
+*(Para desligar: `.\scripts\compose-down.ps1 -Profile dev`)*
+
+### 2. Backend (API)
+
+Requisitos: Java 21.
+
+```powershell
+cd apps\api
+.\mvnw spring-boot:run
+```
+*A API roda por padrao na porta `8080`.*
+
+### 3. Worker (Extracao PDF/ML)
+
+Requisitos: Python 3.13 e `uv`.
+
+```powershell
+cd apps\worker
+uv sync
+uv run uvicorn src.rag_worker.main:app --reload
+```
+*O Worker roda por padrao na porta `8000`. Swagger em `http://127.0.0.1:8000/docs`.*
+
+### 4. Frontend (Web)
+
+Requisitos: Node.js 24 LTS.
+
+```powershell
+cd apps\web
+npm install
+npm run start
+```
+*O Web App roda por padrao na porta `4200`.*
+
+### 5. Servidor MCP (Opcional - Ferramentas para Agentes)
+
+Requisitos: Node.js 24 LTS.
+
+```powershell
+cd apps\mcp
+npm install
+npm run build
+npm run start
 ```
 
-`check.ps1` valida a estrutura raiz, contratos versionados e `docker compose config` para os perfis `base`, `dev` e `e2e`. O perfil `dev` publica Postgres em `5432`, Qdrant HTTP em `6333` e Qdrant gRPC em `6334`, com override por variaveis `RAG_POSTGRES_PORT`, `RAG_QDRANT_HTTP_PORT` e `RAG_QDRANT_GRPC_PORT`.
+### Validacao de Ambiente e Testes
 
-Os scripts de testes ainda sao placeholders intencionais e retornam codigo `2` ate as branches donas criarem as suites, o smoke e o e2e reais.
+O repositorio contem scripts PowerShell para validar e orquestrar as pecas.
+
+```powershell
+# Valida estrutura raiz, contratos e formato Compose
+.\scripts\check.ps1
+
+# Testes E2E via Playwright (necessario subir compose.e2e primeiro)
+.\scripts\test-e2e.ps1
+```
+
+> **Troubleshooting Comum:**
+> - Se `check.ps1` falhar com `docker compose config`, verifique se o Docker Desktop esta aberto.
+> - Se o backend apontar "Connection refused" para o Qdrant, garanta que ele esteja de pe executando `curl http://localhost:6333/healthz`.
+> - Erro de porta `8080` em uso: certifique-se que o backend Spring Boot nao esteja rodando duplicado.
 
 ## Stacks escolhidas ate aqui
 

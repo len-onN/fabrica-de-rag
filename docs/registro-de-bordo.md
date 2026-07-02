@@ -25,15 +25,17 @@ Atualizar:
 
 | Campo | Valor |
 | --- | --- |
-| Data do registro | 2026-07-01 |
+| Data do registro | 2026-07-02 |
 | Fase | Endurecimento do MVP |
-| Branch atual | `develop` |
+| Branch atual | `docs/execucao-local-mvp` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Fechar infra E2E do fluxo de ingestão e recuperação |
-| Status | Concluída |
-| Proximo marco | Merge de test/e2e-mvp-ingestao-recuperacao e Iniciar analise/pesquisa de viabilidade e performance |
+| Objetivo atual | Documentar execucao local do MVP |
+| Status | Em andamento |
+| Proximo marco | Commit, Push e PR da branch `docs/execucao-local-mvp` |
 
 ## Sessao viva
+
+A branch `chore/28-investigacao-fundacao-estrutural` concluiu os ajustes da infraestrutura assíncrona, e o foco agora é viabilizar o uso do repositório por novos desenvolvedores. A branch atual mapeou os comandos reais testados para Angular (npm), Spring Boot (mvnw), Python (uv) e MCP, injetando na raiz um Troubleshooting rápido.
 
 Estamos consolidando a documentacao do MVP e a camada operacional que guiara a implementacao por branches. A lacuna identificada foi que o projeto ja tinha boa documentacao de produto, arquitetura e escopo, mas ainda precisava de um rito explicito para transformar isso em desenvolvimento rastreavel: branch com escopo, PR para `develop`, registro de status e diario narrativo.
 
