@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/ragcreator
+    url: jdbc:postgresql://localhost:5433/ragcreator
     username: ragcreator
-    password: ragcreatorpassword
+    password: ragcreator_dev_password
     driver-class-name: org.postgresql.Driver
   flyway:
     enabled: true
