@@ -51,7 +51,7 @@ public class CurrentActor implements Authentication {
     public Object getDetails() { return null; }
 
     @Override
-    public Object getPrincipal() { return email; }
+    public Object getPrincipal() { return this; }
 
     @Override
     public boolean isAuthenticated() { return authenticated; }

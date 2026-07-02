@@ -1,97 +1,110 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/auth/auth.service';
+
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-bootstrap',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  template: `
-    <div class="w-full max-w-md bg-white dark:bg-slate-800 rounded-xl shadow-xl p-8 border border-slate-100 dark:border-slate-700">
-      <div class="text-center mb-8">
-        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Fábrica de RAG</h1>
-        <p class="text-slate-500 dark:text-slate-400 mt-2">Configuração inicial do sistema</p>
-      </div>
-
-      <form (ngSubmit)="onSubmit()" #bootstrapForm="ngForm" class="space-y-6">
-        
-        <!-- User Info -->
-        <div class="space-y-4">
-          <h2 class="text-sm font-semibold text-slate-900 dark:text-white uppercase tracking-wider">Conta do Administrador</h2>
-          <div>
-            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Nome de Exibição</label>
-            <input type="text" name="displayName" [(ngModel)]="formData.displayName" required class="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-shadow">
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">E-mail</label>
-            <input type="email" name="email" [(ngModel)]="formData.email" required class="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-shadow">
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Senha</label>
-            <input type="password" name="password" [(ngModel)]="formData.password" required class="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-shadow">
-          </div>
-        </div>
-
-        <hr class="border-slate-200 dark:border-slate-700">
-
-        <!-- Workspace Info -->
-        <div class="space-y-4">
-          <h2 class="text-sm font-semibold text-slate-900 dark:text-white uppercase tracking-wider">Workspace Principal</h2>
-          <div>
-            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Nome da Organização</label>
-            <input type="text" name="workspaceName" [(ngModel)]="formData.workspaceName" required class="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-shadow">
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Propósito</label>
-            <select name="workspacePurpose" [(ngModel)]="formData.workspacePurpose" required class="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-shadow">
-              <option value="production">Produção / Empresa</option>
-              <option value="evaluation">Avaliação / Testes</option>
-              <option value="academic">Acadêmico / Pesquisa</option>
-            </select>
-          </div>
-        </div>
-
-        <div *ngIf="error" class="p-3 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-sm rounded-lg">
-          {{ error }}
-        </div>
-
-        <button type="submit" [disabled]="loading || bootstrapForm.invalid" class="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50 flex justify-center items-center">
-          <span *ngIf="loading" class="mr-2 h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-          Iniciar Sistema
-        </button>
-      </form>
-    </div>
-  `
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatDividerModule
+  ],
+  templateUrl: './bootstrap.component.html',
+  styleUrls: ['./bootstrap.component.css']
 })
-export class BootstrapComponent {
+export class BootstrapComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private fb = inject(FormBuilder);
 
-  formData = {
-    displayName: '',
-    email: '',
-    password: '',
-    workspaceName: '',
-    workspacePurpose: 'evaluation',
-    analytics: {
-      enabled: false,
-      retentionDays: 30
-    }
-  };
-
+  bootstrapForm!: FormGroup;
   loading = false;
   error = '';
+  hidePassword = true;
+  passwordStrength = 0;
+
+  ngOnInit() {
+    this.bootstrapForm = this.fb.group({
+      displayName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      workspaceName: ['', Validators.required],
+      workspacePurpose: ['evaluation', Validators.required]
+    });
+
+    this.bootstrapForm.get('password')?.valueChanges.subscribe(val => {
+      this.passwordStrength = this.calculatePasswordStrength(val || '');
+    });
+  }
+
+  calculatePasswordStrength(password: string): number {
+    if (!password) return 0;
+    let score = 0;
+    if (password.length >= 8) score++;
+    if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score++;
+    if (/[0-9]/.test(password)) score++;
+    if (/[^a-zA-Z0-9]/.test(password)) score++;
+    return score;
+  }
+
+  getMeterClass(index: number): string {
+    if (index >= this.passwordStrength) return '';
+    if (this.passwordStrength === 1) return 'active-weak';
+    if (this.passwordStrength === 2) return 'active-fair';
+    if (this.passwordStrength === 3) return 'active-good';
+    return 'active-strong';
+  }
+
+  getMeterTextClass(): string {
+    if (this.passwordStrength === 1) return 'text-weak';
+    if (this.passwordStrength === 2) return 'text-fair';
+    if (this.passwordStrength === 3) return 'text-good';
+    if (this.passwordStrength === 4) return 'text-strong';
+    return '';
+  }
+
+  getMeterLabel(): string {
+    if (this.passwordStrength === 0) return '';
+    if (this.passwordStrength === 1) return 'Muito Fraca';
+    if (this.passwordStrength === 2) return 'Razoável';
+    if (this.passwordStrength === 3) return 'Boa';
+    return 'Forte';
+  }
 
   onSubmit() {
+    if (this.bootstrapForm.invalid || this.passwordStrength < 4) {
+      this.bootstrapForm.markAllAsTouched();
+      return;
+    }
+
     this.loading = true;
     this.error = '';
     
-    this.authService.bootstrap(this.formData).subscribe({
+    // Preparar o payload com o default analytics object, que ainda nao ta na UI
+    const payload = {
+      ...this.bootstrapForm.value,
+      analytics: { enabled: false, retentionDays: 30 }
+    };
+
+    this.authService.bootstrap(payload).subscribe({
       next: () => {
-        // After bootstrap, auto login implies session is created.
-        // Fetch 'me' and navigate to home
         this.authService.me().subscribe({
           next: () => this.router.navigate(['/']),
           error: () => this.router.navigate(['/'])
@@ -99,7 +112,19 @@ export class BootstrapComponent {
       },
       error: (err) => {
         this.loading = false;
-        this.error = err.error?.detail || 'Erro ao inicializar o sistema. Verifique os logs.';
+        if (err.error?.fieldErrors) {
+           this.error = 'Campos preenchidos incorretamente.';
+           err.error.fieldErrors.forEach((fe: any) => {
+             const control = this.bootstrapForm.get(fe.field);
+             if (control) {
+               control.setErrors({ serverError: fe.message });
+             }
+           });
+        } else if (err.error?.detail === 'bootstrap_already_completed') {
+           this.error = 'O sistema já foi inicializado! Essa página serve apenas para a criação do primeiro Administrador. Volte para a tela de Login.';
+        } else {
+           this.error = err.error?.detail || 'Erro ao inicializar o sistema. Verifique os logs.';
+        }
       }
     });
   }

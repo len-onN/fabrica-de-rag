@@ -27,15 +27,19 @@ Atualizar:
 | --- | --- |
 | Data do registro | 2026-07-02 |
 | Fase | Endurecimento do MVP |
-| Branch atual | `docs/execucao-local-mvp` |
+| Branch atual | `fix/ajustes-execucao-local` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Documentar execucao local do MVP |
-| Status | Em andamento |
-| Proximo marco | Commit, Push e PR da branch `docs/execucao-local-mvp` |
+| Objetivo atual | Fixar configurações de infra para que a API funcione dentro do docker dev |
+| Status | Concluído |
+| Proximo marco | Commit, Push e PR |
 
 ## Sessao viva
 
-A branch `chore/28-investigacao-fundacao-estrutural` concluiu os ajustes da infraestrutura assíncrona, e o foco agora é viabilizar o uso do repositório por novos desenvolvedores. A branch atual mapeou os comandos reais testados para Angular (npm), Spring Boot (mvnw), Python (uv) e MCP, injetando na raiz um Troubleshooting rápido.
+A branch `fix/ajustes-execucao-local` consertou a execução do ambiente de desenvolvimento. O perfil `dev` do Spring Boot estava com o banco de dados `localhost:5433` hardcoded no `application-dev.yml`, o que o impedia de ser rodado adequadamente dentro da rede de containers do Docker Compose, gerando falhas ao criar a conta ou fazer login (HTTP 500).
+
+O arquivo de configuração foi adaptado para injetar variáveis de ambiente `${DB_HOST}` e `${DB_PORT}`, e o `compose.dev.yml` foi atualizado para propagar a porta correta para o serviço API (`5432` interno).
+
+Adicionalmente, verificou-se que todo o Frontend Angular referente à autenticação (Login e Bootstrap) já estava devidamente refatorado e finalizado em sessões anteriores (usando Angular Material, Glassmorphism e validações reativas). O impeditivo era exclusivamente a infraestrutura. O sistema RAG volta a poder ser executado através dos containers Docker na porta 4200.
 
 Estamos consolidando a documentacao do MVP e a camada operacional que guiara a implementacao por branches. A lacuna identificada foi que o projeto ja tinha boa documentacao de produto, arquitetura e escopo, mas ainda precisava de um rito explicito para transformar isso em desenvolvimento rastreavel: branch com escopo, PR para `develop`, registro de status e diario narrativo.
 

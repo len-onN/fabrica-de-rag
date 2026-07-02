@@ -25,9 +25,13 @@ services:
     environment:
       DB_HOST: postgres
       QDRANT_HOST: qdrant
+      DB_USER: ragcreator_e2e
+      DB_PASSWORD: ragcreator_e2e_password
     depends_on:
       - postgres
       - qdrant
+    networks:
+      - ragcreator
 
   worker:
     build:

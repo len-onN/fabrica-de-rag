@@ -1,6 +1,7 @@
 package local.fabricarag.core.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import local.fabricarag.core.dto.BootstrapRequest;
 import local.fabricarag.core.dto.BootstrapResponse;
 import local.fabricarag.core.security.CookieHelper;
@@ -20,7 +21,7 @@ public class BootstrapController {
 
     @PostMapping("/bootstrap")
     @ResponseStatus(HttpStatus.CREATED)
-    public BootstrapResponse bootstrap(@RequestBody BootstrapRequest request, HttpServletResponse response) {
+    public BootstrapResponse bootstrap(@Valid @RequestBody BootstrapRequest request, HttpServletResponse response) {
         BootstrapService.BootstrapResult result = bootstrapService.bootstrap(request);
         CookieHelper.setSessionCookie(response, result.sessionSecret());
         return result.response();

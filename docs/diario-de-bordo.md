@@ -355,6 +355,19 @@ No frontend, a arquitetura da UI apostou forte na usabilidade e rica percepção
 
 Tudo fluiu conforme testes da suíte e compilação das partes (`mvnw compile` & `npm run build`), certificando ausência de regressões sintáticas nos Contratos compartilhados (TS <-> Java). O próximo passo lógico segue a priorização para preparar a robusta camada de `feat/api-rag-publica`.
 
+Data: 2026-07-01
+Branch: `test/e2e-mvp-ingestao-recuperacao`
+Status: Concluída
+Objetivo da etapa: Construir infraestrutura e automação para testes E2E isolados.
+Skills/fontes ativadas: N/A
+O que foi feito: Escritos os `Dockerfile.e2e` do Angular e do Spring Boot, ajustado o `compose.e2e.yml` para comportar a malha inteira, e configurado o projeto do Playwright com a suite `mvp-flow.spec.ts`. Adicionado orquestrador `test-e2e.ps1` e criado fixture dinâmica de PDF.
+Arquivos tocados: infra/compose/compose.e2e.yml, apps/api/Dockerfile.e2e, apps/web/Dockerfile.e2e, scripts/test-e2e.ps1, tests/e2e/playwright.config.ts, tests/e2e/tests/mvp-flow.spec.ts, tests/fixtures/generate_fixture.py.
+Decisoes tomadas: O E2E roda em isolamento local por compose garantindo um banco limpo, sem conflitar com devs ou base em produção.
+Riscos/colateralidades: O teste inclui timeout longo para assegurar que a pipeline de background asíncrona consiga processar o PDF.
+Testes/verificacoes: Scripts powershell integrando up, wait-for-it, test e down avaliados positivamente.
+Pendencias: Nenhuma.
+Proximo passo: Commit, Push, PR.
+
 ## 2026-07-01 - API RAG Publica e Agent Keys
 
 Depois da branch de analytics e dashboard, o projeto avancou para exponenciar o RAG para sistemas terceiros na branch `feat/api-rag-publica`. O alvo central foi prover integracao programatica e segura aos dados sem necessitar da interface grafica.
@@ -377,3 +390,15 @@ Depois do fechamento dos ajustes de fundação estrutural na branch investigativ
 A decisão foi consolidar os comandos no `README.md` raiz, evitando documentações desatualizadas escondidas nas subpastas. O texto aborda sequencialmente como levantar os serviços básicos (Docker Compose), como inicializar o backend Java, o Worker em Python e o Web em Angular, com seus comandos nativos preferenciais (mvnw, uv run e npm). Além disso, foram adicionadas seções para resolução de falhas comuns de binding port e de comunicação de infra. O plano de branches e o registro de bordo também foram atualizados.
 
 Com a validação dos comandos operacionais, o projeto consolida sua fundação, estando perfeitamente acessível para ser construído em qualquer máquina compatível e permitindo a entrada fluida nas frentes finais de UX ou na finalização técnica para o MVP funcional fechado.
+
+## 2026-07-02 - Ajustes na Execução Local Dev
+
+Depois de implementar os fluxos pesados nas sessões passadas, foi verificado que o sistema encontrou problemas ao tentar criar o usuário base via Bootstrap quando executado usando os containers através do `docker compose` para desenvolvimento. A branch `fix/ajustes-execucao-local` resolveu isso.
+
+Ocorriam erros HTTP 500 no `BootstrapController` indicando falhas na comunicação com o banco de dados. Ao inspecionar os logs do container da API, ficou evidente que a aplicação estava tentando se conectar em `localhost:5433`, porta local usada muitas vezes para testes diretos. O Spring Boot estava com o `localhost:5433` estático e fixado dentro do arquivo `application-dev.yml`.
+
+A correção consistiu em externalizar isso via variáveis de ambiente `${DB_HOST:localhost}` e `${DB_PORT:5433}` no `application-dev.yml`. O `compose.dev.yml` também foi atualizado para propagar a variável de ambiente `DB_PORT: 5432` ao serviço `api`, orientando a conexão da API para a porta interna de rede do serviço postgres na malha do compose.
+
+Adicionalmente, verificou-se o estado das telas de Bootstrap e Login no Frontend: o código já havia sido refatorado anteriormente com sucesso usando `@angular/material` e `ReactiveFormsModule`, suportando feedback reativo de força de senha, alertas visuais ao lidar com 409 Conflict, formatação glassmorphism e micro-animações, conforme esperado pelas instruções do sistema. A falha descrita pelo usuário como erro visual nas telas de UI não procedia mais do código, pois o gargalo remanescente era exclusivamente de rede local/db.
+
+Com a infraestrutura de dev docker corrigida, o backend valida com sucesso as anotações Jakarta (`@NotBlank`, `@Email`) e processa o ciclo de Bootstrap adequadamente gerando cookie seguro de sessão. O próximo passo é realizar o commit e push destes ajustes para `develop`.

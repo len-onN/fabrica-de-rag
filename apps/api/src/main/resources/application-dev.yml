@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/ragcreator
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5433}/${DB_NAME:ragcreator}
     username: ragcreator
     password: ragcreator_dev_password
     driver-class-name: org.postgresql.Driver

@@ -8,6 +8,7 @@ import local.fabricarag.core.dto.LoginRequest;
 import local.fabricarag.core.security.CookieHelper;
 import local.fabricarag.core.security.CurrentActor;
 import local.fabricarag.core.service.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class AuthController {
 
     @PostMapping("/auth/login")
     @ResponseStatus(HttpStatus.OK)
-    public void login(@RequestBody LoginRequest request, HttpServletResponse response) {
+    public void login(@Valid @RequestBody LoginRequest request, HttpServletResponse response) {
         String sessionSecret = authService.login(request);
         CookieHelper.setSessionCookie(response, sessionSecret);
     }

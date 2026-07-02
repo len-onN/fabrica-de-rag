@@ -35,13 +35,19 @@ public class OpaqueSessionFilter extends OncePerRequestFilter {
         String sessionSecret = getSessionCookie(request);
 
         if (sessionSecret != null && !sessionSecret.isBlank()) {
+            System.out.println("Session cookie found: " + sessionSecret.substring(0, 5) + "...");
             String hash = hashSessionSecret(sessionSecret);
+            System.out.println("Computed hash: " + hash);
             Optional<AuthSession> authSessionOpt = authSessionRepository.findBySessionHash(hash);
+            
+            System.out.println("Session found in DB: " + authSessionOpt.isPresent());
 
             if (authSessionOpt.isPresent()) {
                 AuthSession authSession = authSessionOpt.get();
+                System.out.println("Session expires at: " + authSession.getExpiresAt());
                 
                 if (authSession.getExpiresAt().isAfter(OffsetDateTime.now())) {
+                    System.out.println("Session is valid! Setting SecurityContext...");
                     // Valid session, setup security context
                     CurrentActor actor = CurrentActor.forUser(
                             authSession.getUser().getId(),
@@ -56,10 +62,13 @@ public class OpaqueSessionFilter extends OncePerRequestFilter {
                         authSessionRepository.save(authSession);
                     }
                 } else {
+                    System.out.println("Session is expired!");
                     // Session expired, could delete it here or leave it for cleanup job
                     authSessionRepository.delete(authSession);
                 }
             }
+        } else {
+            System.out.println("No session cookie found in request.");
         }
 
         filterChain.doFilter(request, response);

@@ -1,0 +1,146 @@
+.bootstrap-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--color-surface-muted) 0%, var(--color-bg) 100%);
+  padding: 2rem 1rem;
+}
+
+.bootstrap-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
+  border-radius: 24px;
+  background: var(--color-surface);
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bootstrap-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 50px rgba(109, 63, 209, 0.1);
+}
+
+mat-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+mat-card-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.5px;
+}
+
+mat-card-subtitle {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+}
+
+.bootstrap-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.section-title {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+}
+
+.section-divider {
+  margin: 1.5rem 0 !important;
+  border-color: var(--color-border-strong);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.submit-button {
+  height: 48px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+}
+
+.submit-button:not([disabled]):hover {
+  transform: scale(1.02);
+}
+
+.error-alert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background-color: var(--color-danger);
+  color: white;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Password Meter */
+.password-meter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: -12px;
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.password-meter {
+  display: flex;
+  gap: 4px;
+  height: 4px;
+}
+
+.meter-bar {
+  flex: 1;
+  border-radius: 4px;
+  background-color: var(--color-border);
+  transition: background-color 0.3s ease;
+}
+
+.meter-bar.active-weak { background-color: var(--color-danger); }
+.meter-bar.active-fair { background-color: var(--color-warning); }
+.meter-bar.active-good { background-color: var(--color-success); }
+.meter-bar.active-strong { background-color: var(--color-primary); }
+
+.meter-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: right;
+  transition: color 0.3s ease;
+}
+
+.text-weak { color: var(--color-danger); }
+.text-fair { color: var(--color-warning); }
+.text-good { color: var(--color-success); }
+.text-strong { color: var(--color-primary); }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

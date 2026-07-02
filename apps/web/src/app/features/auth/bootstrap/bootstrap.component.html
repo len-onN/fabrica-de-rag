@@ -1,0 +1,104 @@
+<div class="bootstrap-container">
+  <mat-card class="bootstrap-card">
+    <mat-card-header>
+      <mat-card-title>Fábrica de RAG</mat-card-title>
+      <mat-card-subtitle>Configuração inicial e criação da sua conta</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="bootstrapForm" (ngSubmit)="onSubmit()" class="bootstrap-form">
+        
+        <h3 class="section-title">Dados do Administrador</h3>
+        <div class="form-row">
+          <mat-form-field appearance="outline" color="primary" class="full-width">
+            <mat-label>Nome de Exibição</mat-label>
+            <input matInput type="text" formControlName="displayName">
+            <mat-icon matPrefix>person</mat-icon>
+            <mat-error *ngIf="bootstrapForm.get('displayName')?.hasError('required')">O nome é obrigatório</mat-error>
+            <mat-error *ngIf="bootstrapForm.get('displayName')?.hasError('serverError')">
+              {{ bootstrapForm.get('displayName')?.getError('serverError') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" color="primary" class="full-width">
+            <mat-label>E-mail</mat-label>
+            <input matInput type="email" formControlName="email">
+            <mat-icon matPrefix>email</mat-icon>
+            <mat-error *ngIf="bootstrapForm.get('email')?.hasError('required')">O e-mail é obrigatório</mat-error>
+            <mat-error *ngIf="bootstrapForm.get('email')?.hasError('email')">Formato inválido</mat-error>
+            <mat-error *ngIf="bootstrapForm.get('email')?.hasError('serverError')">
+              {{ bootstrapForm.get('email')?.getError('serverError') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" color="primary" class="full-width">
+            <mat-label>Senha</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+            <mat-icon matPrefix>lock</mat-icon>
+            <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
+              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="bootstrapForm.get('password')?.hasError('required')">A senha é obrigatória</mat-error>
+            <mat-error *ngIf="bootstrapForm.get('password')?.hasError('minlength')">A senha deve ter 8+ caracteres</mat-error>
+            <mat-error *ngIf="bootstrapForm.get('password')?.hasError('serverError')">
+              {{ bootstrapForm.get('password')?.getError('serverError') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        
+        <!-- Password Strength Meter -->
+        <div class="password-meter-container" *ngIf="bootstrapForm.get('password')?.value">
+          <div class="password-meter">
+            <div class="meter-bar" [ngClass]="getMeterClass(0)"></div>
+            <div class="meter-bar" [ngClass]="getMeterClass(1)"></div>
+            <div class="meter-bar" [ngClass]="getMeterClass(2)"></div>
+            <div class="meter-bar" [ngClass]="getMeterClass(3)"></div>
+          </div>
+          <span class="meter-text" [ngClass]="getMeterTextClass()">{{ getMeterLabel() }}</span>
+        </div>
+
+        <mat-divider class="section-divider"></mat-divider>
+
+        <h3 class="section-title">Sua Organização</h3>
+        
+        <div class="form-row">
+          <mat-form-field appearance="outline" color="primary" class="full-width">
+            <mat-label>Nome do Workspace</mat-label>
+            <input matInput type="text" formControlName="workspaceName" placeholder="Ex: Acme Corp">
+            <mat-icon matPrefix>business</mat-icon>
+            <mat-error *ngIf="bootstrapForm.get('workspaceName')?.hasError('required')">O nome do workspace é obrigatório</mat-error>
+            <mat-error *ngIf="bootstrapForm.get('workspaceName')?.hasError('serverError')">
+              {{ bootstrapForm.get('workspaceName')?.getError('serverError') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" color="primary" class="full-width">
+            <mat-label>Propósito</mat-label>
+            <select matNativeControl formControlName="workspacePurpose">
+              <option value="production">Produção / Empresa</option>
+              <option value="evaluation">Avaliação / Testes</option>
+              <option value="academic">Acadêmico / Pesquisa</option>
+            </select>
+            <mat-icon matPrefix>category</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="error" class="error-alert">
+          <mat-icon>error_outline</mat-icon>
+          <span>{{ error }}</span>
+        </div>
+
+        <button mat-flat-button color="primary" type="submit" class="submit-button" [disabled]="bootstrapForm.invalid || loading || passwordStrength < 4">
+          <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+          <span *ngIf="!loading">Iniciar Sistema</span>
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
