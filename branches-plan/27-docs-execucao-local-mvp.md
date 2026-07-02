@@ -33,12 +33,13 @@ DOC, RUNTIME, TEST
 
 - Docs devem refletir comandos reais.
 - Novo usuario deve conseguir subir o projeto.
+- Comandos finais testados (npm, mvnw, uv, compose).
+- Variaveis mapeadas localmente (não precisam de overrides agressivos para o ambiente `dev`).
+- Problemas comuns de bind de portas e containers `pg_isready` mapeados.
 
 ## Falta definir
 
-- Comandos finais.
-- Variaveis finais.
-- Problemas comuns apos implementacao real.
+- N/A (Migrado para Definido)
 
 ## Estrategia
 

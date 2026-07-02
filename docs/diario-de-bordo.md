@@ -357,15 +357,23 @@ Tudo fluiu conforme testes da suíte e compilação das partes (`mvnw compile` &
 
 ## 2026-07-01 - API RAG Publica e Agent Keys
 
-Depois da branch de analytics e dashboard, o projeto avancou para exponenciar o RAG para sistemas terceiros na branch \eat/api-rag-publica\. O alvo central foi prover integracao programatica e segura aos dados sem necessitar da interface grafica.
-Para isso, foi introduzida a entidade de \ApiKey\ com RBAC robusto baseado em capabilities pre-definidas (ag.ask\, \document.read\, etc). O Spring Security recebeu a injecao de um filtro Customizado (\ApiKeyFilter\) lidando com o \Bearer rag_key_*\ gerando um contexto de autenticacao valido para um novo \CurrentActor\ do tipo \gent\.
-Essa ramificacao ativou os tetos orcamentarios e os \limits\ nativos para requests sem sessao de usuario, previnindo custos elevados com as buscas abertas geradas de forma autonoma (agentes LLM e workflows).
+Depois da branch de analytics e dashboard, o projeto avancou para exponenciar o RAG para sistemas terceiros na branch `feat/api-rag-publica`. O alvo central foi prover integracao programatica e segura aos dados sem necessitar da interface grafica.
+Para isso, foi introduzida a entidade de `ApiKey` com RBAC robusto baseado em capabilities pre-definidas (ag.ask, document.read, etc). O Spring Security recebeu a injecao de um filtro Customizado (`ApiKeyFilter`) lidando com o `Bearer rag_key_*` gerando um contexto de autenticacao valido para um novo `CurrentActor` do tipo `Agent`.
+Essa ramificacao ativou os tetos orcamentarios e os `limits` nativos para requests sem sessao de usuario, previnindo custos elevados com as buscas abertas geradas de forma autonoma (agentes LLM e workflows).
 
 ## 2026-07-01 - Servidor MCP Local e Adaptadores de Tools
 
-O proximo passo foi plugar agentes LLM inteligentes via Model Context Protocol (MCP) integrando o frontend do Claude Desktop a nossa base vetorial e ao Context Builder em \eat/mcp-tools-base\.
-A decisao fundamental de arquitetura foi manter o Node.js como servidor MCP (\pps/mcp\), conectado por STDIO, mas operando ativamente a Descoberta Dinamica de Workspaces em vez de chumbar um unico projeto nas variaveis de ambiente locais.
-Foi escrito um servidor em TypeScript (Node 24) contendo adaptadores robustos das ferramentas: \list_workspaces\, \search_chunks\, \get_chunk\, \expand_context\ e \sk_rag\.
-Esse adaptador funciona como um \Anti-Corruption Layer (ACL)\. Ele entende o schema Zod relaxado otimizado para a linguagem do LLM, orquestra e re-envia payloads restritos para a API RAG Publica do Java anexando ao cabecalho a Agent Key. 
-A integracao ja engloba a telemetria essencial, empurrando via REST (fire-and-forget) os eventos de invocoes (mcp_tool_invoked) e falhas, mantendo o \isError: true\ transparente no lado LLM para a continuidade da conversa. 
+O proximo passo foi plugar agentes LLM inteligentes via Model Context Protocol (MCP) integrando o frontend do Claude Desktop a nossa base vetorial e ao Context Builder em `feat/mcp-tools-base`.
+A decisao fundamental de arquitetura foi manter o Node.js como servidor MCP (`apps/mcp`), conectado por STDIO, mas operando ativamente a Descoberta Dinamica de Workspaces em vez de chumbar um unico projeto nas variaveis de ambiente locais.
+Foi escrito um servidor em TypeScript (Node 24) contendo adaptadores robustos das ferramentas: `list_workspaces`, `search_chunks`, `get_chunk`, `expand_context` e `ask_rag`.
+Esse adaptador funciona como um `Anti-Corruption Layer (ACL)`. Ele entende o schema Zod relaxado otimizado para a linguagem do LLM, orquestra e re-envia payloads restritos para a API RAG Publica do Java anexando ao cabecalho a Agent Key. 
+A integracao ja engloba a telemetria essencial, empurrando via REST (fire-and-forget) os eventos de invocoes (mcp_tool_invoked) e falhas, mantendo o `isError: true` transparente no lado LLM para a continuidade da conversa. 
 Os builds independentes rodaram liso. A sugestao original de avancar para o core do Loop Agentico isolado no Worker Python foi avaliada, mas, por ser uma funcionalidade avancada, foi explicitamente movida para o roadmap pos-MVP, mantendo o foco do produto. Na sequencia, o projeto vai para a branch de endurecimento e prova tecnica: `test/e2e-mvp-ingestao-recuperacao`.
+
+## 2026-07-02 - Execução Local do MVP
+
+Depois do fechamento dos ajustes de fundação estrutural na branch investigativa `chore/28-investigacao-fundacao-estrutural`, o foco passou para a documentação técnica voltada à experiência do desenvolvedor em `docs/execucao-local-mvp`. O objetivo desta branch era transformar o conhecimento tácito ou espalhado sobre como a arquitetura complexa da Fábrica é executada em uma trilha reproduzível clara.
+
+A decisão foi consolidar os comandos no `README.md` raiz, evitando documentações desatualizadas escondidas nas subpastas. O texto aborda sequencialmente como levantar os serviços básicos (Docker Compose), como inicializar o backend Java, o Worker em Python e o Web em Angular, com seus comandos nativos preferenciais (mvnw, uv run e npm). Além disso, foram adicionadas seções para resolução de falhas comuns de binding port e de comunicação de infra. O plano de branches e o registro de bordo também foram atualizados.
+
+Com a validação dos comandos operacionais, o projeto consolida sua fundação, estando perfeitamente acessível para ser construído em qualquer máquina compatível e permitindo a entrada fluida nas frentes finais de UX ou na finalização técnica para o MVP funcional fechado.
