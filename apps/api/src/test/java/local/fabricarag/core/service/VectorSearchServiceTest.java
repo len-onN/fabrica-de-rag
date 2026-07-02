@@ -3,6 +3,7 @@ package local.fabricarag.core.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import local.fabricarag.core.client.WorkerClient;
 import local.fabricarag.core.domain.Chunk;
+import local.fabricarag.core.domain.analytics.AnalyticsEventService;
 import local.fabricarag.core.dto.rag.SearchRequest;
 import local.fabricarag.core.dto.rag.SearchResponse;
 import local.fabricarag.core.dto.worker.EmbeddingsTextRequest;
@@ -27,6 +28,7 @@ class VectorSearchServiceTest {
     private VectorStorePort vectorStorePort;
     private ChunkRepository chunkRepository;
     private ObjectMapper objectMapper;
+    private AnalyticsEventService analyticsEventService;
     private VectorSearchService service;
 
     @BeforeEach
@@ -34,8 +36,9 @@ class VectorSearchServiceTest {
         workerClient = Mockito.mock(WorkerClient.class);
         vectorStorePort = Mockito.mock(VectorStorePort.class);
         chunkRepository = Mockito.mock(ChunkRepository.class);
+        analyticsEventService = Mockito.mock(AnalyticsEventService.class);
         objectMapper = new ObjectMapper();
-        service = new VectorSearchService(workerClient, vectorStorePort, chunkRepository, objectMapper);
+        service = new VectorSearchService(workerClient, vectorStorePort, chunkRepository, objectMapper, analyticsEventService);
     }
 
     @Test

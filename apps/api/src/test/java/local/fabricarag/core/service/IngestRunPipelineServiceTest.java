@@ -4,6 +4,7 @@ import local.fabricarag.core.client.WorkerClient;
 import local.fabricarag.core.domain.Document;
 import local.fabricarag.core.domain.IngestRun;
 import local.fabricarag.core.domain.IngestStep;
+import local.fabricarag.core.domain.analytics.AnalyticsEventService;
 import local.fabricarag.core.dto.worker.PdfInspectRequest;
 import local.fabricarag.core.port.out.VectorStorePort;
 import local.fabricarag.core.repository.ChunkEmbeddingRepository;
@@ -34,6 +35,7 @@ class IngestRunPipelineServiceTest {
     private ChunkEmbeddingRepository chunkEmbeddingRepository;
     private ChunkRepository chunkRepository;
     private VectorStorePort vectorStorePort;
+    private AnalyticsEventService analyticsEventService;
     private IngestRunPipelineService pipelineService;
 
     @BeforeEach
@@ -45,6 +47,7 @@ class IngestRunPipelineServiceTest {
         chunkEmbeddingRepository = mock(ChunkEmbeddingRepository.class);
         chunkRepository = mock(ChunkRepository.class);
         vectorStorePort = mock(VectorStorePort.class);
+        analyticsEventService = mock(AnalyticsEventService.class);
 
         pipelineService = new IngestRunPipelineService(
                 runRepository,
@@ -54,6 +57,7 @@ class IngestRunPipelineServiceTest {
                 vectorStorePort,
                 chunkEmbeddingRepository,
                 chunkRepository,
+                analyticsEventService,
                 "http://localhost:8080"
         );
     }
