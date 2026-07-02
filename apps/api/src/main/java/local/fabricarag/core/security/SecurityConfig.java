@@ -67,7 +67,8 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         
-        if (Arrays.asList(env.getActiveProfiles()).contains("dev")) {
+        List<String> activeProfiles = Arrays.asList(env.getActiveProfiles());
+        if (activeProfiles.contains("dev") || activeProfiles.contains("e2e")) {
             configuration.setAllowedOrigins(List.of("http://localhost:4200", "http://127.0.0.1:4200"));
         } else {
             // Self-hosted/Prod default is same-origin, handled naturally. If frontend is separate:

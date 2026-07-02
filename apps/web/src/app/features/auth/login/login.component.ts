@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
+  private cdr = inject(ChangeDetectorRef);
 
   loginForm!: FormGroup;
   loading = false;
@@ -62,6 +63,7 @@ export class LoginComponent implements OnInit {
         });
       },
       error: (err) => {
+        console.log('LOGIN ERROR CALLBACK', err);
         this.loading = false;
         if (err.error?.fieldErrors) {
            this.error = 'Campos preenchidos incorretamente.';
@@ -74,6 +76,7 @@ export class LoginComponent implements OnInit {
         } else {
            this.error = 'E-mail ou senha inválidos.';
         }
+        this.cdr.detectChanges();
       }
     });
   }

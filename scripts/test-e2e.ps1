@@ -17,11 +17,8 @@ $downScript = Join-Path $PSScriptRoot "compose-down.ps1"
 
 # 2. Build e Up
 Write-Host "Construindo e iniciando ambiente E2E (Isolado no Docker)..." -ForegroundColor Yellow
-$composeArgs = @(
-    "-f", "$repoRoot/infra/compose/compose.e2e.yml",
-    "--project-directory", $repoRoot,
-    "-p", "ragcreator-e2e"
-)
+$composeArgs = New-DockerComposeBaseArguments -RepoRoot $repoRoot -Profile "e2e"
+$composeArgs = $composeArgs | Where-Object { $_ -ne "compose" }
 
 # Constroi as imagens
 & docker compose @composeArgs build

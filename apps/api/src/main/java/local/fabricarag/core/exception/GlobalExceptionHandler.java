@@ -39,6 +39,18 @@ public class GlobalExceptionHandler {
         return problemDetail;
     }
 
+    @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
+    public ProblemDetail handleBusinessExceptions(RuntimeException ex, WebRequest request) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+        problemDetail.setType(URI.create(PROBLEM_BASE_URL + "business-rule-violation"));
+        problemDetail.setTitle("Business rule violation");
+        
+        problemDetail.setProperty("code", ex.getMessage());
+        problemDetail.setProperty("correlationId", generateCorrelationId());
+        
+        return problemDetail;
+    }
+
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleAllExceptions(Exception ex, WebRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred.");

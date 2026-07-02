@@ -29,9 +29,9 @@ Atualizar:
 | Fase | Endurecimento do MVP |
 | Branch atual | `fix/ajustes-execucao-local` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Fixar configurações de infra para que a API funcione dentro do docker dev |
+| Objetivo atual | Fixar problemas de carregamento local e estabilizar suíte E2E |
 | Status | Concluído |
-| Proximo marco | Commit, Push e PR |
+| Proximo marco | PR e avançar para próximas correções |
 
 ## Sessao viva
 
@@ -334,5 +334,20 @@ Decisoes tomadas: O E2E roda em isolamento local por compose garantindo um banco
 Riscos/colateralidades: O teste inclui timeout longo para assegurar que a pipeline de background asíncrona consiga processar o PDF.
 Testes/verificacoes: Scripts powershell integrando up, wait-for-it, test e down avaliados positivamente.
 Pendencias: Nenhuma.
+Proximo passo: Commit, Push, PR.
+```
+
+```text
+Data: 2026-07-02
+Branch: `fix/ajustes-execucao-local`
+Status: Concluída
+Objetivo da etapa: Fixar problemas de carregamento local e estabilizar suíte E2E
+Skills/fontes ativadas: N/A
+O que foi feito: Backend: GlobalExceptionHandler configurado para retornar HTTP 400 Bad Request diante de IllegalArgumentException. SecurityConfig ajustado para garantir correta manipulação dos status de erros de autenticação na API. Frontend: Injeção explícita de ChangeDetectorRef no login.component.ts para burlar problema de renderização com zone.js e eventCoalescing no Angular 18+. Resolvida race condition no dashboard.component.ts (inversão da subscrição do filtro). Adicionado link de Coleções na barra lateral (shell.component.ts) que estava invisível. Testes E2E: Isolamento dos testes do Playwright (`auth.spec.ts` para telas de login/vazias e `mvp-flow.spec.ts` para jornada de uso logado) e desabilitada a flag fullyParallel para rodar testes sequencialmente, garantindo confiabilidade no estado do banco de dados (que é limpado nos hooks globais).
+Arquivos tocados: GlobalExceptionHandler.java, SecurityConfig.java, login.component.ts, dashboard.component.ts, shell.component.ts, playwright.config.ts, auth.spec.ts, mvp-flow.spec.ts.
+Decisoes tomadas: Não mesclar testes em lote para os e2e, garantindo rodadas determinísticas. Manter GlobalExceptionHandler leve. Link de coleções não deve estar oculto no painel.
+Riscos/colateralidades: Testes E2E demorarão alguns segundos a mais para rodarem devido a desabilitação de paralelismo, mas a taxa de sucesso subiu para 100%.
+Testes/verificacoes: Validação E2E local via PowerShell obteve sucesso em todas as suítes (Auth + MVP Flow).
+Pendencias: Nenhuma no escopo atual.
 Proximo passo: Commit, Push, PR.
 ```

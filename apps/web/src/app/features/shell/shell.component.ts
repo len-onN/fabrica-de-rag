@@ -1,7 +1,7 @@
 import { Component, inject, signal, computed } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { lucideMenu, lucideLayoutDashboard, lucideSettings } from '@ng-icons/lucide';
+import { lucideMenu, lucideLayoutDashboard, lucideSettings, lucideLayers } from '@ng-icons/lucide';
 import { AuthService } from '../../core/auth/auth.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -9,7 +9,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
   selector: 'app-shell',
   standalone: true,
   imports: [RouterOutlet, RouterLink, RouterLinkActive, NgIconComponent],
-  providers: [provideIcons({ lucideMenu, lucideLayoutDashboard, lucideSettings })],
+  providers: [provideIcons({ lucideMenu, lucideLayoutDashboard, lucideSettings, lucideLayers })],
   template: `
     <div class="shell-container" [class.sidebar-collapsed]="!isSidebarExpanded()">
       <aside class="sidebar">
@@ -33,6 +33,12 @@ import { toSignal } from '@angular/core/rxjs-interop';
             <ng-icon name="lucideLayoutDashboard"></ng-icon>
             @if (isSidebarExpanded()) {
               <span>Dashboard</span>
+            }
+          </a>
+          <a routerLink="/collections" routerLinkActive="active" class="nav-item">
+            <ng-icon name="lucideLayers"></ng-icon>
+            @if (isSidebarExpanded()) {
+              <span>Coleções</span>
             }
           </a>
           <a routerLink="/settings" routerLinkActive="active" class="nav-item">

@@ -201,13 +201,7 @@ export class DashboardComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.auth.authState$.pipe(
-      filter(state => !!state && !!state.activeWorkspaceId)
-    ).subscribe(state => {
-      this.workspaceId = state!.activeWorkspaceId;
-      this.loadDashboard();
-    });
-
+    // 1. First subscribe to filter changes so we don't miss the initial emission
     this.filterChangeSubject.pipe(
       debounceTime(300),
       switchMap(filters => this.workspaceService.getDashboardSummary(this.workspaceId!, filters))
@@ -220,6 +214,14 @@ export class DashboardComponent implements OnInit {
         console.error('Failed to load dashboard summary', err);
         this.loading.set(false);
       }
+    });
+
+    // 2. Then subscribe to authState$, which may emit synchronously (BehaviorSubject)
+    this.auth.authState$.pipe(
+      filter(state => !!state && !!state.activeWorkspaceId)
+    ).subscribe(state => {
+      this.workspaceId = state!.activeWorkspaceId;
+      this.loadDashboard();
     });
 
     this.filterForm.valueChanges.subscribe(val => {
