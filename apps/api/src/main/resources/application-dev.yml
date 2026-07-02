@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/ragcreator
     username: ragcreator
-    password: ragcreator_dev_password
+    password: ragcreatorpassword
     driver-class-name: org.postgresql.Driver
   flyway:
     enabled: true
