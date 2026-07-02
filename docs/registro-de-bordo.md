@@ -26,12 +26,12 @@ Atualizar:
 | Campo | Valor |
 | --- | --- |
 | Data do registro | 2026-07-01 |
-| Fase | Funcionalidades do MVP (MVP Features) |
-| Branch atual | `feat/api-rag-publica` |
+| Fase | Endurecimento do MVP |
+| Branch atual | `develop` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Expor API HTTP de consulta RAG segura |
+| Objetivo atual | Fechar infra E2E do fluxo de ingestão e recuperação |
 | Status | Concluída |
-| Proximo marco | Commit, PR e iniciar próxima etapa (`feat/mcp-tools-base`) |
+| Proximo marco | Merge de test/e2e-mvp-ingestao-recuperacao e Iniciar analise/pesquisa de viabilidade e performance |
 
 ## Sessao viva
 
@@ -89,9 +89,9 @@ Na branch `feat/embeddings-base`, foi estabelecido o contrato para geração de 
 
 Proximo passo concreto:
 
-- commitar e publicar `feat/resposta-rag-base`;
+- commitar e publicar `test/e2e-mvp-ingestao-recuperacao`;
 - abrir PR para `develop`;
-- apos merge, iniciar a proxima branch prioritaria (`feat/citacoes-preview-fonte` ou `feat/laboratorio-recuperacao`).
+- apos merge, iniciar analises/pesquisas ou branches futuras como `perf/ingestao-e-contexto`.
 
 ## Quadro de branches
 
@@ -136,7 +136,7 @@ Proximo passo concreto:
 | `feat/analytics-dashboard-base` | Mesclada | Criar dashboard local minimo de qualidade e falhas | Concluido | Exige eventos base. |
 | `feat/api-rag-publica` | Concluída | Expor API HTTP de consulta RAG via API Keys | Pendente | Exige permissoes e limites. |
 | `feat/mcp-tools-base` | Implementado | Expor primeiras ferramentas MCP controladas | Pendente | Exige schemas, permissoes e analytics. |
-| `test/e2e-mvp-ingestao-recuperacao` | Candidata | Criar e2e do fluxo principal do MVP | Pendente | Exige compose e2e e fixtures pequenas. |
+| `test/e2e-mvp-ingestao-recuperacao` | Concluída | Criar e2e do fluxo principal do MVP | Pendente | Playwright, Compose isolado e fixture de PDF rodando. |
 | `perf/ingestao-e-contexto` | Candidata | Medir e otimizar gargalos reais | Pendente | Exige fluxo implementado para medir. |
 | `docs/execucao-local-mvp` | Candidata | Documentar execucao local do MVP | Pendente | Exige comandos reais validados. |
 
@@ -301,16 +301,32 @@ Pendências: Nenhuma no escopo atual.
 Próximo passo: Commit, Push, PR e avançar para `feat/mcp-tools-base`.
 ```
 
-\\	ext
+```text
 Data: 2026-07-01
-Branch: \eat/mcp-tools-baseStatus: Concluída
+Branch: `feat/mcp-tools-base`
+Status: Concluída
 Objetivo da etapa: Expor ferramentas MCP locais (search, chunk, expand, ask) conectadas à API.
 Skills/fontes ativadas: N/A
-O que foi feito: Backend: Abertura das rotas \/rag/search\ e \/rag/context\ com limits reduzidos para atores do tipo \gent\. Implementado GET individual no \ChunkController\. Frontend (MCP): Criação do servidor Node.js com TypeScript e \@modelcontextprotocol/sdk\. Desenvolvidas as tools de \list_workspaces\, \search_chunks\, \get_chunk\, \expand_context\ e \sk_rag\. Adicionado disparador assíncrono para os eventos \mcp_tool_invoked\ e \mcp_tool_failed\.
+O que foi feito: Backend: Abertura das rotas `/rag/search` e `/rag/context` com limits reduzidos para atores do tipo "agent". Implementado GET individual no `ChunkController`. Frontend (MCP): Criação do servidor Node.js com TypeScript e `@modelcontextprotocol/sdk`. Desenvolvidas as tools de `list_workspaces`, `search_chunks`, `get_chunk`, `expand_context` e `ask_rag`. Adicionado disparador assíncrono para os eventos `mcp_tool_invoked` e `mcp_tool_failed`.
 Arquivos tocados: RagAskController.java, ChunkController.java, ChunkBrowserService.java, apps/mcp/package.json, apps/mcp/tsconfig.json, apps/mcp/src/api.ts, apps/mcp/src/index.ts.
-Decisoes tomadas: Adotada a estratégia de Workspaces dinâmicos no MCP: a Agent Key fica em variável de ambiente global, mas as queries recebem o \workspaceId\ do LLM, descoberto pela tool \list_workspaces\. Isso desacopla o ambiente de dev mantendo usabilidade fluída em múltiplos projetos. O Servidor atua como um Anti-Corruption Layer usando Zod e tratando os erros do backend de forma segura sem crashar o stdio.
+Decisoes tomadas: Adotada a estratégia de Workspaces dinâmicos no MCP: a Agent Key fica em variável de ambiente global, mas as queries recebem o `workspaceId` do LLM, descoberto pela tool `list_workspaces`. Isso desacopla o ambiente de dev mantendo usabilidade fluída em múltiplos projetos. O Servidor atua como um Anti-Corruption Layer usando Zod e tratando os erros do backend de forma segura sem crashar o stdio.
 Riscos/colateralidades: O envelope de erro customizado devolve isError: true e strings estruturadas permitindo recuperação em LLMs maduros sem corromper a comunicação de IPC.
 Testes/verificacoes: Ambos os ecossistemas, Java (mvnw compile) e Node.js (tsc via npm run build) compilaram perfeitamente integrando a ponte de tipos de forma coesa.
 Pendencias: Nenhuma no escopo atual.
-Proximo passo: Commit, Push, PR e avançar para \eat/agentic-loop-worker\.
-\
+Proximo passo: Commit, Push, PR e avançar para `test/e2e-mvp-ingestao-recuperacao`.
+```
+
+```text
+Data: 2026-07-01
+Branch: `test/e2e-mvp-ingestao-recuperacao`
+Status: Concluída
+Objetivo da etapa: Construir infraestrutura e automação para testes E2E isolados.
+Skills/fontes ativadas: N/A
+O que foi feito: Escritos os `Dockerfile.e2e` do Angular e do Spring Boot, ajustado o `compose.e2e.yml` para comportar a malha inteira, e configurado o projeto do Playwright com a suite `mvp-flow.spec.ts`. Adicionado orquestrador `test-e2e.ps1` e criado fixture dinâmica de PDF.
+Arquivos tocados: infra/compose/compose.e2e.yml, apps/api/Dockerfile.e2e, apps/web/Dockerfile.e2e, scripts/test-e2e.ps1, tests/e2e/playwright.config.ts, tests/e2e/tests/mvp-flow.spec.ts, tests/fixtures/generate_fixture.py.
+Decisoes tomadas: O E2E roda em isolamento local por compose garantindo um banco limpo, sem conflitar com devs ou base em produção.
+Riscos/colateralidades: O teste inclui timeout longo para assegurar que a pipeline de background asíncrona consiga processar o PDF.
+Testes/verificacoes: Scripts powershell integrando up, wait-for-it, test e down avaliados positivamente.
+Pendencias: Nenhuma.
+Proximo passo: Commit, Push, PR.
+```
