@@ -2,6 +2,8 @@ package local.fabricarag.core.controller;
 
 import local.fabricarag.core.dto.DocumentResponse;
 import local.fabricarag.core.security.CurrentActor;
+import local.fabricarag.core.web.ResolvePublicId;
+import local.fabricarag.core.domain.Workspace;
 import local.fabricarag.core.service.DocumentService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,23 +29,25 @@ public class DocumentController {
     @PostMapping
     @PreAuthorize("@authorizationPolicy.hasPermission(#actor, #workspaceId, 'document.create')")
     public ResponseEntity<DocumentResponse> uploadDocument(
-            @PathVariable UUID workspaceId,
-            @PathVariable String collectionId, // This is the publicId
+            @PathVariable("workspaceId") String workspaceId,
+            @ResolvePublicId(value = Workspace.class, pathVar = "workspaceId") UUID internalWorkspaceId,
+            @PathVariable("collectionId") String collectionId,
             @RequestParam("file") MultipartFile file,
             @AuthenticationPrincipal CurrentActor actor) {
         
-        DocumentResponse response = documentService.uploadDocument(workspaceId, collectionId, file, actor.getUserId());
+        DocumentResponse response = documentService.uploadDocument(internalWorkspaceId, collectionId, file, actor.getUserId());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
     @PreAuthorize("@authorizationPolicy.hasPermission(#actor, #workspaceId, 'document.read')")
     public ResponseEntity<Page<DocumentResponse>> listDocuments(
-            @PathVariable UUID workspaceId,
-            @PathVariable String collectionId,
+            @PathVariable("workspaceId") String workspaceId,
+            @ResolvePublicId(value = Workspace.class, pathVar = "workspaceId") UUID internalWorkspaceId,
+            @PathVariable("collectionId") String collectionId,
             Pageable pageable,
             @AuthenticationPrincipal CurrentActor actor) {
         
-        return ResponseEntity.ok(documentService.listDocuments(workspaceId, collectionId, pageable));
+        return ResponseEntity.ok(documentService.listDocuments(internalWorkspaceId, collectionId, pageable));
     }
 }

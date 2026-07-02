@@ -10,6 +10,7 @@ import local.fabricarag.core.dto.worker.EmbeddingsTextResponse;
 import local.fabricarag.core.port.out.VectorStorePort;
 import local.fabricarag.core.port.out.VectorStoreSearchResult;
 import local.fabricarag.core.repository.ChunkRepository;
+import local.fabricarag.core.domain.analytics.AnalyticsEventService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -29,13 +30,16 @@ class VectorSearchServiceTest {
     private ObjectMapper objectMapper;
     private VectorSearchService service;
 
+    private AnalyticsEventService analyticsEventService;
+
     @BeforeEach
     void setUp() {
+        analyticsEventService = Mockito.mock(AnalyticsEventService.class);
         workerClient = Mockito.mock(WorkerClient.class);
         vectorStorePort = Mockito.mock(VectorStorePort.class);
         chunkRepository = Mockito.mock(ChunkRepository.class);
         objectMapper = new ObjectMapper();
-        service = new VectorSearchService(workerClient, vectorStorePort, chunkRepository, objectMapper);
+        service = new VectorSearchService(workerClient, vectorStorePort, chunkRepository, objectMapper, analyticsEventService);
     }
 
     @Test

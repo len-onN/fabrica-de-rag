@@ -268,6 +268,16 @@ Com relação à orquestração, os DTOs do backend Java ganharam extensões sub
 
 Testes locais usando a suite pytest provaram que os fluxos sincronos de falha e webhooks assincronos de aceitacao executam sem atrito, sendo suportados pela validacao estrita com FastAPI. O backend compilou perfeitamente. O proximo passo sera realizar o merge para `develop` e preparar a infraestrutura que derivara a numeracao das paginas (`feat/paginas-numeracao`).
 
+## 2026-07-02 - Fundação Estrutural e Resiliência Operacional
+
+Após as execuções de testes E2E revelarem fragilidades na fundação arquitetural do projeto (falhas silenciosas no Worker travando as `IngestRuns`, vazamento de UUIDs internos e IDs de banco nas APIs, autenticação mockada e amarrações de infraestrutura Docker hardcoded), a branch `chore/28-investigacao-fundacao-estrutural` foi aberta.
+
+Nesta etapa, o `WebMvcConfig` foi atualizado para as convenções do Spring Boot 3 / Jakarta EE, permitindo o uso de um `HandlerMethodArgumentResolver` customizado (`PublicIdArgumentResolver`). Com a anotação `@ResolvePublicId`, os Controllers pararam de repetir código para traduzir strings de `public_id` em UUIDs de repositórios, focando unicamente na sua responsabilidade HTTP.
+
+O sistema de Ingestão Assíncrona, que travava em `RUNNING` caso ocorresse qualquer quebra não tratada na thread em Python (como um PDF corrompido), foi fortificado. Implementamos um mecanismo de Regex no FastAPI do Worker que deduz o endpoint de callback de erro (`/error`) e despacha um `WorkerErrorResponse` genérico. No lado Java, o `InternalCallbackController` passou a tratar esta requisição explícita para registrar a falha através do `IngestRunPipelineService`, garantindo o encerramento seguro com estado `FAILED`.
+
+A infraestrutura foi limpa da dependência estrita em `localhost:8000`, adotando variáveis de ambiente em conjunto com o Spring Profiles e Docker Compose, e os mocks inseguros de autores (IDs estáticos UUID) foram completamente substituídos pelas entidades de sessão legítimas (`@AuthenticationPrincipal CurrentActor`). Com o ambiente e as pipelines comprovadamente estáveis via builds (`mvnw` e `pytest`), os próximos testes poderão progredir focando no desempenho real da fábrica de RAG sem comprometer o fluxo de negócio.
+
 ## 2026-06-28 - Indexação Vetorial no Qdrant
 
 A branch `feat/qdrant-indexacao` foi implementada para cumprir o papel de interfaceamento do RAG com o vetor store Qdrant. A decisão central foi manter a separação de responsabilidades (Princípio de Menor Privilégio), onde a API gerencia apenas a inserção e deleção de vetores (points), sem criar estruturas. A coleção inicial (`ragcreator_chunks_v1`) passa a ser provisionada por um script PowerShell (`scripts/qdrant-init.ps1`) agregado na subida do `docker compose`.
@@ -369,3 +379,9 @@ Foi escrito um servidor em TypeScript (Node 24) contendo adaptadores robustos da
 Esse adaptador funciona como um \Anti-Corruption Layer (ACL)\. Ele entende o schema Zod relaxado otimizado para a linguagem do LLM, orquestra e re-envia payloads restritos para a API RAG Publica do Java anexando ao cabecalho a Agent Key. 
 A integracao ja engloba a telemetria essencial, empurrando via REST (fire-and-forget) os eventos de invocoes (mcp_tool_invoked) e falhas, mantendo o \isError: true\ transparente no lado LLM para a continuidade da conversa. 
 Os builds independentes rodaram liso. A sugestao original de avancar para o core do Loop Agentico isolado no Worker Python foi avaliada, mas, por ser uma funcionalidade avancada, foi explicitamente movida para o roadmap pos-MVP, mantendo o foco do produto. Na sequencia, o projeto vai para a branch de endurecimento e prova tecnica: `test/e2e-mvp-ingestao-recuperacao`.
+
+## 2026-07-01 - Investigacao de Fundacao Estrutural
+
+A branch `perf/ingestao-e-contexto` revelou problemas estruturais graves ao tentar usar scripts de benchmark E2E. Foi constatado vazamento de dominio no retorno de uploads (API vs async tracking), controladores sobrecarregados com resolucao de UUID (ferindo a camada de conversao), falta de autoridade na criacao de objetos devido a UUIDs chumbados ignorando a sessao do Spring Security, acoplamentos diretos na rede (localhost vs Docker networking) e falhas ocultas no processamento do worker que nao completavam a pipeline de callback, resultando num sistema fragil.
+
+Foi decidido abortar e descartar a branch `perf/ingestao-e-contexto`. Retornamos a linha base `develop` e abrimos a branch de infraestrutura `chore/28-investigacao-fundacao-estrutural` para atacar estes debitos arquiteturais em 5 pilares definidos no novo plano de implementacao.

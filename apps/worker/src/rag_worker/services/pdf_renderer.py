@@ -2,6 +2,7 @@
 
 import logging
 import httpx
+import re
 import pypdfium2 as pdfium
 from pathlib import Path
 from rag_worker.contracts.pdf_render import PdfRenderRequest, PdfRenderResponse
@@ -66,6 +67,7 @@ async def render_page_and_callback(request: PdfRenderRequest):
     except Exception as e:
         logger.error(f"Error rendering page for request {request.requestId}: {e}", exc_info=True)
         if request.callbackUrl:
+            error_url = re.sub(r'(/ingest-runs/[^/]+)/.*', r'\1/error', request.callbackUrl)
             err = WorkerErrorResponse(
                 requestId=request.requestId,
                 error=WorkerErrorDetail(
@@ -77,7 +79,7 @@ async def render_page_and_callback(request: PdfRenderRequest):
             )
             try:
                 async with httpx.AsyncClient() as client:
-                    await client.post(request.callbackUrl, json=err.model_dump())
+                    await client.post(error_url, json=err.model_dump())
                     logger.info(f"Sent error callback for request {request.requestId}")
             except Exception as ce:
                 logger.error(f"Failed to send error callback: {ce}")

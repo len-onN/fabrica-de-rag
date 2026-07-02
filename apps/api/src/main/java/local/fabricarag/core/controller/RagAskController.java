@@ -97,24 +97,22 @@ public class RagAskController {
             @Valid @RequestBody ContextAssembleRequest request,
             @AuthenticationPrincipal CurrentActor actor
     ) {
-        Integer budget = request.tokenBudget();
-        Integer topK = request.topK();
+        int budget = request.tokenBudget();
         
         if ("agent".equals(actor.getType())) {
-            budget = budget == null ? 5000 : Math.min(budget, 6000);
-            topK = topK == null ? 8 : Math.min(topK, 12);
+            budget = Math.min(budget, 6000);
         }
 
         ContextAssembleRequest securedRequest = new ContextAssembleRequest(
                 workspaceId,
                 request.collectionId(),
-                request.query(),
-                topK,
+                request.anchorChunks(),
                 request.policy(),
+                request.neighborBefore(),
+                request.neighborAfter(),
                 budget,
-                request.filters(),
-                request.includeTables(),
-                request.includeVisuals()
+                request.includeVisuals(),
+                request.includeTables()
         );
 
         ContextAssembleResponse response = contextBuilderService.assembleContext(securedRequest);

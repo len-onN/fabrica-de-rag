@@ -25,13 +25,13 @@ Atualizar:
 
 | Campo | Valor |
 | --- | --- |
-| Data do registro | 2026-07-01 |
+| Data do registro | 2026-07-02 |
 | Fase | Endurecimento do MVP |
-| Branch atual | `develop` |
+| Branch atual | `chore/28-investigacao-fundacao-estrutural` |
 | Linha de integracao | `develop` |
-| Objetivo atual | Fechar infra E2E do fluxo de ingestão e recuperação |
+| Objetivo atual | Corrigir problemas estruturais identificados no benchmark E2E |
 | Status | Concluída |
-| Proximo marco | Merge de test/e2e-mvp-ingestao-recuperacao e Iniciar analise/pesquisa de viabilidade e performance |
+| Proximo marco | Commit, Push e PR da branch `chore/28-investigacao-fundacao-estrutural` |
 
 ## Sessao viva
 
@@ -137,7 +137,8 @@ Proximo passo concreto:
 | `feat/api-rag-publica` | Concluída | Expor API HTTP de consulta RAG via API Keys | Pendente | Exige permissoes e limites. |
 | `feat/mcp-tools-base` | Implementado | Expor primeiras ferramentas MCP controladas | Pendente | Exige schemas, permissoes e analytics. |
 | `test/e2e-mvp-ingestao-recuperacao` | Concluída | Criar e2e do fluxo principal do MVP | Pendente | Playwright, Compose isolado e fixture de PDF rodando. |
-| `perf/ingestao-e-contexto` | Candidata | Medir e otimizar gargalos reais | Pendente | Exige fluxo implementado para medir. |
+| `perf/ingestao-e-contexto` | Descartada | Medir e otimizar gargalos reais | N/A | Abortada devido a falhas estruturais, substituída por investigação arquitetural. |
+| `chore/28-investigacao-fundacao-estrutural` | Concluída | Resolver problemas estruturais detectados no e2e (UUID chumbados, async tracking, etc) | Pendente | Refatoração de fundação arquitetural. |
 | `docs/execucao-local-mvp` | Candidata | Documentar execucao local do MVP | Pendente | Exige comandos reais validados. |
 
 ## Pendencias vivas
@@ -329,4 +330,19 @@ Riscos/colateralidades: O teste inclui timeout longo para assegurar que a pipeli
 Testes/verificacoes: Scripts powershell integrando up, wait-for-it, test e down avaliados positivamente.
 Pendencias: Nenhuma.
 Proximo passo: Commit, Push, PR.
+```
+
+```text
+Data: 2026-07-02
+Branch: `chore/28-investigacao-fundacao-estrutural`
+Status: Concluída
+Objetivo da etapa: Refatorar a fundação estrutural do projeto, corrigindo vazamentos de infraestrutura, autenticação e falhas silenciosas do worker.
+Skills/fontes ativadas: N/A
+O que foi feito: Implementado o `PublicIdArgumentResolver` e a anotação `@ResolvePublicId` para converter IDs públicos em UUIDs transparentemente sem vazar repositórios nos Controllers. Substituídos os mocks de autores por `@AuthenticationPrincipal CurrentActor`. Ajustada a orquestração do Worker Client e Callback Controller (`/error`) para capturar falhas globais do Python (FastAPI exception handlers com webhooks `error_url` dinâmicos) garantindo transição para `FAILED` nas `IngestRuns`. Corrigido o Docker Compose injectando `WORKER_URL` sem hardcode.
+Arquivos tocados: WebMvcConfig.java, PublicIdArgumentResolver.java, ResolvePublicId.java, CurrentActor.java, KnowledgeCollectionController.java, DocumentPageController.java, InternalCallbackController.java, IngestRunPipelineService.java, WorkerErrorResponse.java, services do worker Python (`chunking.py`, `embeddings.py`, etc.), application.yml, compose.e2e.yml.
+Decisoes tomadas: Utilizar UUIDs internos estritos via injeção automática e RBAC real. As falhas do pipeline Python disparam imediatamente para o endpoint `/error` impedindo o bloqueio do job Java.
+Riscos/colateralidades: A arquitetura está robusta, mas os testes unitários afetados precisaram de atualização nos construtores (ex: AnalyticsEventService). 
+Testes/verificacoes: Build do Maven (`mvnw clean package`) e pytest do Worker concluídos com sucesso.
+Pendencias: Nenhuma no escopo atual.
+Proximo passo: Commit, Push, PR e retornar ao trigger.
 ```

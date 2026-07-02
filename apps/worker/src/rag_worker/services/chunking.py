@@ -159,10 +159,28 @@ def build_chunks_sync(request: ChunksBuildRequest) -> ChunksBuildResponse:
 async def build_chunks_and_callback(request: ChunksBuildRequest):
     """Async wrapper for background execution."""
     import httpx
+    import re
+    from rag_worker.contracts.base import WorkerErrorResponse, WorkerErrorDetail
     try:
         result = build_chunks_sync(request)
-        if request.callbackUrl:
+        if hasattr(request, 'callbackUrl') and request.callbackUrl:
             async with httpx.AsyncClient() as client:
                 await client.post(request.callbackUrl, json=result.model_dump())
     except Exception as e:
         logger.error(f"Error in background chunking: {e}")
+        if hasattr(request, 'callbackUrl') and request.callbackUrl:
+            error_url = re.sub(r'(/ingest-runs/[^/]+)/.*', r'\1/error', request.callbackUrl)
+            err = WorkerErrorResponse(
+                requestId=request.requestId,
+                error=WorkerErrorDetail(
+                    code="chunking_failed",
+                    message=str(e),
+                    retryable=False,
+                    safeDetails={"workerContractVersion": "worker.chunks.build.response.v1"}
+                )
+            )
+            try:
+                async with httpx.AsyncClient() as client:
+                    await client.post(error_url, json=err.model_dump())
+            except Exception as ce:
+                logger.error(f"Failed to send error callback: {ce}")

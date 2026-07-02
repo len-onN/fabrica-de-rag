@@ -25,6 +25,7 @@ services:
     environment:
       DB_HOST: postgres
       QDRANT_HOST: qdrant
+      FABRICARAG_WORKER_URL: http://worker:8000
     depends_on:
       - postgres
       - qdrant

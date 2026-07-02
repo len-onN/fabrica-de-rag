@@ -66,12 +66,12 @@ public class InternalCallbackController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{runId}/pdf/error")
-    public ResponseEntity<Void> onPdfError(
+    @PostMapping("/{runId}/error")
+    public ResponseEntity<Void> onGenericError(
             @PathVariable UUID runId,
             @Valid @RequestBody WorkerErrorResponse errorResponse
     ) {
-        logger.info("Received PDF error callback for run {} and request {}", runId, errorResponse.getRequestId());
+        logger.info("Received generic error callback for run {} and request {}", runId, errorResponse.getRequestId());
         String errStr = errorResponse.getError() != null ? errorResponse.getError().toString() : "unknown";
         pipelineService.handleWorkerError(runId, "current_step_unknown", "WORKER_ERROR", errStr);
         return ResponseEntity.ok().build();

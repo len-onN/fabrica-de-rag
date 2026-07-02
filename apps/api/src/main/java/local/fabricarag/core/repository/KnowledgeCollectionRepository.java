@@ -15,6 +15,8 @@ public interface KnowledgeCollectionRepository extends JpaRepository<KnowledgeCo
     Optional<KnowledgeCollection> findByWorkspaceIdAndId(UUID workspaceId, UUID id);
     
     Optional<KnowledgeCollection> findByWorkspaceIdAndPublicId(UUID workspaceId, String publicId);
+    
+    Optional<KnowledgeCollection> findByPublicId(String publicId);
 
     Page<KnowledgeCollection> findByWorkspaceId(UUID workspaceId, Pageable pageable);
 }

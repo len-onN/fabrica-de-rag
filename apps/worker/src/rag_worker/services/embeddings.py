@@ -1,6 +1,7 @@
 import logging
 import random
 import httpx
+import re
 from rag_worker.contracts.base import WorkerErrorResponse, WorkerErrorDetail
 from rag_worker.contracts.embeddings import (
     EmbeddingsTextRequest,
@@ -58,6 +59,7 @@ async def generate_embeddings_and_callback(request: EmbeddingsTextRequest, callb
             
     except Exception as e:
         logger.error(f"Error generating embeddings for {request.requestId}: {str(e)}", exc_info=True)
+        error_url = re.sub(r'(/ingest-runs/[^/]+)/.*', r'\1/error', callback_url)
         err = WorkerErrorResponse(
             requestId=request.requestId,
             error=WorkerErrorDetail(
@@ -69,7 +71,7 @@ async def generate_embeddings_and_callback(request: EmbeddingsTextRequest, callb
         )
         try:
             async with httpx.AsyncClient() as client:
-                await client.post(callback_url, json=err.model_dump(), timeout=10.0)
+                await client.post(error_url, json=err.model_dump(), timeout=10.0)
                 logger.info(f"Error callback successful for {request.requestId}")
         except Exception as ce:
             logger.error(f"Failed to deliver error callback for {request.requestId}: {str(ce)}", exc_info=True)

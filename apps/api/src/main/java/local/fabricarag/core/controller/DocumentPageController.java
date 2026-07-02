@@ -6,8 +6,14 @@ import local.fabricarag.core.dto.UpdateNumberingAnchorsRequest;
 import local.fabricarag.core.repository.DocumentPageRepository;
 import local.fabricarag.core.repository.PageNumberingAnchorRepository;
 import local.fabricarag.core.service.PageNumberingService;
+import local.fabricarag.core.web.ResolvePublicId;
+import local.fabricarag.core.domain.Workspace;
+import local.fabricarag.core.domain.Document;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import local.fabricarag.core.security.CurrentActor;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,10 +37,12 @@ public class DocumentPageController {
 
     @GetMapping
     public ResponseEntity<List<DocumentPageDto>> getPages(
-            @PathVariable UUID workspaceId,
-            @PathVariable UUID documentId) {
+            @PathVariable("workspaceId") String workspaceId,
+            @ResolvePublicId(value = Workspace.class, pathVar = "workspaceId") UUID internalWorkspaceId,
+            @PathVariable("documentId") String documentId,
+            @ResolvePublicId(value = Document.class, pathVar = "documentId") UUID internalDocumentId) {
         
-        List<DocumentPageDto> pages = pageRepository.findByWorkspaceIdAndDocumentIdOrderByFilePageNumberAsc(workspaceId, documentId)
+        List<DocumentPageDto> pages = pageRepository.findByWorkspaceIdAndDocumentIdOrderByFilePageNumberAsc(internalWorkspaceId, internalDocumentId)
                 .stream()
                 .map(p -> new DocumentPageDto(
                         p.getPublicId(),
@@ -53,10 +61,12 @@ public class DocumentPageController {
 
     @GetMapping("/anchors")
     public ResponseEntity<List<PageNumberingAnchorDto>> getAnchors(
-            @PathVariable UUID workspaceId,
-            @PathVariable UUID documentId) {
+            @PathVariable("workspaceId") String workspaceId,
+            @ResolvePublicId(value = Workspace.class, pathVar = "workspaceId") UUID internalWorkspaceId,
+            @PathVariable("documentId") String documentId,
+            @ResolvePublicId(value = Document.class, pathVar = "documentId") UUID internalDocumentId) {
         
-        List<PageNumberingAnchorDto> anchors = anchorRepository.findByWorkspaceIdAndDocumentIdOrderByFilePageNumberAsc(workspaceId, documentId)
+        List<PageNumberingAnchorDto> anchors = anchorRepository.findByWorkspaceIdAndDocumentIdOrderByFilePageNumberAsc(internalWorkspaceId, internalDocumentId)
                 .stream()
                 .map(a -> new PageNumberingAnchorDto(
                         a.getPublicId(),
@@ -70,14 +80,16 @@ public class DocumentPageController {
     }
 
     @PostMapping("/anchors")
+    @PreAuthorize("@authorizationPolicy.hasPermission(authentication, #workspaceId, 'document.update')")
     public ResponseEntity<Void> updateAnchors(
-            @PathVariable UUID workspaceId,
-            @PathVariable UUID documentId,
-            @RequestBody UpdateNumberingAnchorsRequest request) {
+            @PathVariable("workspaceId") String workspaceId,
+            @ResolvePublicId(value = Workspace.class, pathVar = "workspaceId") UUID internalWorkspaceId,
+            @PathVariable("documentId") String documentId,
+            @ResolvePublicId(value = Document.class, pathVar = "documentId") UUID internalDocumentId,
+            @RequestBody UpdateNumberingAnchorsRequest request,
+            @AuthenticationPrincipal CurrentActor actor) {
 
-        // Use a dummy UUID for MVP as the current auth context might be mock
-        UUID userId = UUID.randomUUID(); 
-        pageNumberingService.applyAnchorsAndInferNumbering(workspaceId, documentId, userId, request);
+        pageNumberingService.applyAnchorsAndInferNumbering(internalWorkspaceId, internalDocumentId, actor.getUserId(), request);
         
         return ResponseEntity.noContent().build();
     }

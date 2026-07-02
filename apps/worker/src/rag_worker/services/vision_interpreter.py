@@ -1,4 +1,5 @@
 import httpx
+import re
 
 from rag_worker.contracts.pdf_interpret import (
     PdfInterpretVisualRequest,
@@ -16,6 +17,7 @@ async def interpret_visual_and_callback(request: PdfInterpretVisualRequest, call
         async with httpx.AsyncClient() as client:
             await client.post(callback_url, json=response.model_dump())
     except Exception as e:
+        error_url = re.sub(r'(/ingest-runs/[^/]+)/.*', r'\1/error', callback_url)
         error_resp = WorkerErrorResponse(
             requestId=request.requestId,
             error=WorkerErrorDetail(
@@ -26,7 +28,7 @@ async def interpret_visual_and_callback(request: PdfInterpretVisualRequest, call
             )
         )
         async with httpx.AsyncClient() as client:
-            await client.post(callback_url, json=error_resp.model_dump())
+            await client.post(error_url, json=error_resp.model_dump())
 
 def interpret_visual_sync(request: PdfInterpretVisualRequest) -> PdfInterpretVisualResponse:
     interpretations = []

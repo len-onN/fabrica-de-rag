@@ -73,6 +73,16 @@ public class IngestRunOperationService {
         );
     }
     
+    @Transactional(readOnly = true)
+    public List<IngestRunDetailResponse> listRunsForDocument(UUID workspaceId, String documentPublicId) {
+        Document doc = documentRepository.findByWorkspaceIdAndPublicId(workspaceId, documentPublicId)
+                .orElseThrow(() -> new ResourceNotFoundException("Document not found"));
+                
+        List<IngestRun> runs = runRepository.findByWorkspaceIdAndDocumentIdOrderByCreatedAtDesc(workspaceId, doc.getId());
+        
+        return runs.stream().map(run -> getRunDetails(workspaceId, run.getPublicId())).collect(Collectors.toList());
+    }
+    
     @Transactional
     public void cancelRun(UUID workspaceId, String runPublicId) {
         IngestRun run = runRepository.findByWorkspaceIdAndPublicId(workspaceId, runPublicId)

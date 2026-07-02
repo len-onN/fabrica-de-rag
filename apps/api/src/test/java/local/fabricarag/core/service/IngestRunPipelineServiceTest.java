@@ -11,6 +11,7 @@ import local.fabricarag.core.repository.ChunkRepository;
 import local.fabricarag.core.repository.DocumentRepository;
 import local.fabricarag.core.repository.IngestRunRepository;
 import local.fabricarag.core.repository.IngestStepRepository;
+import local.fabricarag.core.domain.analytics.AnalyticsEventService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -34,10 +35,12 @@ class IngestRunPipelineServiceTest {
     private ChunkEmbeddingRepository chunkEmbeddingRepository;
     private ChunkRepository chunkRepository;
     private VectorStorePort vectorStorePort;
+    private AnalyticsEventService analyticsEventService;
     private IngestRunPipelineService pipelineService;
 
     @BeforeEach
     void setUp() {
+        analyticsEventService = mock(AnalyticsEventService.class);
         runRepository = mock(IngestRunRepository.class);
         stepRepository = mock(IngestStepRepository.class);
         documentRepository = mock(DocumentRepository.class);
@@ -54,6 +57,7 @@ class IngestRunPipelineServiceTest {
                 vectorStorePort,
                 chunkEmbeddingRepository,
                 chunkRepository,
+                analyticsEventService,
                 "http://localhost:8080"
         );
     }

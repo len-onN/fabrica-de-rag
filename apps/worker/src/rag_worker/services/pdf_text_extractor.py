@@ -4,6 +4,7 @@ import logging
 import httpx
 import pypdfium2 as pdfium
 import pytesseract
+import re
 from pathlib import Path
 from rag_worker.contracts.pdf_render import PdfExtractTextRequest, PdfExtractTextResponse
 from rag_worker.contracts.base import WorkerErrorResponse, WorkerErrorDetail
@@ -78,6 +79,7 @@ async def extract_text_and_callback(request: PdfExtractTextRequest):
     except Exception as e:
         logger.error(f"Error extracting text for request {request.requestId}: {e}", exc_info=True)
         if request.callbackUrl:
+            error_url = re.sub(r'(/ingest-runs/[^/]+)/.*', r'\1/error', request.callbackUrl)
             err = WorkerErrorResponse(
                 requestId=request.requestId,
                 error=WorkerErrorDetail(
@@ -89,7 +91,7 @@ async def extract_text_and_callback(request: PdfExtractTextRequest):
             )
             try:
                 async with httpx.AsyncClient() as client:
-                    await client.post(request.callbackUrl, json=err.model_dump())
+                    await client.post(error_url, json=err.model_dump())
                     logger.info(f"Sent error callback for request {request.requestId}")
             except Exception as ce:
                 logger.error(f"Failed to send error callback: {ce}")

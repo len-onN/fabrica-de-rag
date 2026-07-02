@@ -5,11 +5,16 @@ import local.fabricarag.core.dto.CollectionCreateRequest;
 import local.fabricarag.core.dto.CollectionResponse;
 import local.fabricarag.core.security.AuthorizationPolicy;
 import local.fabricarag.core.service.KnowledgeCollectionService;
+import local.fabricarag.core.web.ResolvePublicId;
+import local.fabricarag.core.domain.Workspace;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import local.fabricarag.core.security.CurrentActor;
 
 import java.util.UUID;
 
@@ -26,32 +31,31 @@ public class KnowledgeCollectionController {
     }
 
     @GetMapping
-    @PreAuthorize("@authorizationPolicy.hasPermission(#workspaceId, 'workspace.read')")
+    @PreAuthorize("@authorizationPolicy.hasPermission(authentication, #workspaceId, 'workspace.read')")
     public Page<CollectionResponse> listCollections(
-            @PathVariable UUID workspaceId,
+            @PathVariable("workspaceId") String workspaceId,
+            @ResolvePublicId(value = Workspace.class, pathVar = "workspaceId") UUID internalWorkspaceId,
             Pageable pageable) {
-        return collectionService.listCollections(workspaceId, pageable);
+        return collectionService.listCollections(internalWorkspaceId, pageable);
     }
 
     @GetMapping("/{collectionPublicId}")
-    @PreAuthorize("@authorizationPolicy.hasPermission(#workspaceId, 'workspace.read')")
+    @PreAuthorize("@authorizationPolicy.hasPermission(authentication, #workspaceId, 'workspace.read')")
     public CollectionResponse getCollection(
-            @PathVariable UUID workspaceId,
+            @PathVariable("workspaceId") String workspaceId,
+            @ResolvePublicId(value = Workspace.class, pathVar = "workspaceId") UUID internalWorkspaceId,
             @PathVariable String collectionPublicId) {
-        return collectionService.getCollection(workspaceId, collectionPublicId);
+        return collectionService.getCollection(internalWorkspaceId, collectionPublicId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("@authorizationPolicy.hasPermission(#workspaceId, 'workspace.update')") // Collections manipulate workspace state
+    @PreAuthorize("@authorizationPolicy.hasPermission(authentication, #workspaceId, 'workspace.update')") // Collections manipulate workspace state
     public CollectionResponse createCollection(
-            @PathVariable UUID workspaceId,
-            @Valid @RequestBody CollectionCreateRequest request) {
-        // Since we don't extract the user ID easily from the SecurityContext in a simple way right here, 
-        // we'll pass a dummy UUID or fetch the current user's UUID if available.
-        // For MVP, assuming the user ID can be retrieved from session. We will use a mock ID for now or null.
-        // Ideally we would resolve it from AuthSession. For now, a mock UUID represents the system/user.
-        UUID currentUserId = UUID.fromString("00000000-0000-0000-0000-000000000000"); // Mock
-        return collectionService.createCollection(workspaceId, currentUserId, request);
+            @PathVariable("workspaceId") String workspaceId,
+            @ResolvePublicId(value = Workspace.class, pathVar = "workspaceId") UUID internalWorkspaceId,
+            @Valid @RequestBody CollectionCreateRequest request,
+            @AuthenticationPrincipal CurrentActor actor) {
+        return collectionService.createCollection(internalWorkspaceId, actor.getUserId(), request);
     }
 }

@@ -1,6 +1,8 @@
 import os
+import re
 import httpx
 import pdfplumber
+import logging
 
 from rag_worker.contracts.pdf_elements import (
     PdfExtractElementsRequest,
@@ -25,17 +27,31 @@ async def extract_elements_and_callback(request: PdfExtractElementsRequest, call
         async with httpx.AsyncClient() as client:
             await client.post(callback_url, json=response.model_dump())
     except Exception as e:
-        error_resp = WorkerErrorResponse(
-            requestId=request.requestId,
-            error=WorkerErrorDetail(
-                code="pdf_extract_elements_failed",
-                message=str(e),
-                retryable=False,
-                safeDetails={"workerContractVersion": "worker.pdf.extract_elements.response.v1"}
+        if request.callbackUrl:
+            error_url = re.sub(r'(/ingest-runs/[^/]+)/.*', r'\1/error', request.callbackUrl)
+            error_resp = WorkerErrorResponse(
+                requestId=request.requestId,
+                error=WorkerErrorDetail(
+                    code="pdf_extract_elements_failed",
+                    message=str(e),
+                    retryable=False,
+                    safeDetails={"workerContractVersion": "worker.pdf.extract_elements.response.v1"}
+                )
             )
-        )
-        async with httpx.AsyncClient() as client:
-            await client.post(callback_url, json=error_resp.model_dump())
+            async with httpx.AsyncClient() as client:
+                await client.post(error_url, json=error_resp.model_dump())
+        else:
+            error_resp = WorkerErrorResponse(
+                requestId=request.requestId,
+                error=WorkerErrorDetail(
+                    code="pdf_extract_elements_failed",
+                    message=str(e),
+                    retryable=False,
+                    safeDetails={"workerContractVersion": "worker.pdf.extract_elements.response.v1"}
+                )
+            )
+            async with httpx.AsyncClient() as client:
+                await client.post(callback_url, json=error_resp.model_dump())
 
 def extract_elements_sync(request: PdfExtractElementsRequest) -> PdfExtractElementsResponse:
     file_path = resolve_file_path(request.storageUri)

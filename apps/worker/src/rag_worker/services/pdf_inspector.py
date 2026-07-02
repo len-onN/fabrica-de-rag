@@ -1,5 +1,6 @@
 import os
 import httpx
+import re
 from pypdf import PdfReader
 from rag_worker.contracts.pdf_inspect import PdfInspectRequest, PdfInspectResponse, PdfInspectMetadata
 from rag_worker.contracts.base import WorkerErrorResponse, WorkerErrorDetail
@@ -22,6 +23,7 @@ async def inspect_pdf_and_callback(request: PdfInspectRequest) -> None:
                 await client.post(request.callbackUrl, json=response.model_dump())
     except Exception as e:
         if request.callbackUrl:
+            error_url = re.sub(r'(/ingest-runs/[^/]+)/.*', r'\1/error', request.callbackUrl)
             error_resp = WorkerErrorResponse(
                 requestId=request.requestId,
                 error=WorkerErrorDetail(
@@ -32,7 +34,7 @@ async def inspect_pdf_and_callback(request: PdfInspectRequest) -> None:
                 )
             )
             async with httpx.AsyncClient() as client:
-                await client.post(request.callbackUrl, json=error_resp.model_dump())
+                await client.post(error_url, json=error_resp.model_dump())
 
 def inspect_pdf_sync(request: PdfInspectRequest) -> PdfInspectResponse:
     """Synchronous inspection logic."""
